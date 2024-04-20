@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Material Able bootstrap admin template by Codedthemes</title>
+    <title>Gym Store</title>
     @include('admin.components.head')
 </head>
 
@@ -14,7 +14,8 @@
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
-                    <form class="md-float-material form-material">
+                    <form class="md-float-material form-material" method="post" action="{{ route('admin.auth') }}">
+                        @csrf
                         <div class="text-center">
                             <img src={{ asset('AdminResource/images/test/logo.png') }} alt="logo.png">
                         </div>
@@ -25,6 +26,15 @@
                                         <h3 class="text-center">Sign In</h3>
                                     </div>
                                 </div>
+                                @if ($errors->any())
+                                    <div class="alert alert-danger">
+                                        <ul>
+                                            @foreach ($errors->all() as $error)
+                                                <li>{{ $error }}</li>
+                                            @endforeach
+                                        </ul>
+                                    </div>
+                                @endif
                                 <div class="form-group form-primary">
                                     <input type="text" name="email" class="form-control">
                                     <span class="form-bar"></span>
@@ -53,7 +63,7 @@
                                 </div>
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
-                                        <button type="button"
+                                        <button type="submit"
                                             class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Sign
                                             in</button>
                                     </div>

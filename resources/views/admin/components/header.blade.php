@@ -124,7 +124,7 @@
                                         </a>
                                     </li> --}}
                                     <li class="waves-effect waves-light">
-                                        <a href="{{ route('admin.login') }}">
+                                        <a href="{{ route('admin.logout') }}">
                                             <i class="fa-solid fa-right-from-bracket"></i> Logout
                                         </a>
                                     </li>
