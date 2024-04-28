@@ -2,6 +2,11 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LocationController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+use App\Models\Product;
 
 Route::get('/', function () {
     return view('welcome');
@@ -18,44 +23,11 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.index');
 
-        Route::get('customers', function () {
-            return view('admin.pages.customer.customers', [
-                'page' => 'Customers',
-            ]);
-        })->name('admin.customers');
-
-        Route::get('categories', function () {
-            return view('admin.pages.category.categories', [
-                'page' => 'Categories',
-            ]);
-        })->name('admin.categories');
-
-        Route::get('products', function () {
-            return view('admin.pages.product.products', [
-                'page' => 'Products',
-            ]);
-        })->name('admin.products');
-
         Route::get('orders', function () {
             return view('admin.pages.order.orders', [
                 'page' => 'Orders',
             ]);
         })->name('admin.orders');
-
-        // subPage - action
-        Route::get('addCategory', function () {
-            return view('admin.pages.category.addCategory', [
-                'parentPage' => ['Categories', 'admin.categories'],
-                'childPage' => 'Add',
-            ]);
-        })->name('admin.addCategory');
-
-        Route::get('addProduct', function () {
-            return view('admin.pages.product.addProduct', [
-                'parentPage' => ['Products', 'admin.products'],
-                'childPage' => 'Add',
-            ]);
-        })->name('admin.addProduct');
 
         Route::get('viewOrder', function () {
             return view('admin.pages.order.viewOrder', [
@@ -64,33 +36,65 @@ Route::prefix('admin')->group(function () {
             ]);
         })->name('admin.viewOrder');
 
-        Route::get('editCustomer', function () {
-            return view('admin.pages.customer.editCustomer', [
-                'parentPage' => ['Customers', 'admin.customers'],
-                'childPage' => 'Edit',
-            ]);
-        })->name('admin.editCustomer');
+        // user
+        Route::get('users', [UserController::class, 'index'])
+            ->name('admin.users.index');
 
-        Route::get('editCategory', function () {
-            return view('admin.pages.category.editCategory', [
-                'parentPage' => ['Categories', 'admin.categories'],
-                'childPage' => 'Edit',
-            ]);
-        })->name('admin.editCategory');
+        Route::get('users/{user}/edit', [UserController::class, 'edit'])
+            ->name('admin.users.edit');
 
-        Route::get('editProduct', function () {
-            return view('admin.pages.product.editProduct', [
-                'parentPage' => ['Products', 'admin.products'],
-                'childPage' => 'Edit',
-            ]);
-        })->name('admin.editProduct');
+        Route::put('users/{user}', [UserController::class, 'update'])
+            ->name('admin.users.update');
 
-        Route::get('editCustomer', function () {
-            return view('admin.pages.customer.editCustomer', [
-                'parentPage' => ['Customers', 'admin.customers'],
-                'childPage' => 'Edit',
-            ]);
-        })->name('admin.editCustomer');
+        Route::delete('users/{user}', [UserController::class, 'destroy'])
+            ->name('admin.users.destroy');
+        // --------------------------------------------------------------
+
+        // category
+        Route::get('categories', [CategoryController::class, 'index'])
+            ->name('admin.categories.index');
+
+        Route::get('categories/create', [CategoryController::class, 'create'])
+            ->name('admin.categories.create');
+
+        Route::post('categories', [CategoryController::class, 'store'])
+            ->name('admin.categories.store');
+
+        Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])
+            ->name('admin.categories.edit');
+
+        Route::put('categories/{category}', [CategoryController::class, 'update'])
+            ->name('admin.categories.update');
+
+        Route::delete('categories/{category}', [CategoryController::class, 'destroy'])
+            ->name('admin.categories.destroy');
+        // --------------------------------------------------------------
+
+        // product
+        Route::get('products', [ProductController::class, 'index'])
+            ->name('admin.products.index');
+
+        Route::get('products/category/{category}', [ProductController::class, 'indexByCategory'])
+            ->name('admin.products.byCategory');
+
+        Route::get('products/create', [ProductController::class, 'create'])
+            ->name('admin.products.create');
+
+        Route::post('products', [ProductController::class, 'store'])
+            ->name('admin.products.store');
+
+        Route::get('products/{product}/edit', [ProductController::class, 'edit'])
+            ->name('admin.products.edit');
+
+        Route::put('products/{product}', [ProductController::class, 'update'])
+            ->name('admin.products.update');
+
+        Route::delete('products/{product}', [ProductController::class, 'destroy'])
+            ->name('admin.products.destroy');
+
+        // --------------------------------------------------------------
+
+
 
         // info
         Route::get('editAdminProfile', function () {
@@ -113,6 +117,7 @@ Route::prefix('admin')->group(function () {
         ->middleware('AdminLogin')
         ->name('admin.login');
 
+    // logout
     Route::get('/logout', [AdminController::class, 'logout'])
         ->name('admin.logout');
 });
@@ -121,3 +126,12 @@ Route::prefix('admin')->group(function () {
 Route::prefix('admin')->group(function () {
     Route::post('/login', [AdminController::class, 'auth'])->name('admin.auth');
 });
+
+// frontend call backend
+Route::get('getDistricts/{provinceId}', [LocationController::class, 'getDistrictsByProvinceId'])
+    ->middleware('AdminLogin')
+    ->name('getDistrictsByProvinceId');
+
+Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistrictId'])
+    ->middleware('AdminLogin')
+    ->name('getWardsByDistrictId');

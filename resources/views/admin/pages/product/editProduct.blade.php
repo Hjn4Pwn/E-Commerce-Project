@@ -22,64 +22,91 @@
                                         <h5>Update Product</h5>
                                     </div>
                                     <div class="card-block">
-                                        <form>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Product
-                                                    Name</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control">
-                                                </div>
+                                        {{-- validation --}}
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </div>
+                                        @endif
+                                        @if ($product->count())
+                                            <form method="POST"
+                                                action="{{ route('admin.products.update', ['product' => $product->id]) }}"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Name</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="name" type="text" class="form-control"
+                                                            value="{{ $product->name }}">
+                                                    </div>
+                                                </div>
 
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Select
-                                                    Category</label>
-                                                <div class="col-sm-10">
-                                                    <select name="select" class="form-control">
-                                                        <option value="opt1">Please select one
-                                                        </option>
-                                                        <option value="opt2">Type 2</option>
-                                                        <option value="opt3">Type 3</option>
-                                                        <option value="opt4">Type 4</option>
-                                                        <option value="opt5">Type 5</option>
-                                                        <option value="opt6">Type 6</option>
-                                                        <option value="opt7">Type 7</option>
-                                                        <option value="opt8">Type 8</option>
-                                                    </select>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Select
+                                                        Category</label>
+                                                    <div class="col-sm-10">
+                                                        <select name="categoryId" class="form-control select2-format"
+                                                            style="width:100%;">
+                                                            <option value="">Please select one</option>
+                                                            @if ($categories->count())
+                                                                @foreach ($categories as $category)
+                                                                    <option value="{{ $category->id }}"
+                                                                        {{ session('selectedCategory') == $category->id ? 'selected' : '' }}>
+                                                                        {{ $category->name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            @endif
+                                                        </select>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Upload
-                                                    Image</label>
-                                                <div class="col-sm-2">
-                                                    <img id="userImage"
-                                                        src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
-                                                        class="rounded-3" style="width: 100px; " alt="Product Image" />
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Upload
+                                                        Image</label>
+                                                    <div class="col-sm-2">
+                                                        {{-- {{ asset('AdminResource/images/test/sampleProductImage.png') }} --}}
+                                                        <img id="userImage" src="{{ asset($product->image) }}"
+                                                            class="rounded-3" style="width: 100px; " alt="" />
+                                                    </div>
+                                                    <div class="col-sm-8">
+                                                        <input name="image" type="file" class="form-control"
+                                                            id="imageInput">
+                                                    </div>
                                                 </div>
-                                                <div class="col-sm-8">
-                                                    <input type="file" class="form-control" id="imageInput">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Price</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="price" type="text" class="form-control"
+                                                            maxlength="9" value="{{ $product->price }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Product
-                                                    Price</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control"
-                                                        placeholder="Ex: 900000000 (max 9 digits)" maxlength="9">
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Quantity</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="quantity" type="text" class="form-control"
+                                                            maxlength="9" value="{{ $product->quantity }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Describe</label>
-                                                <div class="col-sm-10">
-                                                    <textarea rows="5" cols="5" class="form-control" placeholder="Typing ..."></textarea>
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Describe</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea id="editorTinyMCE" name="describe" rows="5" cols="5" class="form-control">
+                                                            {!! $product->describe !!}
+                                                        </textarea>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="float-right">
-                                                <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                    Update
-                                                </button>
-                                            </div>
-                                        </form>
+                                                <div class="float-right">
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -104,4 +131,14 @@
             });
         });
     </script>
+
+    {{-- select2 --}}
+    <script>
+        $(document).ready(function() {
+            $('.select2-format').select2();
+        });
+    </script>
+
+    {{-- tinyMCE editor --}}
+    @include('admin.components.tinymce_config')
 @endsection

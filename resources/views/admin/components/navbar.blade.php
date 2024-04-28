@@ -29,17 +29,17 @@
             </li>
         </ul>
         <ul class="pcoded-item pcoded-left-item">
-            <li class="{{ $activeCustomers ?? '' }}">
-                <a href="{{ route('admin.customers') }}" class="waves-effect waves-dark">
+            <li class="{{ $activeUsers ?? '' }}">
+                <a href="{{ route('admin.users.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="fa-solid fa-users"></i><b>D</b></span>
-                    <span class="pcoded-mtext">Customers</span>
+                    <span class="pcoded-mtext">Users</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>
         </ul>
         <ul class="pcoded-item pcoded-left-item">
             <li class="{{ $activeCategories ?? '' }}">
-                <a href="{{ route('admin.categories') }}" class="waves-effect waves-dark">
+                <a href="{{ route('admin.categories.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="fa-solid fa-layer-group"></i><b>D</b></span>
                     <span class="pcoded-mtext">Categories</span>
                     <span class="pcoded-mcaret"></span>
@@ -49,7 +49,7 @@
         </ul>
         <ul class="pcoded-item pcoded-left-item">
             <li class="{{ $activeProducts ?? '' }}">
-                <a href="{{ route('admin.products') }}" class="waves-effect waves-dark">
+                <a href="{{ route('admin.products.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="fa-solid fa-boxes-stacked"></i><b>D</b></span>
                     <span class="pcoded-mtext">Products</span>
                     <span class="pcoded-mcaret"></span>

@@ -9,6 +9,12 @@ use App\Http\Requests\AdminAuthRequest;
 
 class AdminController extends Controller
 {
+
+    public function __construct()
+    {
+        //
+    }
+
     public function auth(AdminAuthRequest $request)
     {
         $credentials = $request->validated();

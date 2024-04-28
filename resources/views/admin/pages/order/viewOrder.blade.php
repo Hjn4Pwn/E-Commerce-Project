@@ -41,7 +41,7 @@
                                 <!-- Basic Form Inputs card start -->
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Customer Information</h5>
+                                        <h5>User Information</h5>
                                     </div>
                                     <div class="card-block">
                                         <form>
@@ -108,7 +108,7 @@
                             <div class="col-md-7">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Customer Orders</h5>
+                                        <h5>User Orders</h5>
                                         {{-- <span>use class <code>table-hover</code> inside table element</span> --}}
                                         <div class="card-header-right">
                                             {{-- <ul class="list-unstyled card-option">

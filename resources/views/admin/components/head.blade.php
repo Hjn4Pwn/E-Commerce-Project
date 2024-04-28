@@ -13,6 +13,7 @@
 <meta name="keywords"
     content="bootstrap, bootstrap admin template, admin theme, admin dashboard, dashboard template, admin template, responsive" />
 <meta name="author" content="Codedthemes" />
+
 <!-- Favicon icon -->
 <link rel="icon" href={{ asset('AdminResource/images/favicon.ico') }} type="image/x-icon">
 <!-- Google font-->
@@ -37,4 +38,8 @@
     integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A=="
     crossorigin="anonymous" referrerpolicy="no-referrer" />
 
-<link rel="stylesheet" type="text/css" href={{ asset('AdminResource/css/custom_Huyna.css') }}>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+
+<link rel="stylesheet" type="text/css" href={{ asset('AdminResource/css/custom.css') }}>
+
+

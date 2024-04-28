@@ -1,7 +1,7 @@
 @extends('admin.layout')
 
 @section('content')
-    @include('admin.components.navbar', ['activeCategories' => 'active'])
+    @include('admin.components.navbar', ['activeUsers' => 'active'])
     <div class="pcoded-content">
         <!-- Page-header start -->
         @include('admin.components.pageHeader', ['page' => $page])
@@ -12,9 +12,10 @@
                 <div class="page-wrapper">
                     <!-- Page-body start -->
                     <div class="page-body">
+
                         <div class="card">
                             <div class="card-header">
-                                <h5>List of Categories</h5>
+                                <h5>List of Users</h5>
                                 {{-- <span>use class <code>table-hover</code> inside table element</span> --}}
                                 <div class="card-header-right">
                                     {{-- <ul class="list-unstyled card-option">
@@ -27,27 +28,8 @@
                                 </div>
                             </div>
                             <div class="card-block table-border-style">
-                                <div class="p-30 p-b-0 p-t-0 text-right">
-                                    <div class="col-sm-12">
-                                        <a href="{{ route('admin.categories.create') }}">
-                                            <button class="btn btn-info waves-effect waves-light">
-                                                Add Category
-                                            </button>
-                                        </a>
-                                    </div>
-                                </div>
                                 <div class="table-responsive">
                                     <div class="p-15 p-b-0">
-                                        @if ($errors->any())
-                                            <div class="alert alert-danger">
-                                                <ul>
-                                                    @foreach ($errors->all() as $error)
-                                                        <li>{{ $error }}</li>
-                                                    @endforeach
-                                                </ul>
-                                            </div>
-                                        @endif
-
                                         <form class="form-material">
                                             <div class="form-group form-primary">
                                                 <input type="text" name="footer-email" class="form-control">
@@ -61,32 +43,42 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-center" width="40%">Name</th>
-                                                <th class="text-center" width="20%">Number of Products</th>
+                                                <th>Name</th>
+                                                <th>Email</th>
+                                                <th>Phone</th>
+                                                <th>Address</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            @if ($categories->count())
+                                            @if ($users->count())
                                                 @php
                                                     $i = 0;
                                                 @endphp
-                                                @foreach ($categories as $category)
+                                                @foreach ($users as $user)
                                                     <tr>
-                                                        <th class="text-center" scope="row">{{ ++$i }}</th>
-                                                        <td class="text-center">{{ $category->name }}</td>
-                                                        <td class="text-center">{{ $category->products->count() }}</td>
+                                                        <th class="lh40" scope="row">{{ ++$i }}</th>
+                                                        <td class="lh40">{{ $user->name }}</td>
+                                                        <td class="lh40">{{ $user->email }}</td>
+                                                        <td class="lh40">{{ $user->phone }}</td>
+                                                        <td class="lh40">
+                                                            {{ $user->address_detail }} {{ $user->ward }}
+                                                            {{ $user->district }}
+                                                            {{ $user->province }}
+                                                        </td>
                                                         <td class="text-center">
-                                                            <div class="row justify-content-center ">
+                                                            <div class="row justify-content-center">
+                                                                {{-- view user info detail --}}
                                                                 <div>
-                                                                    <a href="{{ route('admin.categories.edit', ['category' => $category->id]) }}"
+                                                                    <a href="{{ route('admin.users.edit', ['user' => $user->id]) }}"
                                                                         class="btn btn-primary waves-effect waves-light">
                                                                         <i class="fa fa-edit"></i>
                                                                     </a>
                                                                 </div>
+                                                                {{-- delete by user id --}}
                                                                 <div>
                                                                     <form
-                                                                        action="{{ route('admin.categories.destroy', ['category' => $category->id]) }}"
+                                                                        action="{{ route('admin.users.destroy', ['user' => $user->id]) }}"
                                                                         method="POST" onsubmit="return confirmDelete()">
                                                                         @csrf
                                                                         @method('DELETE')
@@ -100,16 +92,15 @@
                                                         </td>
                                                     </tr>
                                                 @endforeach
-                                            @else
-                                                <tr>
-                                                    <td colspan="7" class="text-center text-info">No categories available
-                                                    </td>
-                                                </tr>
                                             @endif
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
+                        </div>
+                        {{-- pagination --}}
+                        <div class="row justify-content-center">
+                            {{ $users->links() }}
                         </div>
                     </div>
                     <!-- Page-body end -->
@@ -120,7 +111,8 @@
     </div>
     <script>
         function confirmDelete() {
-            return confirm('Are you sure you want to delete this category and its products?');
+            return confirm('Are you sure you want to delete this user?');
         }
     </script>
+
 @endsection

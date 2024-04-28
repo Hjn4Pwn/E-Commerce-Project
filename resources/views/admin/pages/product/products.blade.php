@@ -29,7 +29,7 @@
                             <div class="card-block table-border-style">
                                 <div class="p-30 p-b-0 p-t-0 ">
 
-                                    <form class="form-material float-right" action="{{ route('admin.addProduct') }}"
+                                    <form class="form-material float-right" action="{{ route('admin.products.create') }}"
                                         method="get">
                                         <div class="col-sm-4">
                                             <button type="submit" class="btn btn-info waves-effect waves-light">
@@ -40,30 +40,66 @@
 
                                 </div>
                                 <div class="p-30 p-b-0 p-t-0 ">
-                                    <form class="form-material" method="post">
+                                    {{-- <form class="form-material" method="get"
+                                        action="{{ route('admin.products.byCategory') }}">
+                                        @csrf
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Choose
-                                                Category</label>
+                                            <label class="col-sm-2 col-form-label">Choose Category</label>
                                             <div class="col-sm-6">
-                                                <select name="select" class="form-control">
-                                                    <option value="opt1">Select one to view
-                                                        Products
-                                                    </option>
-                                                    <option value="opt2">Creatine</option>
-                                                    <option value="opt3">Whey</option>
-                                                    <option value="opt4">Pre Workout</option>
-                                                    <option value="opt5">Vitamin</option>
-                                                    <option value="opt6">Omega 3</option>
-                                                    <option value="opt7">T-Shirt</option>
+                                                <select name="category" class="form-control">
+                                                    <option>Select one to view Products</option>
+                                                    @if ($categories->count())
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}">{{ $category->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
                                                 </select>
                                             </div>
                                             <div class="col-sm-2">
-                                                <button class="btn btn-info waves-effect waves-light">Get
+                                                <button type="submit" class="btn btn-info waves-effect waves-light">Get
                                                     Products</button>
                                             </div>
+                                        </div>
+                                    </form> --}}
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
 
+                                    <form class="form-material" method="get" action="" id="categoryForm">
+                                        @csrf
+                                        <div class="form-group row">
+                                            <label class="col-sm-2 col-form-label">Choose Category</label>
+                                            <div class="col-sm-6">
+                                                <select name="category" class="form-control select2-format"
+                                                    id="categorySelect">
+                                                    <option value="all"
+                                                        {{ session('selectedCategory') == 'all' ? 'selected' : '' }}>All
+                                                    </option>
+                                                    @if ($categories->count())
+                                                        @foreach ($categories as $category)
+                                                            <option value="{{ $category->id }}"
+                                                                {{ session('selectedCategory') == $category->id ? 'selected' : '' }}>
+                                                                {{ $category->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    @endif
+                                                </select>
+
+                                            </div>
+                                            {{-- <div class="col-sm-2">
+                                                <button type="submit" class="btn btn-info waves-effect waves-light">Get
+                                                    Products</button>
+                                            </div> --}}
                                         </div>
                                     </form>
+
                                 </div>
                                 <div class="table-responsive">
 
@@ -81,40 +117,64 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th width=15%>Name </th>
-                                                <th class="text-center">Image</th>
-                                                <th width=30%>Describe</th>
-                                                <th class="text-center">Quantity</th>
+                                                <th class="text-center" width=20%>Name </th>
+                                                <th class="text-center" width=15%>Image</th>
+                                                <th class="text-center" width=15%>Category</th>
                                                 <th class="text-center" width=15%>Price</th>
-                                                <th class="text-center" width=20%>Action</th>
+                                                <th class="text-center" width=15%>Quantity</th>
+                                                <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th class="" scope="row">1</th>
-                                                <td class="">Ostrovit Creatine Monohydrate 500g
-                                                </td>
-                                                <td class="text-center p-t-5"><img
-                                                        src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
-                                                        class="rounded-3" style="width: 100px; " alt="Product Image" /></td>
-                                                <td>Ostrovit Creatine là sản phẩm cung cấp Creatine
-                                                    Monohydrate tinh khiết nhất của nhà Ostrovit cho tới
-                                                    thời điểm hiện tại. Với sự cải tiến vượt bậc khi áp
-                                                    dụng công thức ...</td>
-                                                <td class=" text-center">176</td>
-                                                <td class=" text-center">590000 VND</td>
+                                            @if ($products->count())
+                                                @php
+                                                    $i = 0;
+                                                @endphp
+                                                @foreach ($products as $product)
+                                                    <tr>
+                                                        <th class="text-center" scope="row">{{ ++$i }}</th>
+                                                        <td class="text-center">
+                                                            {{ $product->name }}
+                                                        </td>
+                                                        <td class="text-center p-t-5"><img src={{ asset($product->image) }}
+                                                                class="rounded-3" style="width: 100px; "
+                                                                alt="Product Image" />
+                                                        </td>
+                                                        {{-- <td>{!! $product->describe !!}</td> --}}
+                                                        <td class="text-center">{{ $product->category->name }}</td>
+                                                        <td class=" text-center">{{ $product->price }} VND</td>
+                                                        <td class=" text-center">{{ $product->quantity }}</td>
 
-                                                <td class="text-center">
-                                                    <a href="{{ route('admin.editProduct') }}"
-                                                        class="btn btn-primary waves-effect waves-light">
-                                                        <i class="fa fa-edit"></i>
-                                                    </a>
-                                                    <a href="" class="btn btn-danger waves-effect waves-light">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
-
+                                                        <td class="text-center">
+                                                            <div class="row justify-content-center ">
+                                                                <div>
+                                                                    <a href="{{ route('admin.products.edit', ['product' => $product->id]) }}"
+                                                                        class="btn btn-primary waves-effect waves-light">
+                                                                        <i class="fa fa-edit"></i>
+                                                                    </a>
+                                                                </div>
+                                                                <div>
+                                                                    <form
+                                                                        action="{{ route('admin.products.destroy', ['product' => $product->id]) }}"
+                                                                        method="POST" onsubmit="return confirmDelete()">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger waves-effect waves-light">
+                                                                            <i class="fa fa-trash"></i>
+                                                                        </button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-info">No products available
+                                                    </td>
+                                                </tr>
+                                            @endif
                                         </tbody>
                                     </table>
                                 </div>
@@ -127,4 +187,30 @@
             </div>
         </div>
     </div>
+
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.select2-format').select2();
+        });
+    </script> --}}
+
+    <script>
+        document.getElementById('categorySelect').addEventListener('change', function() {
+            var selectedCategory = this.value;
+            var form = document.getElementById('categoryForm');
+            if (selectedCategory == 'all') {
+                form.action = '{{ route('admin.products.index') }}';
+            } else {
+                form.action = '{{ route('admin.products.byCategory', '') }}/' + selectedCategory;
+            }
+            form.submit(); // Tự động gửi form sau khi lựa chọn thay đổi
+        });
+    </script>
+
+    <script>
+        function confirmDelete() {
+            return confirm('Are you sure you want to delete this product?');
+        }
+    </script>
 @endsection

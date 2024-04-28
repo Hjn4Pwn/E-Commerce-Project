@@ -21,22 +21,41 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Update Category Name</h5>
+                                        <h5>Edit Category Name</h5>
                                         <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
                                     </div>
                                     <div class="card-block">
-                                        <form class="form-material">
-                                            <div class="form-group form-default">
-                                                <input type="text" name="footer-email" class="form-control">
-                                                <span class="form-bar"></span>
-                                                <label class="float-label">Category Name</label>
+                                        {{-- validation --}}
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
                                             </div>
-                                            <div class="float-right">
-                                                <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                    Update
-                                                </button>
-                                            </div>
-                                        </form>
+                                        @endif
+
+                                        @if ($category->count())
+                                            <form
+                                                action="{{ route('admin.categories.update', ['category' => $category->id]) }}"
+                                                method="POST">
+                                                @csrf
+                                                @method('PUT')
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Category Name</label>
+                                                    <div class="col-sm-10">
+                                                        <input type="text" class="form-control" name="name"
+                                                            value="{{ $category->name }}">
+                                                    </div>
+                                                </div>
+                                                <div class="float-right">
+                                                    <button type="submit" class="btn btn-info waves-effect waves-light">
+                                                        Update
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        @endif
                                     </div>
                                 </div>
                             </div>

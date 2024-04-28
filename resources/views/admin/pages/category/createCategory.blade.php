@@ -25,9 +25,22 @@
                                         <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
                                     </div>
                                     <div class="card-block">
-                                        <form class="form-material">
+                                        {{-- validation --}}
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+                                        <form class="form-material" action="{{ route('admin.categories.store') }}"
+                                            method="post">
+                                            @csrf
                                             <div class="form-group form-default">
-                                                <input type="text" name="footer-email" class="form-control">
+                                                <input type="text" name="name" class="form-control">
                                                 <span class="form-bar"></span>
                                                 <label class="float-label">Category Name</label>
                                             </div>
