@@ -9,8 +9,8 @@ use App\Http\Controllers\ProductController;
 use App\Models\Product;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('index');
+})->name('index');
 
 // get
 Route::prefix('admin')->group(function () {
@@ -117,14 +117,15 @@ Route::prefix('admin')->group(function () {
         ->middleware('AdminLogin')
         ->name('admin.login');
 
+    // login
+    Route::post('/login', [AdminController::class, 'auth'])->name('admin.auth');
+
     // logout
     Route::get('/logout', [AdminController::class, 'logout'])
         ->name('admin.logout');
 });
 
-// post
-Route::prefix('admin')->group(function () {
-    Route::post('/login', [AdminController::class, 'auth'])->name('admin.auth');
+Route::prefix('user')->group(function () {
 });
 
 // frontend call backend
@@ -135,3 +136,11 @@ Route::get('getDistricts/{provinceId}', [LocationController::class, 'getDistrict
 Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistrictId'])
     ->middleware('AdminLogin')
     ->name('getWardsByDistrictId');
+
+
+
+// shop - user interface
+
+Route::get('/productDetails', function () {
+    return view('user.pages.productDetails');
+})->name('user.pages.productDetails');
