@@ -1458,6 +1458,10 @@ img.comment-img {
 }
 
 @media (min-width: 576px) {
+	div.col-sm-fifth {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
 	.col-sm {
 		-ms-flex-preferred-size: 0;
 		flex-basis: 0;
@@ -1664,6 +1668,10 @@ img.comment-img {
 }
 
 @media (min-width: 768px) {
+	div.col-md-fifth {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
 	.col-md {
 		-ms-flex-preferred-size: 0;
 		flex-basis: 0;
@@ -1876,6 +1884,10 @@ img.comment-img {
 }
 
 @media (min-width: 992px) {
+	div.col-lg-fifth {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
 	.col-lg {
 		-ms-flex-preferred-size: 0;
 		flex-basis: 0;
@@ -2088,6 +2100,10 @@ img.comment-img {
 }
 
 @media (min-width: 1200px) {
+	div.col-xl-fifth {
+		flex: 0 0 20%;
+		max-width: 20%;
+	}
 	.col-xl {
 		-ms-flex-preferred-size: 0;
 		flex-basis: 0;

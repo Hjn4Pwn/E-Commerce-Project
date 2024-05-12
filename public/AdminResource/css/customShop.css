@@ -78,11 +78,24 @@
     font-size: 18px !important;
 }
 
+/* product card */
 .product-card {
     max-width: 20rem;  
     width: 100%;      
     margin: 0.5rem;    
 }
+
+.card-img-top{
+    width: 80%;
+}
+
+.col-fifth {
+    flex: 0 0 20%;
+    max-width: 20%;
+}
+
+
+/* -------------------------------------------------------------- */
 
 #carouselExampleIndicators {
     margin: auto;      /* Đảm bảo rằng carousel được căn giữa */
@@ -269,6 +282,7 @@ opacity:1;
 }
 
 .rating:hover > input:checked ~ label:before{ opacity: 0.4; }
+
 /* ---------------------------------------- */
 
 /* product describe */
@@ -280,6 +294,99 @@ opacity:1;
 #moreText.expanded {
     height: auto; /* mở rộng toàn bộ nội dung */
 }
+/* ---------------------------------------- */
+
+/* percent star */
+.star-center {
+    text-align: center; /* Căn giữa nội dung bên trong div */
+    width: 100%; /* Đảm bảo div chiếm toàn bộ chiều rộng của container cha nếu cần */
+}
+
+.star-ratings {
+    unicode-bidi: bidi-override;
+    color: #ccc;
+    font-size: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.fill-ratings {
+    color: gold;
+    padding: 0;
+    position: absolute;
+    z-index: 1;
+    display: block;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.empty-ratings {
+    padding: 0;
+    display: block;
+    z-index: 0;
+}
+
+/* ---------------------------------------- */
+.topline-footer{
+    border-top: 4px solid #0076ff;
+}
+/* rating-comment */
+.header-rating{
+    background-color: #e5f1fe;
+}
+/* ---------------------------------------- */
+
+.btn-active {
+    border: 1px solid #0071f5;
+}
+
+/* comment-rating */
+ul.rating-comment li {
+    margin-right: 10px; 
+}
+
+ul.rating-comment li:last-child {
+    margin-right: 0; 
+}
+
+.comment-actions__link, .rating-comment-action-text {
+    color: gray;
+    text-decoration: none; 
+}
+
+.comment-actions__icon, .comment-actions__icon-like {
+    color: gray; 
+}
+
+.rating-comment-action-text, .comment-actions__text, .comment-actions__icon-report {
+    color: #007bff; 
+}
+
+.comment-actions__link:hover, .comment-actions__link:hover .comment-actions__icon,
+.comment-actions__text:hover, .rating-comment-action-text:hover {
+    text-decoration: none;
+    color: #007bff;
+}
+
+.comment-actions__item:nth-child(2) .comment-actions__link:hover .comment-actions__icon-report,
+.comment-actions__item:nth-child(2) .comment-actions__link:hover,
+.comment-actions__text-report:hover {
+    color: red; 
+}
+
+.comment-actions__link.liked .comment-actions__icon-like,
+.comment-actions__link.liked .comment-actions__text {
+    color: #007bff;  /* Màu xanh khi đã thích */
+}
+
+.comment-actions__link:focus .comment-actions__icon-like,
+.comment-actions__link:active .comment-actions__icon-like {
+    color: #007bff; 
+}
+
+
+
 /* ---------------------------------------- */
 
 
