@@ -144,3 +144,8 @@ Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistr
 Route::get('/productDetails', function () {
     return view('user.pages.productDetails');
 })->name('user.pages.productDetails');
+
+
+Route::get('/cart', function () {
+    return view('user.pages.cart');
+})->name('user.pages.cart');

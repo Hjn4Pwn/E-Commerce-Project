@@ -10,6 +10,8 @@
                 <!-- Page-body start -->
                 <div class="page-body">
 
+                    @include('user.components.breadcrumb')
+
                     <div class="row justify-content-center">
                         <div class="col-md-10 bg-white p-5">
                             <div class="row">

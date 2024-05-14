@@ -11,22 +11,22 @@
         <!-- Right -->
         <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 justify-content-center justify-content-lg-end me-auto">
             <div>
-                <a href="" class="p-r-40 me-4 text-reset f-20">
+                <a href="" class="p-r-40 me-4 text-reset f-20" style="text-decoration: none;">
                     <i class="fab fa-facebook-f"></i>
                 </a>
-                <a href="" class="p-r-40 me-4 text-reset f-20">
+                <a href="" class="p-r-40 me-4 text-reset f-20" style="text-decoration: none;">
                     <i class="fab fa-twitter"></i>
                 </a>
-                <a href="" class="p-r-40 me-4 text-reset f-20">
+                <a href="" class="p-r-40 me-4 text-reset f-20" style="text-decoration: none;">
                     <i class="fab fa-google"></i>
                 </a>
-                <a href="" class="p-r-40 me-4 text-reset f-20">
+                <a href="" class="p-r-40 me-4 text-reset f-20" style="text-decoration: none;">
                     <i class="fab fa-instagram"></i>
                 </a>
-                <a href="" class="p-r-40 me-4 text-reset f-20">
+                <a href="" class="p-r-40 me-4 text-reset f-20" style="text-decoration: none;">
                     <i class="fab fa-linkedin-in"></i>
                 </a>
-                <a href="" class="p-r-40 me-4 text-reset f-20">
+                <a href="" class="p-r-40 me-4 text-reset f-20" style="text-decoration: none;">
                     <i class="fab fa-github"></i>
                 </a>
             </div>

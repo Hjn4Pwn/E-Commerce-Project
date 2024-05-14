@@ -19,10 +19,9 @@
                         </div>
 
                         <div class="row product-row">
-                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30" onclick="location.href='#';"
-                                style="cursor: pointer;">
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30">
                                 <div class="card mx-auto product-card">
-                                    <div>
+                                    <div onclick="location.href='#';" style="cursor: pointer;">
                                         <div class="text-center">
                                             <img src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
                                                 class="card-img-top" alt="...">
@@ -75,10 +74,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30" onclick="location.href='#' ;"
-                                style="cursor: pointer;">
+
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30">
                                 <div class="card mx-auto product-card">
-                                    <div>
+                                    <div onclick="location.href='#';" style="cursor: pointer;">
                                         <div class="text-center">
                                             <img src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
                                                 class="card-img-top" alt="...">
@@ -131,10 +130,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30" onclick="location.href='#' ;"
-                                style="cursor: pointer;">
+
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30">
                                 <div class="card mx-auto product-card">
-                                    <div>
+                                    <div onclick="location.href='#';" style="cursor: pointer;">
                                         <div class="text-center">
                                             <img src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
                                                 class="card-img-top" alt="...">
@@ -187,10 +186,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30" onclick="location.href='#' ;"
-                                style="cursor: pointer;">
+
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30">
                                 <div class="card mx-auto product-card">
-                                    <div>
+                                    <div onclick="location.href='#';" style="cursor: pointer;">
                                         <div class="text-center">
                                             <img src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
                                                 class="card-img-top" alt="...">
@@ -243,10 +242,10 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30" onclick="location.href='#' ;"
-                                style="cursor: pointer;">
+
+                            <div class="col-sm-12 col-md-6 col-lg-4 col-xl-3 p-b-30">
                                 <div class="card mx-auto product-card">
-                                    <div>
+                                    <div onclick="location.href='#';" style="cursor: pointer;">
                                         <div class="text-center">
                                             <img src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
                                                 class="card-img-top" alt="...">
@@ -299,6 +298,8 @@
                                     </div>
                                 </div>
                             </div>
+
+
 
                         </div>
                     </div>
