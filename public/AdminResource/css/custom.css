@@ -76,3 +76,25 @@
     width: 100%;
     z-index: 1051;
 }
+
+
+/* flavor */
+.checkbox-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Gap between checkboxes */
+}
+
+.checkbox-item {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0; /* Prevents the item from shrinking */
+    white-space: nowrap; /* Keeps label and checkbox on the same line */
+}
+
+.checkbox-item-label {
+    margin-left: 5px;
+    margin-bottom: 0;
+}
+
+/* ---------------------------------------- */

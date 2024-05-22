@@ -17,5 +17,6 @@ interface ProductServiceInterface
     public function store($validatedData);
     public function update(Product $product, $validatedData);
     public function delete(Product $product);
-    public function getProductsByCategory(Category $category);
+    public function getProductsByCategoryAndImages(Category $category);
+    public function getProductsAndImages();
 }

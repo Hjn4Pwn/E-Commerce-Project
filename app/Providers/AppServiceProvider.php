@@ -17,6 +17,7 @@ class AppServiceProvider extends ServiceProvider
         'App\Services\Interfaces\CategoryServiceInterface' => 'App\Services\CategoryService',
         'App\Services\Interfaces\ProductServiceInterface' => 'App\Services\ProductService',
         'App\Services\Interfaces\ImageServiceInterface' => 'App\Services\ImageService',
+        'App\Services\Interfaces\FlavorServiceInterface' => 'App\Services\FlavorService',
 
     ];
 

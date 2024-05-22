@@ -38,40 +38,79 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Name</label>
                                                 <div class="col-sm-10">
-                                                    <input name="name" type="text" class="form-control">
+                                                    <input name="name" type="text"
+                                                        placeholder="Enter product name..." class="form-control">
                                                 </div>
                                             </div>
 
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Select
-                                                    Category</label>
+                                                <label class="col-sm-2 col-form-label">Category</label>
                                                 <div class="col-sm-10">
-                                                    <select name="categoryId" class="form-control select2-format"
+                                                    <select name="category_id" class="form-control select2-format"
                                                         style="width:100%;">
                                                         <option value="">Please select one</option>
                                                         @if ($categories->count())
                                                             @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}">{{ $category->name }}
+                                                                <option value="{{ $category->id }}">
+                                                                    {{ $category->name }}
                                                                 </option>
                                                             @endforeach
                                                         @endif
                                                     </select>
                                                 </div>
                                             </div>
+
+                                            {{-- product Image --}}
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Upload
-                                                    Image</label>
+                                                <label class="col-sm-2 col-form-label">Primary Image</label>
                                                 <div class="col-sm-2">
-                                                    {{-- {{ asset('AdminResource/images/test/sampleProductImage.png') }} --}}
-                                                    <img id="userImage" src="" class="rounded-3"
-                                                        style="width: 100px; " alt="" />
+                                                    <img src="" class="rounded-3 userImage" id="image1-preview"
+                                                        style="width: 100px;" alt="" />
                                                 </div>
                                                 <div class="col-sm-8">
-                                                    <input name="image" type="file" class="form-control"
-                                                        id="imageInput">
+                                                    <input name="image1" type="file" class="form-control imageInput"
+                                                        data-target="#image1-preview">
                                                 </div>
                                             </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Image 2 (Optional)</label>
+                                                <div class="col-sm-2">
+                                                    <img src="" class="rounded-3 userImage" id="image2-preview"
+                                                        style="width: 100px;" alt="" />
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input name="image2" type="file" class="form-control imageInput"
+                                                        data-target="#image2-preview">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Image 3 (Optional)</label>
+                                                <div class="col-sm-2">
+                                                    <img src="" class="rounded-3 userImage" id="image3-preview"
+                                                        style="width: 100px;" alt="" />
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input name="image3" type="file" class="form-control imageInput"
+                                                        data-target="#image3-preview">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Image 4 (Optional)</label>
+                                                <div class="col-sm-2">
+                                                    <img src="" class="rounded-3 userImage" id="image4-preview"
+                                                        style="width: 100px;" alt="" />
+                                                </div>
+                                                <div class="col-sm-8">
+                                                    <input name="image4" type="file" class="form-control imageInput"
+                                                        data-target="#image4-preview">
+                                                </div>
+                                            </div>
+
+                                            {{-- ------------- --}}
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Price</label>
                                                 <div class="col-sm-10">
@@ -86,13 +125,58 @@
                                                         placeholder="Ex: 900000000 (max 9 digits)" maxlength="9">
                                                 </div>
                                             </div>
+
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Describe</label>
+                                                <label class="col-sm-2 col-form-label">Quantity Sold</label>
                                                 <div class="col-sm-10">
-                                                    <textarea id="editorTinyMCE" name="describe" rows="5" cols="5" class="form-control"
+                                                    <input name="quantity_sold" type="text" class="form-control"
+                                                        value="0" disabled>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Sale (%)</label>
+                                                <div class="col-sm-10">
+                                                    <input name="sale" type="text" class="form-control"
+                                                        value="0" maxlength="9">
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label" for="flavors">Flavors</label>
+                                                <div class="col-sm-10">
+                                                    <div class="checkbox-container ">
+                                                        @foreach ($flavors as $flavor)
+                                                            <div class="checkbox-item">
+                                                                <input type="checkbox" name="flavors[]"
+                                                                    id="flavor_{{ $flavor->id }}"
+                                                                    value="{{ $flavor->id }}">
+                                                                <label class="checkbox-item-label"
+                                                                    for="flavor_{{ $flavor->id }}">{{ $flavor->name }}</label>
+                                                            </div>
+                                                        @endforeach
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Short Description</label>
+                                                <div class="col-sm-10">
+                                                    <textarea id="editorTinyMCE_list" name="short_description" rows="3" cols="5" class="form-control"
+                                                        placeholder="Just enter one list, max ten"></textarea>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Description</label>
+                                                <div class="col-sm-10">
+                                                    <textarea id="editorTinyMCE" name="description" rows="5" cols="5" class="form-control"
                                                         placeholder="Typing ..."></textarea>
                                                 </div>
                                             </div>
+
+
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
                                                     Add Product
@@ -114,12 +198,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#imageInput').change(function(e) {
+            $('.imageInput').change(function(e) {
                 var reader = new FileReader();
+                var target = $(this).data('target');
                 reader.onload = function(e) {
-                    $('#userImage').attr('src', e.target.result);
+                    $(target).attr('src', e.target.result);
                 }
-                reader.readAsDataURL(e.target.files[0]);
+                reader.readAsDataURL(this.files[0]);
             });
         });
     </script>

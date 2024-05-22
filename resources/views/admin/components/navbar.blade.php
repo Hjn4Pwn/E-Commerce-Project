@@ -57,6 +57,15 @@
             </li>
         </ul>
         <ul class="pcoded-item pcoded-left-item">
+            <li class="{{ $activeFlavors ?? '' }}">
+                <a href="{{ route('admin.flavors.index') }}" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="fa-solid fa-cookie-bite"></i><b>D</b></span>
+                    <span class="pcoded-mtext">Flavors</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+            </li>
+        </ul>
+        <ul class="pcoded-item pcoded-left-item">
             <li class="{{ $activeOrders ?? '' }}">
                 <a href="{{ route('admin.orders') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="fa-solid fa-cart-flatbed"></i><b>D</b></span>

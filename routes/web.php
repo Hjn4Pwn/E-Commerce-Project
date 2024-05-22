@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FlavorController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 
@@ -70,6 +71,26 @@ Route::prefix('admin')->group(function () {
             ->name('admin.categories.destroy');
         // --------------------------------------------------------------
 
+        // flavor
+        Route::get('flavors', [FlavorController::class, 'index'])
+            ->name('admin.flavors.index');
+
+        Route::get('flavors/create', [FlavorController::class, 'create'])
+            ->name('admin.flavors.create');
+
+        Route::post('flavors', [FlavorController::class, 'store'])
+            ->name('admin.flavors.store');
+
+        Route::get('flavors/{flavor}/edit', [FlavorController::class, 'edit'])
+            ->name('admin.flavors.edit');
+
+        Route::put('flavors/{flavor}', [FlavorController::class, 'update'])
+            ->name('admin.flavors.update');
+
+        Route::delete('flavors/{flavor}', [FlavorController::class, 'destroy'])
+            ->name('admin.flavors.destroy');
+        // --------------------------------------------------------------
+
         // product
         Route::get('products', [ProductController::class, 'index'])
             ->name('admin.products.index');
@@ -82,6 +103,8 @@ Route::prefix('admin')->group(function () {
 
         Route::post('products', [ProductController::class, 'store'])
             ->name('admin.products.store');
+
+        Route::get('/config/upload', [ProductController::class, 'showUploadConfig']);
 
         Route::get('products/{product}/edit', [ProductController::class, 'edit'])
             ->name('admin.products.edit');

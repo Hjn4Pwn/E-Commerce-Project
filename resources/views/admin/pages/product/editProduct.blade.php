@@ -48,10 +48,9 @@
 
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Select
-                                                        Category</label>
+                                                    <label class="col-sm-2 col-form-label">Category</label>
                                                     <div class="col-sm-10">
-                                                        <select name="categoryId" class="form-control select2-format"
+                                                        <select name="category_id" class="form-control select2-format"
                                                             style="width:100%;">
                                                             <option value="">Please select one</option>
                                                             @if ($categories->count())
@@ -65,19 +64,54 @@
                                                         </select>
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Upload
-                                                        Image</label>
-                                                    <div class="col-sm-2">
-                                                        {{-- {{ asset('AdminResource/images/test/sampleProductImage.png') }} --}}
-                                                        <img id="userImage" src="{{ asset($product->image) }}"
-                                                            class="rounded-3" style="width: 100px; " alt="" />
+
+                                                @php
+                                                    $cntImage = 0;
+                                                @endphp
+                                                @foreach ($images as $image)
+                                                    <div class="form-group row">
+                                                        @php
+                                                            ++$cntImage;
+                                                        @endphp
+                                                        <label class="col-sm-2 col-form-label">
+                                                            @if ($image->sort_order == 1)
+                                                                Primary Image
+                                                            @else
+                                                                Image {{ $image->sort_order }} (Optional)
+                                                            @endif
+
+                                                        </label>
+                                                        <div class="col-sm-2">
+                                                            <img src="{{ asset($image->path) }}" class="rounded-3 userImage"
+                                                                id="image{{ $image->sort_order }}-preview"
+                                                                style="width: 100px;" alt="" />
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input name="image{{ $image->sort_order }}" type="file"
+                                                                class="form-control imageInput"
+                                                                data-target="#image{{ $image->sort_order }}-preview">
+                                                        </div>
                                                     </div>
-                                                    <div class="col-sm-8">
-                                                        <input name="image" type="file" class="form-control"
-                                                            id="imageInput">
+                                                @endforeach
+
+                                                @for ($i = $cntImage + 1; $i <= 4; $i++)
+                                                    <div class="form-group row">
+                                                        <label class="col-sm-2 col-form-label">Image {{ $i }}
+                                                            (Optional)</label>
+                                                        <div class="col-sm-2">
+                                                            <img src="" class="rounded-3 userImage"
+                                                                id="image{{ $i }}-preview" style="width: 100px;"
+                                                                alt="" />
+                                                        </div>
+                                                        <div class="col-sm-8">
+                                                            <input name="image{{ $i }}" type="file"
+                                                                class="form-control imageInput"
+                                                                data-target="#image{{ $i }}-preview">
+                                                        </div>
                                                     </div>
-                                                </div>
+                                                @endfor
+
+
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Price</label>
                                                     <div class="col-sm-10">
@@ -92,11 +126,57 @@
                                                             maxlength="9" value="{{ $product->quantity }}">
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Describe</label>
+                                                    <label class="col-sm-2 col-form-label">Quantity Sold</label>
                                                     <div class="col-sm-10">
-                                                        <textarea id="editorTinyMCE" name="describe" rows="5" cols="5" class="form-control">
-                                                            {!! $product->describe !!}
+                                                        <input name="quantity_sold" type="text" class="form-control"
+                                                            value="{{ $product->quantity_sold }}">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Sale (%)</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="sale" type="text" class="form-control"
+                                                            value="{{ $product->sale }}" maxlength="9">
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label" for="flavors">Flavors</label>
+                                                    <div class="col-sm-10">
+                                                        <div class="checkbox-container">
+                                                            @foreach ($flavors as $flavor)
+                                                                <div class="checkbox-item">
+                                                                    <input type="checkbox" name="flavors[]"
+                                                                        id="flavor_{{ $flavor['id'] }}"
+                                                                        value="{{ $flavor['id'] }}"
+                                                                        @if ($flavor['is_checked']) checked @endif>
+                                                                    <label class="checkbox-item-label"
+                                                                        for="flavor_{{ $flavor['id'] }}">{{ $flavor['name'] }}</label>
+                                                                </div>
+                                                            @endforeach
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Short Description</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea id="editorTinyMCE_list" name="short_description" rows="3" cols="5" class="form-control"
+                                                            placeholder="You should only input a list with a maximum of 10 options.">
+                                                            {!! $product->short_description !!}
+                                                        </textarea>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Description</label>
+                                                    <div class="col-sm-10">
+                                                        <textarea id="editorTinyMCE" name="description" rows="5" cols="5" class="form-control">
+                                                            {!! $product->description !!}
                                                         </textarea>
                                                     </div>
                                                 </div>
@@ -122,12 +202,13 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
-            $('#imageInput').change(function(e) {
+            $('.imageInput').change(function(e) {
                 var reader = new FileReader();
+                var target = $(this).data('target');
                 reader.onload = function(e) {
-                    $('#userImage').attr('src', e.target.result);
+                    $(target).attr('src', e.target.result);
                 }
-                reader.readAsDataURL(e.target.files[0]);
+                reader.readAsDataURL(this.files[0]);
             });
         });
     </script>

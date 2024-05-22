@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Product;
+use App\Models\ProductImage;
 use App\Services\Interfaces\ImageServiceInterface;
 use Exception;
 use GuzzleHttp\Client;
@@ -15,10 +17,10 @@ use Intervention\Image\Facades\Image;
  */
 class ImageService implements ImageServiceInterface
 {
-    public function removeBackgroundAndStore(Request $request)
+    public function removeBackgroundAndStore(Request $request, $accessFile = "image")
     {
-        if ($request->hasFile('image')) {
-            $file = $request->file('image');
+        if ($request->hasFile($accessFile)) {
+            $file = $request->file($accessFile);
             $image = Image::make($file);
 
             if (!in_array($image->mime(), ['image/png'])) {
@@ -63,5 +65,37 @@ class ImageService implements ImageServiceInterface
     {
         $ImagePath = str_replace('storage/', '', $ImagePath);
         Storage::disk('public')->delete($ImagePath);
+    }
+
+    public function storeProductImage(Product $product, $path, $sort_order)
+    {
+        $product->images()->create([
+            'path' => $path,
+            'sort_order' => $sort_order,
+        ]);
+    }
+
+    public function getImagesByProduct(Product $product)
+    {
+        return $product->images()->orderBy('sort_order')->get();
+    }
+
+    public function deleteImagesByProduct(Product $product)
+    {
+        $images = $product->images;
+        foreach ($images as $image) {
+            $this->deleteImage($image->path);
+            $image->delete();
+        }
+    }
+
+    public function getMainImageForProduct(Product $product)
+    {
+        return $product->images()->where('sort_order', 1)->first();
+    }
+
+    public function deleteImagesByPath($path)
+    {
+        ProductImage::where('path', $path)->delete();
     }
 }

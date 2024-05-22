@@ -23,10 +23,22 @@ class UpdateProductRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'categoryId' => 'required',
+            'image1' => 'image|mimes:jpeg,jpg,png,webp|max:2048',
+            'category_id' => 'required',
+            'flavors' => 'required',
             'price' => 'required',
             'quantity' => 'required',
-            'describe' => 'required',
+            'quantity_sold' => 'integer',
+            'sale' => 'integer',
+            'short_description' => 'required',
+            'description' => 'required',
+        ];
+    }
+
+    public function attributes(): array
+    {
+        return [
+            'image1' => 'primary image',
         ];
     }
 }

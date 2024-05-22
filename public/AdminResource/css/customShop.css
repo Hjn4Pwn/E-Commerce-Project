@@ -421,6 +421,9 @@ ul.rating-comment li:last-child {
     background-color: #dceeff;
 }
 
+
+/* ---------------------------------------- */
+
 @media only screen and (max-width: 1220px) {
 	.header__search{
         padding: 0;

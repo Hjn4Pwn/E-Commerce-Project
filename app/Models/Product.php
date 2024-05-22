@@ -11,15 +11,27 @@ class Product extends Model
 
     protected $fillable = [
         'name',
-        'image',
-        'categoryId',
+        'category_id',
         'price',
         'quantity',
-        'describe',
+        'quantity_sold',
+        'sale',
+        'description',
+        'short_description',
     ];
 
     public function category()
     {
-        return $this->belongsTo(Category::class, 'categoryId');
+        return $this->belongsTo(Category::class, 'category_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(ProductImage::class, 'product_id');
+    }
+
+    public function flavors()
+    {
+        return $this->hasMany(ProductFlavor::class, 'product_id');
     }
 }

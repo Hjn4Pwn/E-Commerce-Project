@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
+use App\Services\Interfaces\FlavorServiceInterface;
 use App\Models\Category;
 
 /**
@@ -13,10 +14,14 @@ use App\Models\Category;
 class CategoryService implements CategoryServiceInterface
 {
     protected $imageService;
+    protected $flavorService;
 
-    public function __construct(ImageServiceInterface $imageService)
-    {
+    public function __construct(
+        ImageServiceInterface $imageService,
+        FlavorServiceInterface $flavorService
+    ) {
         $this->imageService = $imageService;
+        $this->flavorService = $flavorService;
     }
 
     public function getAll()
@@ -37,11 +42,13 @@ class CategoryService implements CategoryServiceInterface
 
     public function delete(Category $category)
     {
-        $images = $category->products()->pluck('image')->all();
-        foreach ($images as $imagePath) {
-            $this->imageService->deleteImage($imagePath);
-        }
+        $category->products->each(function ($product) {
+            $this->imageService->deleteImagesByProduct($product);
+            $this->flavorService->deleteFlavorByProduct($product);
+        });
 
-        return $category->products()->delete() && $category->delete();
+        $category->products()->delete();
+
+        return $category->delete();
     }
 }
