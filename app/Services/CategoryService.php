@@ -26,8 +26,19 @@ class CategoryService implements CategoryServiceInterface
 
     public function getAll()
     {
-        // return Category::all(); 
         return Category::with('products')->get();
+    }
+
+    public function getAllCategoriesProductsAndImages()
+    {
+        $categories = Category::with('products')->get();
+        foreach ($categories as $category) {
+            foreach ($category->products as $product) {
+                $product->main_image =  $this->imageService->getMainImageForProduct($product);
+            }
+        }
+
+        return $categories;
     }
 
     public function store($validatedData)

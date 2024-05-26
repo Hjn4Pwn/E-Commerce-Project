@@ -83,23 +83,47 @@
     max-width: 20rem;  
     width: 100%;      
     margin: 0.5rem;    
+    min-height: 22rem;
+    
+}
+
+@media (min-width: 1200px) and (max-width: 1600px) {
+    .col-lg-2_4 {
+        flex: 0 0 20%; /* 100% / 5 = 20% */
+        max-width: 20%;
+    }
+}
+
+/* limit line for product name */
+.product-card .card-title {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
+    line-height: 1.2em;
+    max-height: 2.4em; /* 2 lines * line-height */
+}
+
+
+.card-title{
+    font-size: 15px;
 }
 
 .card-img-top{
-    width: 80%;
+    width: 60%;
 }
 
 .col-fifth {
     flex: 0 0 20%;
     max-width: 20%;
 }
-
-
 /* -------------------------------------------------------------- */
 
 #carouselExampleIndicators {
-    margin: auto;      /* Đảm bảo rằng carousel được căn giữa */
-    width: 90%;        /* Chiều rộng bằng 70% của container chứa nó */
+    margin: auto;     
+    width: 90%;        
 }
 
 .carousel-item img {
@@ -156,7 +180,7 @@
 .prod-by-category {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    /* align-items: center; */
 }
 
 .prod-by-category > div:first-child {
@@ -195,7 +219,7 @@
 }
 .custom-ul-original li {
     list-style-type: disc; /* đảm bảo hiển thị dấu chấm */
-    margin-left: 20px; /* tùy chỉnh khoảng cách nếu cần */
+    margin-left: 20px; 
 }
 
 .product-img {

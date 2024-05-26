@@ -208,10 +208,16 @@
                                     </a>
                                 </li> --}}
                         <li class="waves-effect waves-light p-b-0 p-t-0">
-                            <a href="{{ route('admin.logout') }}">
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                style="display: none;">
+                                @csrf
+                            </form>
+                            <a href="#"
+                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa-solid fa-right-from-bracket"></i> Logout
                             </a>
                         </li>
+
                     </ul>
                 </li>
             </ul>

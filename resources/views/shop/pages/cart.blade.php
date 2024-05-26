@@ -1,8 +1,8 @@
-@extends('user.layout')
+@extends('shop.layout')
 
 @section('content')
-    {{-- @include('user.components.navbar') --}}
-    @include('user.components.pageHeader')
+    {{-- @include('shop.components.navbar') --}}
+    {{-- @include('shop.components.pageHeader') --}}
 
     <div class="pcoded-inner-content">
         <!-- Main-body start -->
@@ -11,7 +11,7 @@
                 <!-- Page-body start -->
                 <div class="page-body">
 
-                    @include('user.components.breadcrumb')
+                    @include('shop.components.breadcrumb')
 
                     <div class="row justify-content-center">
                         <div class="col-md-10 bg-white p-5">

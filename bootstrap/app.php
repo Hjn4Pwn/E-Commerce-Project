@@ -5,7 +5,8 @@ use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 
 use App\Http\Middleware\AdminAuthMiddleware;
-use App\Http\Middleware\AdminLoginMiddleware;
+use App\Http\Middleware\AdminRedirectIfAuthenticated;
+use App\Http\Middleware\UserRedirectIfAuthenticated;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -15,8 +16,9 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'AdminAuth' => AdminAuthMiddleware::class,
-            'AdminLogin' => AdminLoginMiddleware::class,
+            'admin' => AdminAuthMiddleware::class,
+            'guest.admin' => AdminRedirectIfAuthenticated::class,
+            'guest' => UserRedirectIfAuthenticated::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

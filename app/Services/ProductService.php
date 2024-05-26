@@ -22,7 +22,6 @@ use Illuminate\Support\Facades\Storage;
  */
 class ProductService implements ProductServiceInterface
 {
-
     protected $categoryService;
     protected $imageService;
     protected $flavorService;
@@ -63,7 +62,7 @@ class ProductService implements ProductServiceInterface
     }
 
 
-    public function getProductsByCategoryAndImages(Category $category)
+    public function getProductsAndImagesByCategory(Category $category)
     {
         $products = $category->products()->with('category')->get();
 
@@ -83,5 +82,10 @@ class ProductService implements ProductServiceInterface
         }
 
         return $products;
+    }
+
+    public function getProductAndAllImagesByProduct(Product $product)
+    {
+        return $product->load(['images', 'flavors']);
     }
 }

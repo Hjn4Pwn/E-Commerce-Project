@@ -2,21 +2,21 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AuthAdminController;
+use App\Http\Controllers\AuthUserController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FlavorController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 
-Route::get('/', function () {
-    return view('index');
-})->name('index');
 
 // get
 Route::prefix('admin')->group(function () {
     // authen admin
-    Route::middleware('AdminAuth')->group(function () {
+    Route::middleware('admin')->group(function () {
         // view
         Route::get('/', function () {
             return view('admin.pages.index', [
@@ -117,8 +117,6 @@ Route::prefix('admin')->group(function () {
 
         // --------------------------------------------------------------
 
-
-
         // info
         Route::get('editAdminProfile', function () {
             return view('admin.pages.AdminInfo.editAdminProfile', [
@@ -133,19 +131,12 @@ Route::prefix('admin')->group(function () {
         })->name('admin.changePassword');
     });
 
-    // login
-    Route::get('login', function () {
-        return view('admin.pages.login');
-    })
-        ->middleware('AdminLogin')
-        ->name('admin.login');
-
-    // login
-    Route::post('/login', [AdminController::class, 'auth'])->name('admin.auth');
-
-    // logout
-    Route::get('/logout', [AdminController::class, 'logout'])
-        ->name('admin.logout');
+    // admin - login - logout
+    Route::group(['middleware' => 'guest.admin'], function () {
+        Route::get('/login', [AuthAdminController::class, 'showLoginForm'])->name('admin.login');
+        Route::post('/login', [AuthAdminController::class, 'login'])->name('admin.login.post');
+    });
+    Route::get('/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
 });
 
 Route::prefix('user')->group(function () {
@@ -161,14 +152,38 @@ Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistr
     ->name('getWardsByDistrictId');
 
 
+// ------------------------------------------------------------------------------------------------
+// Customer Interface
+// ------------------------------------------------------------------------------------------------
 
-// shop - user interface
+Route::get('/', [HomeController::class, 'index'])
+    ->name('shop.index');
 
-Route::get('/productDetails', function () {
-    return view('user.pages.productDetails');
-})->name('user.pages.productDetails');
+Route::get('products/category/{category}', [HomeController::class, 'indexByCategory'])
+    ->name('shop.products.byCategory');
 
+Route::get('product/{product}', [HomeController::class, 'productDetails'])
+    ->name('shop.products.productDetails');
 
-Route::get('/cart', function () {
-    return view('user.pages.cart');
-})->name('user.pages.cart');
+Route::get('/login', [HomeController::class, 'login'])
+    ->name('shop.login');
+
+Route::get('/register', [HomeController::class, 'register'])
+    ->name('shop.register');
+
+// login - register - logout
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthUserController::class, 'showLoginForm'])->name('login');
+    Route::post('/login', [AuthUserController::class, 'login'])->name('login.post');
+    Route::get('/register', [AuthUserController::class, 'showRegistrationForm'])->name('register');
+    Route::post('/register', [AuthUserController::class, 'register'])->name('register.post');
+});
+
+Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
+
+// authen pages
+Route::middleware(['auth'])->group(function () {
+    Route::get('/cart', function () {
+        return view('shop.pages.cart');
+    })->name('shop.cart');
+});

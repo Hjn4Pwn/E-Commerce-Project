@@ -2,17 +2,17 @@
 <html lang="en">
 
 <head>
-    @include('user.components.head')
+    @include('shop.components.head')
 </head>
 
 <body>
     <!-- Pre-loader start -->
-    @include('user.components.preLoader')
+    @include('shop.components.preLoader')
     <!-- Pre-loader end -->
     <div id="pcoded" class="pcoded">
         <div class="pcoded-overlay-box"></div>
         <div class="pcoded-container navbar-wrapper">
-            @include('user.components.header')
+            @include('shop.components.header')
 
             <div class="pcoded-main-container ">
                 <div class="pcoded-wrapper">
@@ -21,8 +21,8 @@
             </div>
         </div>
     </div>
-    @include('user.components.footer')
-    @include('user.components.script')
+    @include('shop.components.footer')
+    @include('shop.components.script')
 </body>
 
 </html>

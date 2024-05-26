@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
 use App\Services\Interfaces\FlavorServiceInterface;
@@ -18,15 +19,18 @@ use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
+    protected $categoryService;
     protected $productService;
     protected $imageService;
     protected $flavorService;
 
     public function __construct(
+        CategoryServiceInterface $categoryService,
         ProductServiceInterface $productService,
         ImageServiceInterface $imageService,
         FlavorServiceInterface $flavorService,
     ) {
+        $this->categoryService = $categoryService;
         $this->productService = $productService;
         $this->imageService = $imageService;
         $this->flavorService = $flavorService;
@@ -37,7 +41,7 @@ class ProductController extends Controller
     public function index()
     {
         // $products = $this->productService->getAll();
-        $categories = $this->productService->getAllCategories();
+        $categories = $this->categoryService->getAll();
         $products = $this->productService->getProductsAndImages();
         session(['selectedCategory' => 'all']);
         return view('admin.pages.product.products', [
@@ -50,8 +54,8 @@ class ProductController extends Controller
 
     public function indexByCategory(Category $category)
     {
-        $categories = $this->productService->getAllCategories();
-        $products = $this->productService->getProductsByCategoryAndImages($category);
+        $categories = $this->categoryService->getAll();
+        $products = $this->productService->getProductsAndImagesByCategory($category);
         // dd($products);
         session(['selectedCategory' => $category->id]);
         return view('admin.pages.product.products', [
@@ -68,7 +72,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = $this->productService->getAllCategories();
+        $categories = $this->categoryService->getAll();
         $flavors = $this->flavorService->getAll();
         return view('admin.pages.product.createProduct', [
             // 'products' => $products,
@@ -137,7 +141,7 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = $this->productService->getAllCategories();
+        $categories = $this->categoryService->getAll();
         $flavors = $this->flavorService->getFlavorsWithCheckedStatus($product);
         $images = $this->imageService->getImagesByProduct($product);
         session(['selectedCategory' => $product->category_id]);

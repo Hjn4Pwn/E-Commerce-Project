@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
 
-class AdminAuthMiddleware
+class AdminRedirectIfAuthenticated
 {
     /**
      * Handle an incoming request.
@@ -15,10 +15,10 @@ class AdminAuthMiddleware
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
 
-    public function handle(Request $request, Closure $next)
+    public function handle($request, Closure $next, $guard = 'admin')
     {
-        if (!Auth::guard('admin')->check()) {
-            return redirect('admin/login')->with('error', 'Please login to access the admin area.');
+        if (Auth::guard($guard)->check()) {
+            return redirect('admin/')->with('warning', 'Are you serious???');
         }
 
         return $next($request);
