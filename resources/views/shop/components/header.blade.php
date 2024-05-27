@@ -175,7 +175,7 @@
                     </ul>
                 </li>
                 <li class="user-profile header-notification">
-                    <a href="#!" class="waves-effect waves-light p-b-0 p-t-10">
+                    <a href="#!" class="waves-effect waves-light p-b-0 p-t-10 link_none">
                         <img src={{ asset('AdminResource/images/test/sampleAvatar.png') }} class="img-radius"
                             alt="User-Profile-Image">
                         <span>Huy Na</span>
@@ -188,17 +188,17 @@
                                     </a>
                                 </li> --}}
                         <li class="waves-effect waves-light p-b-0 p-t-0 ">
-                            <a href="{{ route('admin.editAdminProfile') }}">
+                            <a href="{{ route('admin.editAdminProfile') }}" class="link_none">
                                 <i class="fa-solid fa-user"></i> Profile
                             </a>
                         </li>
                         <li class="waves-effect waves-light p-b-0 p-t-0">
-                            <a href="email-inbox.html">
+                            <a href="email-inbox.html" class="link_none">
                                 <i class="fa-solid fa-message"></i> My Messages
                             </a>
                         </li>
                         <li class="waves-effect waves-light p-b-0 p-t-0">
-                            <a href="{{ route('admin.changePassword') }}">
+                            <a href="{{ route('admin.changePassword') }}" class="link_none">
                                 <i class="fa-solid fa-lock"></i> Change Password
                             </a>
                         </li>
@@ -212,7 +212,7 @@
                                 style="display: none;">
                                 @csrf
                             </form>
-                            <a href="#"
+                            <a href="#" class="link_none"
                                 onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                                 <i class="fa-solid fa-right-from-bracket"></i> Logout
                             </a>

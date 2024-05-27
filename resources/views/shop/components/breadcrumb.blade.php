@@ -2,9 +2,9 @@
     <div class="col-md-10 p-0">
         <nav aria-label="breadcrumb ">
             <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="#" class="f-18">Home</a></li>
+                <li class="breadcrumb-item"><a href="{{ route('shop.index') }}" class="f-18 link_none">Home</a></li>
                 {{-- <li class="breadcrumb-item"><a href="#">Library</a></li> --}}
-                <li class="breadcrumb-item active f-18" aria-current="page">Cart</li>
+                <li class="breadcrumb-item active f-18" aria-current="page">{{ $subpage ?? '' }}</li>
             </ol>
         </nav>
     </div>

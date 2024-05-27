@@ -17,4 +17,9 @@ class Flavor extends Model
     {
         return $this->hasMany(ProductFlavor::class, "flavor_id");
     }
+
+    public function carts()
+    {
+        return $this->hasMany(CartItem::class, 'flavor_id');
+    }
 }

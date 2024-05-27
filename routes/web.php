@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthAdminController;
 use App\Http\Controllers\AuthUserController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
@@ -183,7 +184,7 @@ Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
 
 // authen pages
 Route::middleware(['auth'])->group(function () {
-    Route::get('/cart', function () {
-        return view('shop.pages.cart');
-    })->name('shop.cart');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
+    Route::post('/cart/remove', [CartController::class, 'removeItem'])->name('cart.removeItem');
 });

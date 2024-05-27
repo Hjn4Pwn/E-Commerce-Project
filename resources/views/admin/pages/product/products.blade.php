@@ -137,13 +137,13 @@
                                                             {{ $product->name }}
                                                         </td>
                                                         <td class="text-center p-t-5"><img
-                                                                src={{ asset($product->main_image->path) }}
-                                                                class="rounded-3" style="width: 100px; "
-                                                                alt="Product Image" />
+                                                                src={{ asset($product->mainImage->path) }} class="rounded-3"
+                                                                style="width: 100px; " alt="Product Image" />
                                                         </td>
                                                         {{-- <td>{!! $product->describe !!}</td> --}}
                                                         <td class="text-center">{{ $product->category->name }}</td>
-                                                        <td class=" text-center">{{ $product->price }} VND</td>
+                                                        <td class=" text-center">{{ format_currency($product->price) }}
+                                                        </td>
                                                         <td class=" text-center">{{ $product->quantity }}</td>
 
                                                         <td class="text-center">

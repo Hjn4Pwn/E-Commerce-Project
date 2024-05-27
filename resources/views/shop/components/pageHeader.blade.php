@@ -1,6 +1,6 @@
 <div class="row menu-box-header">
     @include('shop.components.menu', [
-        'activeHome' => 'active',
+        'activeCart' => 'active',
         'categories' => $categories,
     ])
     <div class="col-sm-12">
@@ -38,8 +38,8 @@
                                 <li class="nav-item p-r-10 ">
                                     <a class="nav-link" href="#">Info</a>
                                 </li>
-                                <li class="nav-item p-r-10 ">
-                                    <a class="nav-link" href="{{ route('shop.cart') }}">Cart</a>
+                                <li class="nav-item p-r-10 {{ $activeCart ?? '' }}">
+                                    <a class="nav-link" href="{{ route('cart') }}">Cart</a>
                                 </li>
                                 <li class="nav-item p-r-10 ">
                                     <a class="nav-link" href="#">Order Details</a>

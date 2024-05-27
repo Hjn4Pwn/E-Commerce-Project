@@ -13,13 +13,14 @@
                 <!-- Page-body start -->
                 <div class="page-body">
 
-                    @include('shop.components.breadcrumb')
+                    @include('shop.components.breadcrumb', [
+                        'subpage' => $product->name,
+                    ])
 
                     <div class="row justify-content-center">
-                        {{-- @if ($product->count()) --}}
                         <div class="col-md-10 bg-white p-5">
                             <div class="row">
-                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 d-flex justify-content-center ">
+                                <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 d-flex justify-content-center">
                                     <div class="product-imgs">
                                         <div class="img-display">
                                             <div class="img-showcase">
@@ -32,19 +33,9 @@
                                                     <img src="{{ asset($image->path) }}"
                                                         alt="Product Image {{ ++$i }}" class="product-img">
                                                 @endforeach
-                                                {{-- <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Image 1" class="product-img">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Image 2" class="product-img">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Image 3" class="product-img">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Image 4" class="product-img"> --}}
-
                                             </div>
                                         </div>
                                         <div class="img-select">
-
                                             @foreach ($product->images as $image)
                                                 <div class="img-item">
                                                     <a href="#" data-id="{{ ++$j }}" class="">
@@ -52,55 +43,20 @@
                                                             alt="Product Thumbnail {{ $j }}"
                                                             class="product-img {{ $j == 1 ? 'active' : '' }}"
                                                             @if ($cntImg == 1) style="width: 25%;"
-                                                                @elseif ($cntImg == 2) style="width: 50%;"
-                                                                @elseif ($cntImg == 3) style="width: 75%;" @endif>
+                                                        @elseif ($cntImg == 2) style="width: 50%;"
+                                                        @elseif ($cntImg == 3) style="width: 75%;" @endif>
                                                     </a>
                                                 </div>
                                             @endforeach
-
-                                            {{-- <div class="img-item">
-                                                    <a href="#" data-id="1" class="">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Thumbnail 1" class="product-img active">
-                                                    </a>
-                                                </div>
-                                                <div class="img-item">
-                                                    <a href="#" data-id="2">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Thumbnail 2" class="product-img">
-                                                    </a>
-                                                </div>
-                                                <div class="img-item">
-                                                    <a href="#" data-id="3">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Thumbnail 3" class="product-img">
-                                                    </a>
-                                                </div>
-                                                <div class="img-item">
-                                                    <a href="#" data-id="4">
-                                                        <img src="{{ asset('AdminResource/images/test/sampleProductImage.png') }}"
-                                                            alt="Product Thumbnail 4" class="product-img">
-                                                    </a>
-                                                </div> --}}
                                         </div>
                                     </div>
-
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                     <h2 class="mb-3 mt-3">{{ $product->name }}</h2>
                                     <div class="mb-3">
-                                        {{-- <div class="star-rating">
-                                            <i class="fa-solid fa-star text-warning"></i>
-                                            <i class="fa-solid fa-star text-warning"></i>
-                                            <i class="fa-solid fa-star text-warning"></i>
-                                            <i class="fa-solid fa-star text-warning"></i>
-                                            <i class="fa-regular fa-star text-warning"></i>
-                                            <span class="text-info">(Xem 4 đánh giá)</span>
-                                        </div> --}}
-                                        <div class="d-flex align-items-center">
+                                        <div class="d-flex align-items-center" style="line-height: 45px">
                                             <div class="star-ratings">
                                                 <div class="fill-ratings" style="width: 86%;">
-                                                    <!-- Giả sử muốn hiển thị 4.3 sao, set width là 86% -->
                                                     <span>★★★★★</span>
                                                 </div>
                                                 <div class="empty-ratings">
@@ -108,11 +64,12 @@
                                                 </div>
                                             </div>
                                             <a href="#product-rating" style="text-decoration: none;">
-                                                <span class="text-info ml-3">(Xem 4 đánh giá)</span>
+                                                <span class="text-info ml-3 f-16">(Xem 4 đánh giá)</span>
                                             </a>
+                                            <span class="text-normal ml-4 f-14 mt-1">Đã bán
+                                                {{ $product->quantity_sold }}</span>
+
                                         </div>
-
-
                                     </div>
                                     @php
                                         $originalPrice = round($product->price / (1 - $product->sale / 100), -3);
@@ -120,10 +77,10 @@
                                     @endphp
 
                                     <div style="display: flex; align-items: center;">
-                                        <h4 class="mr-3 mb-0">{{ $product->price }}₫</h4>
+                                        <h4 class="mr-3 mb-0 text-info">{{ format_currency($product->price) }}</h4>
                                         @if ($product->sale)
                                             <h4 class="mr-3 mb-0" style="color: #6c757d; font-size:16px;">
-                                                <del>{{ $originalPrice }}₫</del>
+                                                <del>{{ format_currency($originalPrice) }}</del>
                                             </h4>
                                             <span class="badge badge-danger"
                                                 style="font-size: 18px;">-{{ $product->sale }}%</span>
@@ -131,11 +88,10 @@
                                     </div>
                                     @if ($product->sale)
                                         <div>
-                                            <span>Tiết kiệm </span> <span class="text-danger">{{ $savingAmount }}₫</span>
+                                            <span>Tiết kiệm </span> <span
+                                                class="text-danger">{{ format_currency($savingAmount) }}</span>
                                         </div>
                                     @endif
-
-
 
                                     <div class="mt-4 custom-ul-original">
                                         {!! $product->short_description !!}
@@ -144,9 +100,9 @@
                                         <span>Hương vị:</span>
                                         @foreach ($flavors as $flavor)
                                             <div class="form-check ml-5">
-                                                <input class="form-check-input" type="radio" name="exampleRadios"
-                                                    id="{{ $flavor->id }}" value="{{ $flavor->id }}">
-                                                <label class="form-check-label" for="{{ $flavor->id }}">
+                                                <input class="form-check-input" type="radio" name="flavor_id"
+                                                    id="flavor_{{ $flavor->id }}" value="{{ $flavor->id }}">
+                                                <label class="form-check-label" for="flavor_{{ $flavor->id }}">
                                                     {{ $flavor->name }}
                                                 </label>
                                             </div>
@@ -155,20 +111,29 @@
 
                                     <div class="mt-5 mb-5">
                                         <label class="mr-3">Số lượng:</label>
-                                        <input type="number" class="text-center w-25" value="1" min="1">
-
+                                        <input type="number" id="quantity" class="text-center w-25" value="1"
+                                            min="1" max="{{ $product->quantity }}">
+                                        <p class="text-info f-16">{{ $product->quantity }} sản phẩm có sẵn.</p>
                                     </div>
-                                    <div class="">
-                                        <a href="{{ route('shop.cart') }}" class="btn btn-outline-primary font-weight-bold"
-                                            role="button">Add to Cart</a>
+
+                                    <div class="d-flex">
+                                        <form id="add-to-cart-form" method="POST" action="{{ route('cart.add') }}"
+                                            onsubmit="return submitAddToCartForm()">
+                                            @csrf
+                                            <input type="hidden" name="product_id" value="{{ $product->id }}">
+                                            <input type="hidden" name="quantity" id="form-quantity" value="1">
+                                            <input type="hidden" name="flavor_id" id="form-flavor-id" value="">
+
+                                            <button type="submit" class="btn btn-outline-primary font-weight-bold">Add to
+                                                Cart</button>
+                                        </form>
                                         <a href="#" class="btn btn-outline-success font-weight-bold"
                                             role="button">Buy Now</a>
-
                                     </div>
                                 </div>
                             </div>
+
                         </div>
-                        {{-- @endif --}}
                     </div>
 
                     <div class="row mt-3"></div>
@@ -192,18 +157,6 @@
                     <div class="row justify-content-center" id="product-rating">
                         <div class="col-md-10 bg-white pt-5 pr-5 pl-5 pb-2">
                             <h5>ĐÁNH GIÁ SẢN PHẨM</h5>
-                            {{-- <div class="rating">
-                                <input type="radio" name="rating" value="5" id="5"><label
-                                    for="5">☆</label>
-                                <input type="radio" name="rating" value="4" id="4"><label
-                                    for="4">☆</label>
-                                <input type="radio" name="rating" value="3" id="3"><label
-                                    for="3">☆</label>
-                                <input type="radio" name="rating" value="2" id="2"><label
-                                    for="2">☆</label>
-                                <input type="radio" name="rating" value="1" id="1"><label
-                                    for="1">☆</label>
-                            </div> --}}
                             <div class="header-rating row pt-3 pb-3">
                                 <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
                                     <div class="text-center">
@@ -212,7 +165,6 @@
                                     <div class="star-center">
                                         <div class="star-ratings">
                                             <div class="fill-ratings" style="width: 86%;">
-                                                <!-- Giả sử muốn hiển thị 4.3 sao, set width là 86% -->
                                                 <span>★★★★★</span>
                                             </div>
                                             <div class="empty-ratings">
@@ -242,7 +194,6 @@
                                         <span class="font-weight-bold mr-2">Huy Na</span>
                                         <div class="star-ratings">
                                             <div class="fill-ratings f-18" style="width: 86%;">
-                                                <!-- Giả sử muốn hiển thị 4.3 sao, set width là 86% -->
                                                 <span>★★★★★</span>
                                             </div>
                                             <div class="empty-ratings f-18">
@@ -287,7 +238,6 @@
                                         <span class="font-weight-bold mr-2">Huy Na</span>
                                         <div class="star-ratings">
                                             <div class="fill-ratings f-18" style="width: 86%;">
-                                                <!-- Giả sử muốn hiển thị 4.3 sao, set width là 86% -->
                                                 <span>★★★★★</span>
                                             </div>
                                             <div class="empty-ratings f-18">
@@ -436,5 +386,33 @@
         function toggleLike(element) {
             element.classList.toggle('liked');
         }
+    </script>
+
+    {{-- add to cart --}}
+    <script>
+        function submitAddToCartForm() {
+            const quantity = document.getElementById('quantity').value;
+            const flavorElement = document.querySelector('input[name="flavor_id"]:checked');
+            if (!flavorElement) {
+                alert('Vui lòng chọn hương vị.');
+                return false;
+            }
+            const flavorId = flavorElement.value;
+
+            document.getElementById('form-quantity').value = quantity;
+            document.getElementById('form-flavor-id').value = flavorId;
+
+            return true;
+        }
+    </script>
+
+    {{-- quantity max available prods --}}
+    <script>
+        document.getElementById('quantity').addEventListener('input', function() {
+            const maxQuantity = {{ $product->quantity }};
+            if (this.value > maxQuantity) {
+                this.value = maxQuantity;
+            }
+        });
     </script>
 @endsection

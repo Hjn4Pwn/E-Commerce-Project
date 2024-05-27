@@ -34,4 +34,14 @@ class Product extends Model
     {
         return $this->hasMany(ProductFlavor::class, 'product_id');
     }
+
+    public function carts()
+    {
+        return $this->hasMany(CartItem::class, 'product_id');
+    }
+
+    public function mainImage()
+    {
+        return $this->hasOne(ProductImage::class)->where('sort_order', 1);
+    }
 }

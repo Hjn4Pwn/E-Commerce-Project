@@ -161,26 +161,35 @@
 
                     @endif --}}
 
+
+
                     @if ($action == 'getAll')
-                        @foreach ($productsData as $category)
-                            <div class="prod-by-category">
-                                <div>
-                                    <span>{{ $category->name }}</span>
+                        @if ($productsData->count())
+                            @foreach ($productsData as $category)
+                                <div class="prod-by-category">
+                                    <div>
+                                        <span>{{ $category->name }}</span>
+                                    </div>
+                                    <div class="row">
+                                        @if ($category->products->count())
+                                            @foreach ($category->products as $product)
+                                                @include('shop.components.product-card', [
+                                                    'product' => $product,
+                                                ])
+                                            @endforeach
+                                        @else
+                                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
+                                                available
+                                            </h4>
+                                        @endif
+                                    </div>
                                 </div>
-                                <div class="row">
-                                    @if ($category->products->count())
-                                        @foreach ($category->products as $product)
-                                            @include('shop.components.product-card', [
-                                                'product' => $product,
-                                            ])
-                                        @endforeach
-                                    @else
-                                        <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products available
-                                        </h4>
-                                    @endif
-                                </div>
-                            </div>
-                        @endforeach
+                            @endforeach
+                        @else
+                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
+                                available
+                            </h4>
+                        @endif
                     @else
                         <div class="prod-by-category">
                             <div>

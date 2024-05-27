@@ -91,7 +91,7 @@
                                 </ul>
                             </li>
                             <li class="user-profile header-notification">
-                                <a href="#!" class="waves-effect waves-light">
+                                <a href="#!" class="waves-effect waves-light link_none">
                                     <img src={{ asset('AdminResource/images/test/sampleAvatar.png') }}
                                         class="img-radius" alt="User-Profile-Image">
                                     <span>Huy Na</span>
@@ -103,18 +103,18 @@
                                             <i class="ti-settings"></i> Settings
                                         </a>
                                     </li> --}}
-                                    <li class="waves-effect waves-light">
-                                        <a href="{{ route('admin.editAdminProfile') }}">
+                                    <li class="waves-effect waves-light ">
+                                        <a href="{{ route('admin.editAdminProfile') }}" class="link_none">
                                             <i class="fa-solid fa-user"></i> Profile
                                         </a>
                                     </li>
                                     <li class="waves-effect waves-light">
-                                        <a href="email-inbox.html">
+                                        <a href="email-inbox.html" class="link_none">
                                             <i class="fa-solid fa-message"></i> My Messages
                                         </a>
                                     </li>
                                     <li class="waves-effect waves-light">
-                                        <a href="{{ route('admin.changePassword') }}">
+                                        <a href="{{ route('admin.changePassword') }}" class="link_none">
                                             <i class="fa-solid fa-lock"></i> Change Password
                                         </a>
                                     </li>
@@ -123,8 +123,8 @@
                                             <i class="ti-lock"></i> Lock Screen
                                         </a>
                                     </li> --}}
-                                    <li class="waves-effect waves-light">
-                                        <a href="{{ route('admin.logout') }}">
+                                    <li class="waves-effect waves-light ">
+                                        <a href="{{ route('admin.logout') }}" class="link_none">
                                             <i class="fa-solid fa-right-from-bracket"></i> Logout
                                         </a>
                                     </li>

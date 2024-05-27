@@ -29,7 +29,7 @@
                 <a class="nav-link" href="#">Info</a>
             </li>
             <li class="nav-item p-r-10 ">
-                <a class="nav-link" href="{{ route('shop.cart') }}">Cart</a>
+                <a class="nav-link" href="{{ route('cart') }}">Cart</a>
             </li>
             <li class="nav-item p-r-10 ">
                 <a class="nav-link" href="#">Order Details</a>

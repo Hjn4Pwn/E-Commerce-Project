@@ -62,24 +62,38 @@ class ProductService implements ProductServiceInterface
     }
 
 
+    // public function getProductsAndImagesByCategory(Category $category)
+    // {
+    //     $products = $category->products()->with('category')->get();
+
+    //     foreach ($products as $product) {
+    //         $product->main_image = $this->imageService->getMainImageForProduct($product);
+    //     }
+
+    //     return $products;
+    // }
+
     public function getProductsAndImagesByCategory(Category $category)
     {
-        $products = $category->products()->with('category')->get();
-
-        foreach ($products as $product) {
-            $product->main_image = $this->imageService->getMainImageForProduct($product);
-        }
+        $products = $category->products()->with(['category', 'mainImage'])->get();
 
         return $products;
     }
 
+    // public function getProductsAndImages()
+    // {
+    //     $products = $this->getAll();
+
+    //     foreach ($products as $product) {
+    //         $product->main_image = $this->imageService->getMainImageForProduct($product);
+    //     }
+
+    //     return $products;
+    // }
+
     public function getProductsAndImages()
     {
-        $products = $this->getAll();
-
-        foreach ($products as $product) {
-            $product->main_image = $this->imageService->getMainImageForProduct($product);
-        }
+        $products = Product::with(['mainImage'])->get();
 
         return $products;
     }
