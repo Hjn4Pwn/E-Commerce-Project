@@ -50,7 +50,7 @@
                         <div class="ml-auto">
                             <form class="form-inline my-2 my-lg-0">
                                 <div>
-                                    <input class="form-control mr-sm-2" type="search" placeholder="Search"
+                                    <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder=""
                                         aria-label="Search">
                                 </div>
                                 <div>
@@ -64,3 +64,36 @@
         </div>
     </div>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputField = document.getElementById('searchInput');
+        const text = "Nhập tên sản phẩm";
+        let index = 0;
+        let typing = true;
+
+        function typeWriter() {
+            if (typing) {
+                if (index < text.length) {
+                    inputField.placeholder += text.charAt(index);
+                    index++;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    typing = false;
+                    setTimeout(typeWriter, 1000); // Pause before deleting
+                }
+            } else {
+                if (index > 0) {
+                    inputField.placeholder = inputField.placeholder.slice(0, -1);
+                    index--;
+                    setTimeout(typeWriter, 50);
+                } else {
+                    typing = true;
+                    setTimeout(typeWriter, 100); // Pause before typing again
+                }
+            }
+        }
+
+        typeWriter();
+    });
+</script>

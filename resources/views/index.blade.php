@@ -175,6 +175,7 @@
                                             @foreach ($category->products as $product)
                                                 @include('shop.components.product-card', [
                                                     'product' => $product,
+                                                    'isOutOfStock' => $outOfStockProducts->contains($product->id),
                                                 ])
                                             @endforeach
                                         @else
@@ -198,7 +199,10 @@
                             <div class="row">
                                 @if ($productsByCategory->count())
                                     @foreach ($productsByCategory as $product)
-                                        @include('shop.components.product-card', ['product' => $product])
+                                        @include('shop.components.product-card', [
+                                            'product' => $product,
+                                            'isOutOfStock' => $outOfStockProducts->contains($product->id),
+                                        ])
                                     @endforeach
                                 @else
                                     <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products available

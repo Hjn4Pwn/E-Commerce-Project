@@ -31,9 +31,9 @@
                                 @foreach ($cartItems as $item)
                                     <div class="row align-items-center product-bottom-line" style="height: 150px;">
                                         <div class="col-3 col-md-2"
-                                            onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item->product->id]) }}';"
+                                            onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item['product']->id]) }}';"
                                             style="cursor: pointer;">
-                                            <img src="{{ asset($item->product->mainImage->path) }}"
+                                            <img src="{{ asset($item['product']->mainImage->path) }}"
                                                 class="rounded-3 cart-product-image" alt="Product Image" />
                                         </div>
                                         <div class="col-9 col-md-10">
@@ -41,31 +41,31 @@
                                                 <div class="col-12 col-md-6">
                                                     <div>
                                                         <div class="cart-product-name"
-                                                            onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item->product->id]) }}';"
+                                                            onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item['product']->id]) }}';"
                                                             style="cursor: pointer;">
-                                                            {{ $item->product->name }}
+                                                            {{ $item['product']->name }}
                                                         </div>
                                                         <div class="cart-flavor">
-                                                            {{ $item->flavor->name }}
+                                                            {{ $item['flavor']->name }}
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div
                                                     class="col-12 col-md-6 d-flex align-items-center justify-content-between">
                                                     <h5 class="text-info mr-2 product-price">
-                                                        {{ format_currency($item->product->price) }}
+                                                        {{ format_currency($item['product']->price) }}
                                                     </h5>
                                                     <input type="number" class="text-center mr-2 product-quantity"
-                                                        style="width: 100px;" value="{{ $item->quantity }}" min="1"
-                                                        data-price="{{ $item->product->price }}"
-                                                        data-max="{{ $item->product->quantity }}">
+                                                        style="width: 100px;" value="{{ $item['quantity'] }}" min="1"
+                                                        data-price="{{ $item['product']->price }}"
+                                                        data-max="{{ $item['available_quantity'] }}">
                                                     <form method="POST" action="{{ route('cart.removeItem') }}"
                                                         class="mr-2" onsubmit="return confirmDelete()">
                                                         @csrf
                                                         <input type="hidden" name="product_id"
-                                                            value="{{ $item->product->id }}">
+                                                            value="{{ $item['product']->id }}">
                                                         <input type="hidden" name="flavor_id"
-                                                            value="{{ $item->flavor->id }}">
+                                                            value="{{ $item['flavor']->id }}">
                                                         <button type="submit"
                                                             class="btn btn-danger waves-effect waves-light">
                                                             <i class="fa fa-trash"></i>

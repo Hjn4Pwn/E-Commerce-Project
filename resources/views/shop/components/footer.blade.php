@@ -1,7 +1,7 @@
 <!-- Footer -->
 <footer class="text-center text-lg-start bg-light text-muted topline-footer">
     <!-- Section: Social media -->
-    <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom row">
+    <section class="d-flex justify-content-center justify-content-lg-between p-3 border-bottom row">
         <!-- Left -->
         <div class="col-lg-6 col-xl-6 d-none d-lg-block">
             <span>Get connected with us on social networks:</span>

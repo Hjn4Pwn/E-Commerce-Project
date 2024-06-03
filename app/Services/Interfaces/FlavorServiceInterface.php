@@ -15,11 +15,11 @@ interface FlavorServiceInterface
     public function store($validatedData);
     public function update(Flavor $flavor, $validatedData);
     public function delete(Flavor $flavor);
-    public function storeProductFlavor(Product $product, $flavor_id);
+    public function storeProductFlavor(Product $product, $flavorId, $quantity);
     public function getFlavorsByProduct(Product $product);
     public function getFlavorsWithCheckedStatus(Product $product);
-    public function deleteProductFlavor(Product $product, $flavor_id);
     public function getFlavorIDByProduct(Product $product);
-    public function updateProductFlavors(Product $product, $newFlavors);
+    public function updateProductFlavors(Product $product, $newFlavors, $quantity);
     public function deleteFlavorByProduct(Product $product);
+    public function deleteProductFlavor(Product $product, $flavorId);
 }

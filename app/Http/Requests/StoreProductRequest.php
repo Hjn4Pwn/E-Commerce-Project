@@ -27,7 +27,6 @@ class StoreProductRequest extends FormRequest
             'category_id' => 'required',
             'flavors' => 'required',
             'price' => 'required',
-            'quantity' => 'required',
             'quantity_sold' => 'integer',
             'sale' => 'integer',
             'short_description' => 'required',

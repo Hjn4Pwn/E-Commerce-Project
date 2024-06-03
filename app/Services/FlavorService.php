@@ -34,21 +34,17 @@ class FlavorService implements FlavorServiceInterface
         return $flavor->delete();
     }
 
-    public function storeProductFlavor(Product $product, $flavor_id)
-    {
-        return $product->flavors()->create([
-            'flavor_id' => $flavor_id,
-        ]);
-    }
-
     public function getFlavorsByProduct(Product $product)
     {
-        // Eager load the flavors relation
-        $flavors = $product->flavors()->with('flavor')->get();
+        // Eager load the flavors relation with pivot data
+        $flavors = $product->flavors()->get();
 
-        // Collect flavor details
-        $flavorDetails = $flavors->map(function ($productFlavor) {
-            return $productFlavor->flavor;
+        $flavorDetails = $flavors->map(function ($flavor) {
+            return [
+                'id' => $flavor->id,
+                'name' => $flavor->name,
+                'quantity' => $flavor->pivot->quantity, // Truy xuất quantity từ bảng pivot
+            ];
         });
 
         return $flavorDetails;
@@ -60,50 +56,74 @@ class FlavorService implements FlavorServiceInterface
 
         $productFlavorIds = $product->flavors()->pluck('flavor_id')->toArray();
 
-        $flavorsWithCheckedStatus = $allFlavors->map(function ($flavor) use ($productFlavorIds) {
+        $productFlavors = $product->flavors()->get(['flavor_id', 'quantity'])->keyBy('flavor_id');
+
+        $flavorsWithCheckedStatus = $allFlavors->map(function ($flavor) use ($productFlavorIds, $productFlavors) {
             return [
                 'id' => $flavor->id,
                 'name' => $flavor->name,
                 'is_checked' => in_array($flavor->id, $productFlavorIds),
+                'quantity' => $productFlavors->has($flavor->id) ? $productFlavors->get($flavor->id)->quantity : 0,
             ];
         });
 
         return $flavorsWithCheckedStatus;
     }
 
-    public function getFlavorIDByProduct(Product $product)
-    {
-        return $product->flavors()->pluck('flavor_id')->toArray();
-    }
-
-    public function deleteProductFlavor(Product $product, $flavor_id)
-    {
-        $product->flavors()->where('flavor_id', $flavor_id)->delete();
-    }
-
-    public function updateProductFlavors(Product $product, $newFlavors)
+    public function updateProductFlavors(Product $product, $newFlavors, $quantity)
     {
         $currentFlavorIds = $this->getFlavorIDByProduct($product);
-        $newFlavorIds = array_map('intval', $newFlavors); // integer
+        $newFlavorIds = array_map('intval', $newFlavors);
 
-        // flavors cần thêm mới
         $flavorsToAdd = array_diff($newFlavorIds, $currentFlavorIds);
 
-        // flavors cần xóa
         $flavorsToRemove = array_diff($currentFlavorIds, $newFlavorIds);
 
         foreach ($flavorsToAdd as $flavorId) {
-            $this->storeProductFlavor($product, $flavorId);
+            $this->storeProductFlavor($product, $flavorId, $quantity[$flavorId]);
         }
 
         foreach ($flavorsToRemove as $flavorId) {
             $this->deleteProductFlavor($product, $flavorId);
         }
+
+        foreach ($newFlavorIds as $flavorId) {
+            if (in_array($flavorId, $currentFlavorIds)) {
+                $this->updateProductFlavorQuantity($product, $flavorId, $quantity[$flavorId]);
+            }
+        }
+    }
+
+    public function storeProductFlavor(Product $product, $flavorId, $quantity)
+    {
+        $product->flavors()->attach($flavorId, ['quantity' => $quantity]);
+    }
+
+    public function deleteProductFlavor(Product $product, $flavorId)
+    {
+        // $product->flavors()->where('flavor_id', $flavorId)->delete();
+        $product->flavors()->detach($flavorId);
+    }
+
+    public function updateProductFlavorQuantity(Product $product, $flavorId, $quantity)
+    {
+        $currentQuantity = $product->flavors()->wherePivot('flavor_id', $flavorId)->first()->pivot->quantity;
+
+        if ($currentQuantity != $quantity) {
+            $product->flavors()->updateExistingPivot($flavorId, ['quantity' => $quantity]);
+        }
+    }
+
+
+    public function getFlavorIDByProduct(Product $product)
+    {
+        return $product->flavors()->pluck('flavor_id')->toArray();
     }
 
     public function deleteFlavorByProduct(Product $product)
     {
-        $product->flavors()->delete();
+        // $product->flavors()->delete();
         // ProductFlavor::where('product_id', $product->id)->delete();
+        $product->flavors()->detach(); // pivot
     }
 }

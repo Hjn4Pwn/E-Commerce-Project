@@ -68,7 +68,6 @@
                                             </a>
                                             <span class="text-normal ml-4 f-14 mt-1">Đã bán
                                                 {{ $product->quantity_sold }}</span>
-
                                         </div>
                                     </div>
                                     @php
@@ -101,9 +100,11 @@
                                         @foreach ($flavors as $flavor)
                                             <div class="form-check ml-5">
                                                 <input class="form-check-input" type="radio" name="flavor_id"
-                                                    id="flavor_{{ $flavor->id }}" value="{{ $flavor->id }}">
-                                                <label class="form-check-label" for="flavor_{{ $flavor->id }}">
-                                                    {{ $flavor->name }}
+                                                    id="flavor_{{ $flavor['id'] }}" value="{{ $flavor['id'] }}"
+                                                    data-quantity="{{ $flavor['quantity'] }}"
+                                                    @if ($flavor['quantity'] == 0) disabled @endif>
+                                                <label class="form-check-label" for="flavor_{{ $flavor['id'] }}">
+                                                    {{ $flavor['name'] }}
                                                 </label>
                                             </div>
                                         @endforeach
@@ -112,8 +113,13 @@
                                     <div class="mt-5 mb-5">
                                         <label class="mr-3">Số lượng:</label>
                                         <input type="number" id="quantity" class="text-center w-25" value="1"
-                                            min="1" max="{{ $product->quantity }}">
-                                        <p class="text-info f-16">{{ $product->quantity }} sản phẩm có sẵn.</p>
+                                            min="1" max="1">
+                                        @if ($isOutOfStock)
+                                            <p class="text-danger f-18" id="available-quantity">Sản phẩm đã hết hàng.</p>
+                                        @else
+                                            <p class="text-info f-16" id="available-quantity">Chọn hương vị để biết số lượng
+                                                có sẵn.</p>
+                                        @endif
                                     </div>
 
                                     <div class="d-flex">
@@ -132,7 +138,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
 
@@ -404,13 +409,19 @@
 
             return true;
         }
-    </script>
 
-    {{-- quantity max available prods --}}
-    <script>
+        document.querySelectorAll('input[name="flavor_id"]').forEach(flavorRadio => {
+            flavorRadio.addEventListener('change', function() {
+                const maxQuantity = this.dataset.quantity;
+                document.getElementById('quantity').max = maxQuantity;
+                document.getElementById('quantity').value = 1; // Reset quantity to 1 when flavor changes
+                document.getElementById('available-quantity').innerText = `${maxQuantity} sản phẩm có sẵn.`;
+            });
+        });
+
         document.getElementById('quantity').addEventListener('input', function() {
-            const maxQuantity = {{ $product->quantity }};
-            if (this.value > maxQuantity) {
+            const maxQuantity = parseInt(this.max);
+            if (parseInt(this.value) > maxQuantity) {
                 this.value = maxQuantity;
             }
         });

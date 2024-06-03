@@ -144,7 +144,11 @@
                                                         <td class="text-center">{{ $product->category->name }}</td>
                                                         <td class=" text-center">{{ format_currency($product->price) }}
                                                         </td>
-                                                        <td class=" text-center">{{ $product->quantity }}</td>
+                                                        @if ($outOfStockProducts->contains($product->id))
+                                                            <td class=" text-center">Hết hàng</td>
+                                                        @else
+                                                            <td class=" text-center">{{ $product->quantity }}</td>
+                                                        @endif
 
                                                         <td class="text-center">
                                                             <div class="row justify-content-center ">

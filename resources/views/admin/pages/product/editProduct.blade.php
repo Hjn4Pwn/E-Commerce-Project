@@ -119,13 +119,6 @@
                                                             maxlength="9" value="{{ $product->price }}">
                                                     </div>
                                                 </div>
-                                                <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Quantity</label>
-                                                    <div class="col-sm-10">
-                                                        <input name="quantity" type="text" class="form-control"
-                                                            maxlength="9" value="{{ $product->quantity }}">
-                                                    </div>
-                                                </div>
 
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Quantity Sold</label>
@@ -152,9 +145,17 @@
                                                                     <input type="checkbox" name="flavors[]"
                                                                         id="flavor_{{ $flavor['id'] }}"
                                                                         value="{{ $flavor['id'] }}"
-                                                                        @if ($flavor['is_checked']) checked @endif>
+                                                                        @if ($flavor['is_checked']) checked @endif
+                                                                        class="flavor-checkbox">
                                                                     <label class="checkbox-item-label"
                                                                         for="flavor_{{ $flavor['id'] }}">{{ $flavor['name'] }}</label>
+                                                                    <input type="number" value="{{ $flavor['quantity'] }}"
+                                                                        name="flavor_quantities[{{ $flavor['id'] }}]"
+                                                                        id="flavor_quantity_{{ $flavor['id'] }}"
+                                                                        placeholder="Quantity"
+                                                                        class="form-control flavor-quantity"
+                                                                        style="display: none; margin-top: 5px; width:100px;"
+                                                                        @if (!$flavor['is_checked']) disabled @endif>
                                                                 </div>
                                                             @endforeach
                                                         </div>
@@ -202,6 +203,24 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function() {
+            // Hiển thị các ô nhập liệu quantity nếu checkbox được kiểm tra khi trang được tải
+            $('.flavor-checkbox').each(function() {
+                var flavorId = $(this).attr('id').split('_')[1];
+                if ($(this).is(':checked')) {
+                    $('#flavor_quantity_' + flavorId).show().prop('disabled', false);
+                }
+            });
+
+            // Hiển thị các ô nhập liệu quantity khi checkbox được thay đổi
+            $('.flavor-checkbox').change(function() {
+                var flavorId = $(this).attr('id').split('_')[1];
+                if ($(this).is(':checked')) {
+                    $('#flavor_quantity_' + flavorId).show().prop('disabled', false);
+                } else {
+                    $('#flavor_quantity_' + flavorId).hide().prop('disabled', true);
+                }
+            });
+
             $('.imageInput').change(function(e) {
                 var reader = new FileReader();
                 var target = $(this).data('target');

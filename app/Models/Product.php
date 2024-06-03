@@ -13,7 +13,6 @@ class Product extends Model
         'name',
         'category_id',
         'price',
-        'quantity',
         'quantity_sold',
         'sale',
         'description',
@@ -30,9 +29,15 @@ class Product extends Model
         return $this->hasMany(ProductImage::class, 'product_id');
     }
 
+    // public function flavors()
+    // {
+    //     return $this->hasMany(ProductFlavor::class, 'product_id');
+    // }
+
     public function flavors()
     {
-        return $this->hasMany(ProductFlavor::class, 'product_id');
+        return $this->belongsToMany(Flavor::class, 'product_flavors')
+            ->withPivot('quantity');
     }
 
     public function carts()
@@ -43,5 +48,13 @@ class Product extends Model
     public function mainImage()
     {
         return $this->hasOne(ProductImage::class)->where('sort_order', 1);
+    }
+
+    // Accessor để tính tổng quantity
+    public function getTotalQuantityAttribute()
+    {
+        return $this->flavors->sum(function ($productFlavor) {
+            return $productFlavor->pivot->quantity;
+        });
     }
 }

@@ -40,14 +40,22 @@ class ProductController extends Controller
      */
     public function index()
     {
+        $outOfStockProducts = collect();
         // $products = $this->productService->getAll();
         $categories = $this->categoryService->getAll();
         $products = $this->productService->getProductsAndImages();
+        foreach ($products as $product) {
+            if ($this->productService->areAllFlavorsOutOfStock($product)) {
+                $outOfStockProducts->push($product->id);
+            }
+        }
+        // dd($outOfStockProducts);
         session(['selectedCategory' => 'all']);
         return view('admin.pages.product.products', [
             'selectedCategory' => 'all',
             'products' => $products,
             'categories' => $categories,
+            'outOfStockProducts' => $outOfStockProducts,
             'page' => 'Products',
         ]);
     }
@@ -88,6 +96,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        // dd($request->input('flavor_quantities')[11]);
         $validatedData = $request->validated();
 
         DB::beginTransaction();
@@ -109,7 +118,8 @@ class ProductController extends Controller
             // flavors
             if ($request->has('flavors')) {
                 foreach ($request->input('flavors') as $id) {
-                    $this->flavorService->storeProductFlavor($product, $id);
+                    $flavor_quantity = $request->input('flavor_quantities')[$id];
+                    $this->flavorService->storeProductFlavor($product, $id, $flavor_quantity);
                 }
             }
 
@@ -119,9 +129,9 @@ class ProductController extends Controller
             DB::rollBack();
             Log::error('Failed to create product: ' . $e->getMessage());
 
-            foreach ($pathsToDeleteIfFailed as $path) {
-                $this->imageService->deleteImage($path);
-            }
+            // foreach ($pathsToDeleteIfFailed as $path) {
+            //     $this->imageService->deleteImage($path);
+            // }
 
             return back()->withErrors('Failed to create product.');
         }
@@ -160,6 +170,7 @@ class ProductController extends Controller
      */
     public function update(UpdateProductRequest $request, Product $product)
     {
+        // dd($request);
         $validatedData = $request->validated();
 
         // Lấy path ảnh cũ
@@ -187,7 +198,8 @@ class ProductController extends Controller
 
             // flavors
             if ($request->has('flavors')) {
-                $this->flavorService->updateProductFlavors($product, $request->input('flavors'));
+
+                $this->flavorService->updateProductFlavors($product, $request->input('flavors'), $request->input('flavor_quantities'));
             }
 
             DB::commit();

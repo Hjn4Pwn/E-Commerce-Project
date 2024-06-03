@@ -38,11 +38,10 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Name</label>
                                                 <div class="col-sm-10">
-                                                    <input name="name" type="text"
-                                                        placeholder="Enter product name..." class="form-control">
+                                                    <input name="name" type="text" placeholder="Enter product name..."
+                                                        class="form-control">
                                                 </div>
                                             </div>
-
 
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Category</label>
@@ -118,13 +117,6 @@
                                                         placeholder="Ex: 900000000 (max 9 digits)" maxlength="9">
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Quantity</label>
-                                                <div class="col-sm-10">
-                                                    <input name="quantity" type="text" class="form-control"
-                                                        placeholder="Ex: 900000000 (max 9 digits)" maxlength="9">
-                                                </div>
-                                            </div>
 
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Quantity Sold</label>
@@ -150,15 +142,20 @@
                                                             <div class="checkbox-item">
                                                                 <input type="checkbox" name="flavors[]"
                                                                     id="flavor_{{ $flavor->id }}"
-                                                                    value="{{ $flavor->id }}">
+                                                                    value="{{ $flavor->id }}" class="flavor-checkbox">
                                                                 <label class="checkbox-item-label"
                                                                     for="flavor_{{ $flavor->id }}">{{ $flavor->name }}</label>
+                                                                <input type="number"
+                                                                    name="flavor_quantities[{{ $flavor->id }}]"
+                                                                    id="flavor_quantity_{{ $flavor->id }}"
+                                                                    placeholder="Quantity"
+                                                                    class="form-control flavor-quantity"
+                                                                    style="display:none; margin-top: 5px; width:100px;">
                                                             </div>
                                                         @endforeach
                                                     </div>
                                                 </div>
                                             </div>
-
 
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Short Description</label>
@@ -175,7 +172,6 @@
                                                         placeholder="Typing ..."></textarea>
                                                 </div>
                                             </div>
-
 
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
@@ -205,6 +201,16 @@
                     $(target).attr('src', e.target.result);
                 }
                 reader.readAsDataURL(this.files[0]);
+            });
+
+            // Handle flavor quantity input display
+            $('.flavor-checkbox').change(function() {
+                var flavorId = $(this).attr('id').split('_')[1];
+                if ($(this).is(':checked')) {
+                    $('#flavor_quantity_' + flavorId).show();
+                } else {
+                    $('#flavor_quantity_' + flavorId).hide();
+                }
             });
         });
     </script>

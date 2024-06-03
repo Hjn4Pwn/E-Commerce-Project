@@ -15,6 +15,7 @@ class ProductFlavor extends Model
     protected $fillable = [
         'product_id',
         'flavor_id',
+        'quantity',
     ];
 
     public function product()

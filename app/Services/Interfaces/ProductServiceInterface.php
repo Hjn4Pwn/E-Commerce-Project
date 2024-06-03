@@ -20,4 +20,6 @@ interface ProductServiceInterface
     public function getProductsAndImagesByCategory(Category $category);
     public function getProductsAndImages();
     public function getProductAndAllImagesByProduct(Product $product);
+    public function areAllFlavorsOutOfStock(Product $product);
+    public function quantity(Product $product);
 }

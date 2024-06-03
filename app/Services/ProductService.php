@@ -80,26 +80,32 @@ class ProductService implements ProductServiceInterface
         return $products;
     }
 
-    // public function getProductsAndImages()
-    // {
-    //     $products = $this->getAll();
-
-    //     foreach ($products as $product) {
-    //         $product->main_image = $this->imageService->getMainImageForProduct($product);
-    //     }
-
-    //     return $products;
-    // }
-
     public function getProductsAndImages()
     {
-        $products = Product::with(['mainImage'])->get();
-
+        $products = Product::with(['mainImage', 'flavors'])->get(); // Thêm 'flavors' vào để preload dữ liệu
+        foreach ($products as $product) {
+            $product->quantity = $product->total_quantity; // Sử dụng accessor
+        }
         return $products;
     }
+
 
     public function getProductAndAllImagesByProduct(Product $product)
     {
         return $product->load(['images', 'flavors']);
+    }
+
+    public function areAllFlavorsOutOfStock(Product $product)
+    {
+        return $product->flavors->every(function ($productFlavor) {
+            return $productFlavor->pivot->quantity == 0;
+        });
+    }
+
+    public function quantity(Product $product)
+    {
+        return $product->flavors->sum(function ($productFlavor) {
+            return $productFlavor->pivot->quantity;
+        });
     }
 }

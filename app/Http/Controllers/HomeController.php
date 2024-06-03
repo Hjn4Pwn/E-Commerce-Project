@@ -29,23 +29,44 @@ class HomeController extends Controller
     public function getProductsData($action, $category = null)
     {
         $categories = $this->categoryService->getAll();
+        $outOfStockProducts = collect();
 
         if ($action == 'getAll') {
             $productsData = $this->categoryService->getAllCategoriesProductsAndImages();
+
+            // Kiểm tra và lấy ra các sản phẩm hết hàng
+            foreach ($productsData as $category) {
+                foreach ($category->products as $product) {
+                    if ($this->productService->areAllFlavorsOutOfStock($product)) {
+                        $outOfStockProducts->push($product->id);
+                    }
+                }
+            }
+
             $productsByCategory = null;
         } else {
             $productsData = null;
             $productsByCategory = $this->productService->getProductsAndImagesByCategory($category);
+
+            // Kiểm tra và lấy ra các sản phẩm hết hàng
+            foreach ($productsByCategory as $product) {
+                if ($this->productService->areAllFlavorsOutOfStock($product)) {
+                    $outOfStockProducts->push($product->id);
+                }
+            }
         }
 
+        // dd($outOfStockProducts);
         return [
             'action' => $action,
             'categories' => $categories,
             'productsData' => $productsData,
             'productsByCategory' => $productsByCategory,
+            'outOfStockProducts' => $outOfStockProducts,
             'selectedCategory' => $category,
         ];
     }
+
 
     public function index()
     {
@@ -65,11 +86,13 @@ class HomeController extends Controller
         $categories = $this->categoryService->getAll();
         $productData = $this->productService->getProductAndAllImagesByProduct($product);
         $flavors = $this->flavorService->getFlavorsByProduct($product);
+        $isOutOfStock = $this->productService->areAllFlavorsOutOfStock($product);
         // dd($productData);
         return view('shop.pages.productDetails', [
             'categories' => $categories,
             'product' => $productData,
             'flavors' => $flavors,
+            'isOutOfStock' => $isOutOfStock,
         ]);
     }
 
