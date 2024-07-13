@@ -15,6 +15,7 @@ class Product extends Model
         'price',
         'quantity_sold',
         'sale',
+        'weight',
         'description',
         'short_description',
     ];

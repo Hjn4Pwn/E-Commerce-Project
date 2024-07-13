@@ -161,8 +161,6 @@
 
                     @endif --}}
 
-
-
                     @if ($action == 'getAll')
                         @if ($productsData->count())
                             @foreach ($productsData as $category)

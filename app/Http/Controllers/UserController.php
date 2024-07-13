@@ -8,18 +8,28 @@ use App\Models\User;
 
 use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\LocationServiceInterface;
+use App\Services\Interfaces\CategoryServiceInterface;
+use App\Services\Interfaces\ImageServiceInterface;
+use Flasher\Laravel\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
     protected $userService;
+    protected $categoryService;
     protected $locationService;
+    protected $imageService;
 
     public function __construct(
         UserServiceInterface $userService,
+        CategoryServiceInterface $categoryService,
         LocationServiceInterface $locationService,
+        ImageServiceInterface $imageService,
     ) {
         $this->userService = $userService;
+        $this->categoryService = $categoryService;
         $this->locationService = $locationService;
+        $this->imageService = $imageService;
     }
 
     /**
@@ -64,6 +74,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $provinces = $this->locationService->getAllProvinces();
+        // dd($provinces);
         return view('admin.pages.user.editUser', [
             'provinces' => $provinces,
             'user' => $user,
@@ -84,7 +95,6 @@ class UserController extends Controller
         return back()->withErrors('Failed to update user.');
     }
 
-
     /**
      * Remove the specified resource from storage.
      */
@@ -94,5 +104,44 @@ class UserController extends Controller
             return redirect()->route('admin.users.index')->with('success', 'Delete User successfully');
         }
         return back()->withErrors('Failed to delete user.');
+    }
+
+
+    public function editProfile()
+    {
+        $provinces = $this->locationService->getAllProvinces();
+        $categories = $this->categoryService->getAll();
+
+        // $user = User::find(Auth::user()->id)->load(['province', 'district', 'ward']);
+        $user = Auth::user()->load(['province', 'district', 'ward']);
+
+        // dd($user->provincee);
+        return view('shop.pages.profile', [
+            'provinces' => $provinces,
+            'user' => $user,
+            'categories' => $categories,
+        ]);
+    }
+
+    public function updateProfile(UpdateUserRequest $request)
+    {
+        $user = Auth::user();
+        if ($request->hasFile('avatar') && $user->avatar) {
+            $this->imageService->deleteImage($user->avatar);
+        }
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('avatar')) {
+            $path = $this->imageService->storeAvatar($request);
+            $validatedData['avatar'] = $path;
+        }
+
+        // dd($validatedData);
+
+        if ($this->userService->update($user, $validatedData)) {
+            return redirect()->route('user.editProfile')->with('success', 'Profile updated successfully');
+        }
+
+        return back()->withErrors('Failed to update profile.');
     }
 }

@@ -98,4 +98,23 @@ class ImageService implements ImageServiceInterface
     {
         ProductImage::where('path', $path)->delete();
     }
+
+    public function storeAvatar(Request $request, $accessFile = "avatar", $role = "users")
+    {
+        if ($request->hasFile($accessFile)) {
+            $file = $request->file($accessFile);
+            $image = Image::make($file);
+
+            if ($image->mime() !== 'image/png') {
+                $image = $image->encode('png');
+            }
+
+            $filename = time() . '_' . uniqid() . '.png';
+            $path = 'storage/images/' . $role . '/' . $filename;
+            Storage::disk('public')->put('images/' . $role . '/' . $filename, $image->stream());
+
+            return $path;
+        }
+        throw new Exception('No image uploaded');
+    }
 }

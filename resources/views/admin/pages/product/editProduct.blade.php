@@ -111,6 +111,13 @@
                                                     </div>
                                                 @endfor
 
+                                                <div class="form-group row">
+                                                    <label class="col-sm-2 col-form-label">Weight (gam)</label>
+                                                    <div class="col-sm-10">
+                                                        <input name="weight" type="text" class="form-control"
+                                                            value="{{ $product->weight }}" maxlength="9">
+                                                    </div>
+                                                </div>
 
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Price</label>
@@ -119,6 +126,8 @@
                                                             maxlength="9" value="{{ $product->price }}">
                                                     </div>
                                                 </div>
+
+
 
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Quantity Sold</label>
@@ -149,12 +158,14 @@
                                                                         class="flavor-checkbox">
                                                                     <label class="checkbox-item-label"
                                                                         for="flavor_{{ $flavor['id'] }}">{{ $flavor['name'] }}</label>
-                                                                    <input type="number" value="{{ $flavor['quantity'] }}"
+                                                                    <input type="number"
+                                                                        value="{{ $flavor['quantity'] }}"
                                                                         name="flavor_quantities[{{ $flavor['id'] }}]"
                                                                         id="flavor_quantity_{{ $flavor['id'] }}"
                                                                         placeholder="Quantity"
                                                                         class="form-control flavor-quantity"
                                                                         style="display: none; margin-top: 5px; width:100px;"
+                                                                        min="0"
                                                                         @if (!$flavor['is_checked']) disabled @endif>
                                                                 </div>
                                                             @endforeach

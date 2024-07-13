@@ -133,8 +133,8 @@
                                             <button type="submit" class="btn btn-outline-primary font-weight-bold">Add to
                                                 Cart</button>
                                         </form>
-                                        <a href="#" class="btn btn-outline-success font-weight-bold"
-                                            role="button">Buy Now</a>
+                                        {{-- <a href="#" class="btn btn-outline-success font-weight-bold"
+                                            role="button">Buy Now</a> --}}
                                     </div>
                                 </div>
                             </div>
@@ -145,13 +145,14 @@
 
                     <div class="row justify-content-center">
                         <div class="col-md-10 bg-white p-5">
-                            <h5>MÔ TẢ SẢN PHẨM</h5>
+                            <h5 class="mb-2">MÔ TẢ SẢN PHẨM</h5>
                             <div class="content" id="moreText" style="overflow:hidden; height: 100px;">
                                 {!! $product->description !!}
                             </div>
-                            <button id="expandBtn" class="btn btn-info mt-2 w-100"><i class="fa-solid fa-plus mr-2"></i>Xem
+                            <button id="expandBtn" class="btn btn-info w-100 shadow-button"><i
+                                    class="fa-solid fa-plus mr-2"></i>Xem
                                 thêm</button>
-                            <button id="collapseBtn" class="btn btn-info mt-2 w-100" style="display:none;"><i
+                            <button id="collapseBtn" class="btn btn-secondary mt-2 w-100 " style="display:none;"><i
                                     class="fa-solid fa-minus mr-2"></i>Thu
                                 gọn</button>
                         </div>
@@ -358,7 +359,7 @@
 
         document.getElementById('collapseBtn').addEventListener('click', function() {
             // Thu gọn nội dung
-            document.getElementById('moreText').style.height = '100px';
+            document.getElementById('moreText').style.height = '120px';
             // Hiển thị nút Xem thêm và ẩn nút Thu gọn
             document.getElementById('expandBtn').style.display = 'inline';
             document.getElementById('collapseBtn').style.display = 'none';

@@ -22,4 +22,14 @@ class District extends Model
     {
         return $this->hasMany(Ward::class, 'district_code');
     }
+
+    public function users()
+    {
+        return $this->hasMany(User::class, 'district_id');
+    }
+
+    public function admins()
+    {
+        return $this->hasMany(Admin::class, 'district_id');
+    }
 }

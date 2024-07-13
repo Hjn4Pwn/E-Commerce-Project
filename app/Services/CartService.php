@@ -6,7 +6,9 @@ use App\Models\Cart;
 use App\Models\CartItem;
 use App\Models\Product;
 use App\Models\ProductFlavor;
+use App\Models\User;
 use App\Services\Interfaces\CartServiceInterface;
+use Illuminate\Contracts\Session\Session;
 
 /**
  * Class CartService
@@ -102,5 +104,16 @@ class CartService implements CartServiceInterface
         }
 
         return ['status' => 'error', 'message' => 'Không tìm thấy sản phẩm trong giỏ hàng'];
+    }
+
+    public function removeCartByUser(User $user)
+    {
+        $cart = $user->cart;
+        if ($cart) {
+            $cart->items()->delete();
+            $cart->delete();
+            return true;
+        }
+        return false;
     }
 }

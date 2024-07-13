@@ -39,10 +39,10 @@
                                     <a class="nav-link" href="#">Info</a>
                                 </li>
                                 <li class="nav-item p-r-10 {{ $activeCart ?? '' }}">
-                                    <a class="nav-link" href="{{ route('cart') }}">Cart</a>
+                                    <a class="nav-link" href="{{ route('cart.index') }}">Cart</a>
                                 </li>
-                                <li class="nav-item p-r-10 ">
-                                    <a class="nav-link" href="#">Order Details</a>
+                                <li class="nav-item p-r-10 {{ $activeOrder ?? '' }}">
+                                    <a class="nav-link" href="{{ route('order.show') }}">Order Details</a>
                                 </li>
 
                             </ul>

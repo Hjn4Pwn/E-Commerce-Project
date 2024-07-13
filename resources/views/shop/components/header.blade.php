@@ -65,7 +65,7 @@
 
 
             <ul class="nav-right">
-                <li class="header-notification">
+                {{-- <li class="header-notification">
                     <a href="#!" class="waves-effect waves-light p-b-0 p-t-10" style="font-size: 18px;">
                         <i class="fa-solid fa-bell"></i>
                         <span class="badge bg-c-red"></span>
@@ -118,14 +118,15 @@
                             </div>
                         </li>
                     </ul>
-                </li>
+                </li> --}}
 
                 <li class="header-notification">
-                    <a href="#!" class="waves-effect waves-light p-b-0 p-t-10" style="font-size: 18px;">
-                        <i class="fa-solid fa-cart-shopping"></i>
-                        <span class="badge bg-c-red"></span>
+                    <a href="{{ route('cart.index') }}" class="waves-effect waves-light p-b-0 p-t-10"
+                        style="font-size: 18px;">
+                        <i class="fa-solid fa-cart-shopping f-24 mr-3"></i>
+                        {{-- <span class="badge bg-c-red"></span> --}}
                     </a>
-                    <ul class="show-notification">
+                    {{-- <ul class="show-notification">
                         <li>
                             <h6>Cart</h6>
                             <label class="label label-danger">New</label>
@@ -172,54 +173,71 @@
                                 </div>
                             </div>
                         </li>
-                    </ul>
+                    </ul> --}}
                 </li>
-                <li class="user-profile header-notification">
-                    <a href="#!" class="waves-effect waves-light p-b-0 p-t-10 link_none">
-                        <img src={{ asset('AdminResource/images/test/sampleAvatar.png') }} class="img-radius"
-                            alt="User-Profile-Image">
-                        <span>Huy Na</span>
-                        <i class="ti-angle-down"></i>
-                    </a>
-                    <ul class="show-notification profile-notification">
-                        {{-- <li class="waves-effect waves-light">
+                @if (Auth::check())
+                    @php
+                        $user = Auth::user();
+                    @endphp
+                    <li class="user-profile header-notification">
+                        <a href="#!" class="waves-effect waves-light p-b-0 p-t-10 link_none">
+                            @if (!$user->avatar)
+                                <img src={{ asset('AdminResource/images/test/nonAuth.png') }} class="img-radius"
+                                    alt="User-Profile-Image">
+                            @else
+                                <img src={{ asset($user->avatar) }} class="img-radius" alt="User-Profile-Image">
+                            @endif
+                            <span>{{ $user->name }}</span>
+                            <i class="ti-angle-down"></i>
+                        </a>
+                        <ul class="show-notification profile-notification">
+                            {{-- <li class="waves-effect waves-light">
                                     <a href="#!">
                                         <i class="ti-settings"></i> Settings
                                     </a>
                                 </li> --}}
-                        <li class="waves-effect waves-light p-b-0 p-t-0 ">
-                            <a href="{{ route('admin.editAdminProfile') }}" class="link_none">
-                                <i class="fa-solid fa-user"></i> Profile
-                            </a>
-                        </li>
-                        <li class="waves-effect waves-light p-b-0 p-t-0">
-                            <a href="email-inbox.html" class="link_none">
-                                <i class="fa-solid fa-message"></i> My Messages
-                            </a>
-                        </li>
-                        <li class="waves-effect waves-light p-b-0 p-t-0">
-                            <a href="{{ route('admin.changePassword') }}" class="link_none">
-                                <i class="fa-solid fa-lock"></i> Change Password
-                            </a>
-                        </li>
-                        {{-- <li class="waves-effect waves-light">
+                            <li class="waves-effect waves-light p-b-0 p-t-0 ">
+                                <a href="{{ route('user.editProfile') }}" class="link_none">
+                                    <i class="fa-solid fa-user"></i> Profile
+                                </a>
+                            </li>
+                            <li class="waves-effect waves-light p-b-0 p-t-0">
+                                <a href="email-inbox.html" class="link_none">
+                                    <i class="fa-solid fa-message"></i> My Messages
+                                </a>
+                            </li>
+                            <li class="waves-effect waves-light p-b-0 p-t-0">
+                                <a href="{{ route('admin.changePassword') }}" class="link_none">
+                                    <i class="fa-solid fa-lock"></i> Change Password
+                                </a>
+                            </li>
+                            {{-- <li class="waves-effect waves-light">
                                     <a href="auth-lock-screen.html">
                                         <i class="ti-lock"></i> Lock Screen
                                     </a>
                                 </li> --}}
-                        <li class="waves-effect waves-light p-b-0 p-t-0">
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST"
-                                style="display: none;">
-                                @csrf
-                            </form>
-                            <a href="#" class="link_none"
-                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                <i class="fa-solid fa-right-from-bracket"></i> Logout
-                            </a>
-                        </li>
+                            <li class="waves-effect waves-light p-b-0 p-t-0">
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                    style="display: none;">
+                                    @csrf
+                                </form>
+                                <a href="#" class="link_none"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                </a>
+                            </li>
 
-                    </ul>
-                </li>
+                        </ul>
+
+                    </li>
+                @else
+                    <li class="user-profile">
+                        <a href="{{ route('login') }}" class="waves-effect waves-light p-b-0 p-t-10 link_none">
+                            <img src={{ asset('AdminResource/images/test/nonAuth.png') }} class="img-radius"
+                                alt="User-Profile-Image">
+                            <span>Đăng nhập</span>
+                        </a>
+                @endif
             </ul>
 
         </div>
@@ -245,3 +263,41 @@
         });
     });
 </script>
+
+
+{{-- <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const notificationIcons = document.querySelectorAll('.header-notification > a');
+        const notificationBoxes = document.querySelectorAll('.show-notification');
+        const headerNotifications = document.querySelectorAll('.header-notification');
+
+        // Thêm sự kiện click cho từng icon
+        notificationIcons.forEach((icon, index) => {
+            icon.addEventListener('click', function(event) {
+                event.stopPropagation();
+
+                // Kiểm tra và ẩn tất cả các notification box khác trước khi hiển thị box được chọn
+                headerNotifications.forEach((headerNotification, headerIndex) => {
+                    if (headerIndex !== index) {
+                        headerNotification.classList.remove('active');
+                        notificationBoxes[headerIndex].classList.remove('show');
+                    }
+                });
+
+                // Hiển thị hoặc ẩn notification box được chọn
+                headerNotifications[index].classList.toggle('active');
+                notificationBoxes[index].classList.toggle('show');
+            });
+        });
+
+        // Ẩn tất cả các notification box khi nhấn ra ngoài
+        document.addEventListener('click', function() {
+            headerNotifications.forEach(headerNotification => {
+                headerNotification.classList.remove('active');
+            });
+            notificationBoxes.forEach(box => {
+                box.classList.remove('show');
+            });
+        });
+    });
+</script> --}}

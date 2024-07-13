@@ -8,9 +8,12 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\FeeController;
 use App\Http\Controllers\FlavorController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\VNPayController;
 use App\Models\Product;
 
 
@@ -24,19 +27,6 @@ Route::prefix('admin')->group(function () {
                 'page' => 'Dashboard',
             ]);
         })->name('admin.index');
-
-        Route::get('orders', function () {
-            return view('admin.pages.order.orders', [
-                'page' => 'Orders',
-            ]);
-        })->name('admin.orders');
-
-        Route::get('viewOrder', function () {
-            return view('admin.pages.order.viewOrder', [
-                'parentPage' => ['Orders', 'admin.orders'],
-                'childPage' => 'Details',
-            ]);
-        })->name('admin.viewOrder');
 
         // user
         Route::get('users', [UserController::class, 'index'])
@@ -117,13 +107,17 @@ Route::prefix('admin')->group(function () {
             ->name('admin.products.destroy');
 
         // --------------------------------------------------------------
+        // order
+        Route::get('orders', [OrderController::class, 'admin_index'])->name('admin.orders');
+        Route::get('orders/{id}', [OrderController::class, 'admin_viewOrder'])->name('admin.viewOrder');
+        Route::post('orders/{order}/ship', [OrderController::class, 'ship'])->name('orders.ship');
+        Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.admin_cancel');
+        Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirmReceipt');
+        // --------------------------------------------------------------
 
         // info
-        Route::get('editAdminProfile', function () {
-            return view('admin.pages.AdminInfo.editAdminProfile', [
-                'page' => 'Admin Profile',
-            ]);
-        })->name('admin.editAdminProfile');
+        Route::get('profile', [AdminController::class, 'edit'])->name('admin.edit');
+        Route::put('profile', [AdminController::class, 'update'])->name('admin.update');
 
         Route::get('changePassword', function () {
             return view('admin.pages.AdminInfo.changePassword', [
@@ -145,11 +139,11 @@ Route::prefix('user')->group(function () {
 
 // frontend call backend
 Route::get('getDistricts/{provinceId}', [LocationController::class, 'getDistrictsByProvinceId'])
-    ->middleware('AdminLogin')
+    // ->middleware('admin')
     ->name('getDistrictsByProvinceId');
 
 Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistrictId'])
-    ->middleware('AdminLogin')
+    // ->middleware('admin')
     ->name('getWardsByDistrictId');
 
 
@@ -157,20 +151,16 @@ Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistr
 // Customer Interface
 // ------------------------------------------------------------------------------------------------
 
-Route::get('/', [HomeController::class, 'index'])
-    ->name('shop.index');
+Route::get('/', [HomeController::class, 'index'])->name('shop.index');
+Route::get('products/category/{category}', [HomeController::class, 'indexByCategory'])->name('shop.products.byCategory');
+Route::get('product/{product}', [HomeController::class, 'productDetails'])->name('shop.products.productDetails');
+Route::get('/login', [HomeController::class, 'login'])->name('shop.login');
+Route::get('/register', [HomeController::class, 'register'])->name('shop.register');
 
-Route::get('products/category/{category}', [HomeController::class, 'indexByCategory'])
-    ->name('shop.products.byCategory');
 
-Route::get('product/{product}', [HomeController::class, 'productDetails'])
-    ->name('shop.products.productDetails');
+Route::get('/user/editProfile', [UserController::class, 'editProfile'])->name('user.editProfile');
+Route::put('/user/updateProfile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 
-Route::get('/login', [HomeController::class, 'login'])
-    ->name('shop.login');
-
-Route::get('/register', [HomeController::class, 'register'])
-    ->name('shop.register');
 
 // login - register - logout
 Route::middleware(['guest'])->group(function () {
@@ -184,7 +174,21 @@ Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
 
 // authen pages
 Route::middleware(['auth'])->group(function () {
-    Route::get('/cart', [CartController::class, 'index'])->name('cart');
+    Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
     Route::post('/cart/add', [CartController::class, 'addToCart'])->name('cart.add');
     Route::post('/cart/remove', [CartController::class, 'removeItem'])->name('cart.removeItem');
+
+    // order
+    Route::post('/order/store-temporary', [OrderController::class, 'storeTemporary'])->name('order.storeTemporary');
+    Route::get('/order/review', [OrderController::class, 'review'])->name('order.review');
+    Route::post('/order/confirm', [OrderController::class, 'confirmOrder'])->name('order.confirmOrder');
+    Route::get('/order/show', [OrderController::class, 'show'])->name('order.show');
+    Route::post('/update-address', [OrderController::class, 'updateAddress'])->name('updateAddress');
+    Route::post('/update-phone', [OrderController::class, 'updatePhone'])->name('updatePhone');
+    Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+
+    // vnpay-payment
+    // Route::get('vnpay-payment', [VNPayController::class, 'createPayment'])->name('vnpay.payment');
+    Route::get('vnpay-payment/{order}', [VNPayController::class, 'createPayment'])->name('vnpay.payment');
+    Route::get('vnpay-return', [VNPayController::class, 'returnPayment'])->name('vnpay.return');
 });

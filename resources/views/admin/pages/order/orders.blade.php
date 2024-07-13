@@ -42,32 +42,65 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
-                                                <th>Address</th>
-                                                <th>Quantity</th>
-                                                <th>Total</th>
+                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Address</th>
+                                                <th class="text-center">Date</th>
+                                                <th class="text-center">Price</th>
+                                                <th class="text-center">Status</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            <tr>
-                                                <th class="lh40" scope="row">1</th>
-                                                <td class="lh40">Mark JopsCorn</td>
-                                                <td class="lh40">KTX Khu B DHQG, Phường Linh Trung, TP
-                                                    Thủ Đức, TPHCM
-                                                </td>
-                                                <td class="lh40">25</td>
-                                                <td class="lh40">1357000 VND</td>
-                                                <td class="text-center">
-                                                    <a href="{{ route('admin.viewOrder') }}"
-                                                        class="btn btn-info waves-effect waves-light">
-                                                        <i class="fa-solid fa-eye"></i>
-                                                    </a>
-                                                    <a href="" class="btn btn-danger waves-effect waves-light">
-                                                        <i class="fa fa-trash"></i>
-                                                    </a>
-                                                </td>
-                                            </tr>
+                                            @if ($orders->count())
+                                                @php
+                                                    $i = 0;
+                                                @endphp
+                                                @foreach ($orders as $order)
+                                                    <tr>
+                                                        <th class="lh40" scope="row">{{ ++$i }}</th>
+                                                        <td class="lh40 text-center">{{ $order->user->name }}</td>
+                                                        <td class="lh40 text-center">{{ $order->address }}</td>
+                                                        <td class="lh40 text-center">{{ $order->created_at }}</td>
+                                                        <td class="lh40 text-center">
+                                                            {{ format_currency($order->total_price + $order->shipping_fee) }}
+                                                        </td>
+
+                                                        @if (in_array($order->status, ['pending', 'processing']))
+                                                            <td class="lh40 text-center text-dark font-weight-bold">
+                                                                Đang chuẩn bị hàng
+                                                            </td>
+                                                        @elseif ($order->status == 'shipped')
+                                                            <td class="lh40 text-center text-primary font-weight-bold">
+                                                                Đang giao hàng
+                                                            </td>
+                                                        @elseif ($order->status == 'delivered')
+                                                            <td class="lh40 text-center text-success font-weight-bold">
+                                                                Giao hàng thành công
+                                                            </td>
+                                                        @elseif ($order->status == 'cancelled')
+                                                            <td class="lh40 text-center text-danger font-weight-bold">
+                                                                Đã hủy
+                                                            </td>
+                                                        @endif
+                                                        <td class="text-center">
+                                                            <a href="{{ route('admin.viewOrder', Crypt::encrypt($order->id)) }}"
+                                                                class="btn btn-info waves-effect waves-light">
+                                                                <i class="fa-solid fa-eye"></i>
+                                                            </a>
+                                                            <a href=""
+                                                                class="btn btn-danger waves-effect waves-light">
+                                                                <i class="fa fa-trash"></i>
+                                                            </a>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            @else
+                                                <tr>
+                                                    <td colspan="7" class="text-center text-info">
+                                                        No orders available
+                                                    </td>
+                                                </tr>
+                                            @endif
 
                                         </tbody>
                                     </table>

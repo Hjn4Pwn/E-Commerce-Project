@@ -38,6 +38,9 @@
                                 </a>
                             </li>
                         </ul>
+                        @php
+                            $admin = Auth::guard('admin')->user();
+                        @endphp
                         <ul class="nav-right">
                             <li class="header-notification">
                                 <a href="#!" class="waves-effect waves-light">
@@ -92,9 +95,9 @@
                             </li>
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light link_none">
-                                    <img src={{ asset('AdminResource/images/test/sampleAvatar.png') }}
+                                    <img src={{ asset($admin->avatar ?? 'AdminResource/images/test/sampleAvatar.png') }}
                                         class="img-radius" alt="User-Profile-Image">
-                                    <span>Huy Na</span>
+                                    <span>{{ $admin->name }}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
@@ -104,7 +107,7 @@
                                         </a>
                                     </li> --}}
                                     <li class="waves-effect waves-light ">
-                                        <a href="{{ route('admin.editAdminProfile') }}" class="link_none">
+                                        <a href="{{ route('admin.edit') }}" class="link_none">
                                             <i class="fa-solid fa-user"></i> Profile
                                         </a>
                                     </li>

@@ -39,7 +39,7 @@
                                                 <label class="col-sm-2 col-form-label">Name</label>
                                                 <div class="col-sm-10">
                                                     <input name="name" type="text" placeholder="Enter product name..."
-                                                        class="form-control">
+                                                        class="form-control" value="{{ old('name') }}">
                                                 </div>
                                             </div>
 
@@ -51,7 +51,8 @@
                                                         <option value="">Please select one</option>
                                                         @if ($categories->count())
                                                             @foreach ($categories as $category)
-                                                                <option value="{{ $category->id }}">
+                                                                <option value="{{ $category->id }}"
+                                                                    {{ old('category_id') == $category->id ? 'selected' : '' }}>
                                                                     {{ $category->name }}
                                                                 </option>
                                                             @endforeach
@@ -110,11 +111,21 @@
                                             </div>
 
                                             {{-- ------------- --}}
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-2 col-form-label">Weight (gam)</label>
+                                                <div class="col-sm-10">
+                                                    <input name="weight" type="text" class="form-control"
+                                                        value="{{ old('weight', 500) }}" maxlength="9">
+                                                </div>
+                                            </div>
+
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Price</label>
                                                 <div class="col-sm-10">
                                                     <input name="price" type="text" class="form-control"
-                                                        placeholder="Ex: 900000000 (max 9 digits)" maxlength="9">
+                                                        placeholder="Ex: 900000000 (max 9 digits)" maxlength="9"
+                                                        value="{{ old('price') }}">
                                                 </div>
                                             </div>
 
@@ -130,7 +141,7 @@
                                                 <label class="col-sm-2 col-form-label">Sale (%)</label>
                                                 <div class="col-sm-10">
                                                     <input name="sale" type="text" class="form-control"
-                                                        value="0" maxlength="9">
+                                                        value="{{ old('sale', 0) }}" maxlength="9">
                                                 </div>
                                             </div>
 
@@ -142,7 +153,8 @@
                                                             <div class="checkbox-item">
                                                                 <input type="checkbox" name="flavors[]"
                                                                     id="flavor_{{ $flavor->id }}"
-                                                                    value="{{ $flavor->id }}" class="flavor-checkbox">
+                                                                    value="{{ $flavor->id }}" class="flavor-checkbox"
+                                                                    {{ in_array($flavor->id, old('flavors', [])) ? 'checked' : '' }}>
                                                                 <label class="checkbox-item-label"
                                                                     for="flavor_{{ $flavor->id }}">{{ $flavor->name }}</label>
                                                                 <input type="number"
@@ -150,7 +162,9 @@
                                                                     id="flavor_quantity_{{ $flavor->id }}"
                                                                     placeholder="Quantity"
                                                                     class="form-control flavor-quantity"
-                                                                    style="display:none; margin-top: 5px; width:100px;">
+                                                                    style="{{ in_array($flavor->id, old('flavors', [])) ? '' : 'display:none;' }} margin-top: 5px; width:100px;"
+                                                                    min="0"
+                                                                    value="{{ old('flavor_quantities.' . $flavor->id) }}">
                                                             </div>
                                                         @endforeach
                                                     </div>
@@ -161,7 +175,7 @@
                                                 <label class="col-sm-2 col-form-label">Short Description</label>
                                                 <div class="col-sm-10">
                                                     <textarea id="editorTinyMCE_list" name="short_description" rows="3" cols="5" class="form-control"
-                                                        placeholder="Just enter one list, max ten"></textarea>
+                                                        placeholder="Just enter one list, max ten">{{ old('short_description') }}</textarea>
                                                 </div>
                                             </div>
 
@@ -169,7 +183,7 @@
                                                 <label class="col-sm-2 col-form-label">Description</label>
                                                 <div class="col-sm-10">
                                                     <textarea id="editorTinyMCE" name="description" rows="5" cols="5" class="form-control"
-                                                        placeholder="Typing ..."></textarea>
+                                                        placeholder="Typing ...">{{ old('description') }}</textarea>
                                                 </div>
                                             </div>
 

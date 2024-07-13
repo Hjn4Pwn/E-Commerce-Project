@@ -91,6 +91,6 @@ class FlavorController extends Controller
         if ($this->flavorService->delete($flavor)) {
             return redirect()->route('admin.flavors.index')->with('success', 'Delete flavor successfully');
         }
-        return back()->withErrors('Failed to delete flavor and its products.');
+        return back()->withErrors('Failed to delete flavor.');
     }
 }

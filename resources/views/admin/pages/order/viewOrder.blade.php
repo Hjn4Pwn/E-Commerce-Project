@@ -20,16 +20,33 @@
                             <div class="col-sm-4">
                                 <div class="row">
 
-                                    <div class="col-sm-3">
+                                    <div class="col-sm-4">
                                         <span class="" style ="font-size: 18px;">
-                                            Status:
+                                            Trạng thái:
                                         </span>
                                     </div>
-                                    <div class="col-sm-9">
-                                        <span class="bg-danger"
-                                            style ="font-size: 20px; padding: 10px; border-radius: 2px;">
-                                            Inprocess
-                                        </span>
+                                    <div class="col-sm-8">
+                                        @if (in_array($order->status, ['pending', 'processing']))
+                                            <span class="bg-secondary text-white"
+                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                Đang chuẩn bị hàng
+                                            </span>
+                                        @elseif ($order->status == 'shipped')
+                                            <span class="bg-primary text-white"
+                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                Đang vận chuyển
+                                            </span>
+                                        @elseif ($order->status == 'delivered')
+                                            <span class="bg-success text-white"
+                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                Giao hàng thành công
+                                            </span>
+                                        @elseif ($order->status == 'cancelled')
+                                            <span class="bg-danger text-white"
+                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                Đã hủy
+                                            </span>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
@@ -48,54 +65,43 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Name</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="John Cena"
-                                                        readonly>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $order->user->name }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Email</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control"
-                                                        placeholder="JohnCena@gmail.com" readonly>
+                                                        value="{{ $order->user->email }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Phone</label>
                                                 <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="0794452065"
-                                                        readonly>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ $order->user->phone }}" readonly>
                                                 </div>
                                             </div>
-                                            <div class="form-group row">
+                                            {{-- <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Payment</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control" placeholder="1908736495"
                                                         readonly>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Address</label>
                                                 <div class="col-sm-9">
-                                                    <div class="form-control-static text-info">KTX Khu B
-                                                        DHQG,
-                                                        Phường Linh Trung, TP Thủ Đức, TPHCM
+                                                    <div class="form-control-static text-info pt-2">{{ $order->address }}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <label class="col-sm-3 col-form-label">Note</label>
                                                 <div class="col-sm-9">
-                                                    <div class="form-control-static text-muted">Ostrovit
-                                                        Creatine
-                                                        là sản phẩm cung cấp Creatine Monohydrate tinh
-                                                        khiết nhất của nhà Ostrovit cho tới thời điểm
-                                                        hiện tại. Với sự cải tiến vượt bậc khi áp dụng
-                                                        công thức, mẫu mã mới đi kèm với đó là những cái
-                                                        chất rất riêng mà chỉ Ostrovit Creatine có được
-                                                        như: Đa dạng về hương vị và giá thành dễ tiếp
-                                                        cận, chắc chắn Ostrovit Creatine là một trong
-                                                        dòng Creatine tốt, được nhiều tin tưởng sử dụng
-                                                        nhất hiện nay.
+                                                    <div class="form-control-static text-muted pt-2">
+                                                        {{ $order->note }}
                                                     </div>
                                                 </div>
                                             </div>
@@ -133,19 +139,24 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr>
-                                                        <th class="" scope="row">1</th>
-                                                        <td class="">Ostrovit Creatine
-                                                            Monohydrate
-                                                            500g
-                                                        </td>
-                                                        <td class="text-center p-t-5"><img
-                                                                src={{ asset('AdminResource/images/test/sampleProductImage.png') }}
-                                                                class="rounded-3" style="width: 100px; "
-                                                                alt="Product Image" /></td>
-                                                        <td class=" text-center">1</td>
-                                                        <td class=" text-center">590000 VND</td>
-                                                    </tr>
+                                                    @php
+                                                        $i = 0;
+                                                    @endphp
+                                                    @foreach ($order->items as $item)
+                                                        <tr>
+                                                            <th class="" scope="row">{{ ++$i }}</th>
+                                                            <td class="">{{ $item->product->name }}
+                                                            </td>
+                                                            <td class="text-center p-t-5"><img
+                                                                    src={{ asset($item->product->mainImage->path) }}
+                                                                    class="rounded-3" style="width: 100px; "
+                                                                    alt="Product Image" /></td>
+                                                            <td class=" text-center">{{ $item->quantity }}</td>
+                                                            <td class=" text-center">
+                                                                {{ format_currency($item->product->price) }}
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
 
                                                 </tbody>
                                             </table>
@@ -170,16 +181,16 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-4 col-form-label">Subtotal</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" placeholder="590000 VND"
-                                                        readonly>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ format_currency($order->total_price) }}" readonly>
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label class="col-sm-4 col-form-label">Ship</label>
                                                 <div class="col-sm-8">
-                                                    <input type="text" class="form-control" placeholder="30000 VND"
-                                                        readonly>
+                                                    <input type="text" class="form-control"
+                                                        value="{{ format_currency($order->shipping_fee) }}" readonly>
                                                 </div>
                                             </div>
 
@@ -189,18 +200,26 @@
                                                 <div class="col-sm-8">
                                                     <div class="form-control-static text-success"
                                                         style="font-size: 26px; font-weight: bold;">
-                                                        620000
-                                                        VND</div>
+                                                        {{ format_currency($order->shipping_fee + $order->total_price) }}
+                                                    </div>
                                                 </div>
                                             </div>
 
-                                            <div class="float-right">
-                                                <button type="submit" class="btn btn-success waves-effect waves-light">
-                                                    Ship
-                                                </button>
-                                            </div>
-
                                         </form>
+                                        <div class="float-right">
+                                            <form action="{{ route('orders.ship', Crypt::encrypt($order->id)) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" data-order-status="{{ $order->status }}"
+                                                    class="btn btn-success waves-effect waves-light mr-2 ship-button">Ship</button>
+                                            </form>
+                                            <form action="{{ route('orders.admin_cancel', Crypt::encrypt($order->id)) }}"
+                                                method="POST" style="display:inline;">
+                                                @csrf
+                                                <button type="submit" data-order-status="{{ $order->status }}"
+                                                    class="btn btn-danger waves-effect waves-light cancel-button">Hủy</button>
+                                            </form>
+                                        </div>
 
                                     </div>
                                 </div>
@@ -214,4 +233,27 @@
             </div>
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.ship-button, .cancel-button');
+
+            buttons.forEach(button => {
+                const orderStatus = button.getAttribute('data-order-status');
+                const isAccessable = ['pending', 'processing'].includes(orderStatus);
+
+                if (button.classList.contains('ship-button') && !isAccessable) {
+                    button.disabled = true;
+                    button.classList.remove('btn-success');
+                    button.classList.add('btn-secondary');
+                    button.style.cursor = 'not-allowed';
+                } else if (button.classList.contains('cancel-button') && !isAccessable) {
+                    button.disabled = true;
+                    button.classList.remove('btn-danger');
+                    button.classList.add('btn-secondary');
+                    button.style.cursor = 'not-allowed';
+                }
+            });
+        });
+    </script>
 @endsection

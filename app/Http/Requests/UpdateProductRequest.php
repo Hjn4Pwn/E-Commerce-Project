@@ -29,6 +29,7 @@ class UpdateProductRequest extends FormRequest
             'price' => 'required',
             'quantity_sold' => 'integer',
             'sale' => 'integer',
+            'weight' => 'integer',
             'short_description' => 'required',
             'description' => 'required',
         ];

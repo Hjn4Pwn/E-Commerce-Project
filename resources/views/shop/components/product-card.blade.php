@@ -28,12 +28,12 @@
                 </div>
 
                 <div style="display: flex; align-items: center;">
-                    <h6 class="mr-2 mb-0 text-danger">{{ format_currency($product->price) }}</h6>
+                    <h6 class="mr-1 mb-0 text-danger">{{ format_currency($product->price) }}</h6>
                     @if ($product->sale)
-                        <h5 class="mr-2 mb-0" style="color: #6c757d; font-size:13px;">
+                        <h5 class="mr-1 mb-0" style="color: #6c757d; font-size:12px;">
                             <del>{{ format_currency(($product->price * (100 + $product->sale)) / 100) }}</del>
                         </h5>
-                        <span class="badge badge-danger" style="font-size: 14px;">-{{ $product->sale }}%</span>
+                        <span class="badge badge-danger" style="font-size: 13px;">-{{ $product->sale }}%</span>
                     @endif
                 </div>
 

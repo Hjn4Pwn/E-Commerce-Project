@@ -96,6 +96,7 @@ class ProductController extends Controller
      */
     public function store(StoreProductRequest $request)
     {
+        // dd($request);
         // dd($request->input('flavor_quantities')[11]);
         $validatedData = $request->validated();
 
@@ -122,6 +123,8 @@ class ProductController extends Controller
                     $this->flavorService->storeProductFlavor($product, $id, $flavor_quantity);
                 }
             }
+
+
 
             DB::commit();
             return redirect()->route('admin.products.index')->with('success', 'Create product successfully.');
