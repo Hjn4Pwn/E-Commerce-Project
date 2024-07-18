@@ -48,12 +48,14 @@
                                             </div>
                                         @endif
 
-                                        <form class="form-material">
-                                            <div class="form-group form-primary">
-                                                <input type="text" name="footer-email" class="form-control">
+                                        <form action="{{ route('admin.categories.index') }}" method="GET"
+                                            class="form-material mt-2">
+                                            <div class="form-group form-primary form-search">
+                                                <input type="text" name="search" class="form-control"
+                                                    value="{{ request('search') }}" placeholder=" ">
                                                 <span class="form-bar"></span>
-                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Search
-                                                    by Name</label>
+                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
+                                                    Name</label>
                                             </div>
                                         </form>
                                     </div>

@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Elastic\ScoutDriverPlus\Searchable;
 
 class Product extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'name',
@@ -46,7 +47,7 @@ class Product extends Model
         return $this->hasMany(CartItem::class, 'product_id');
     }
 
-    public function mainImage()
+    public function main_image()
     {
         return $this->hasOne(ProductImage::class)->where('sort_order', 1);
     }
@@ -57,5 +58,19 @@ class Product extends Model
         return $this->flavors->sum(function ($productFlavor) {
             return $productFlavor->pivot->quantity;
         });
+    }
+
+    public function searchableAs()
+    {
+        return 'app_index';
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'type' => 'product',
+        ];
     }
 }

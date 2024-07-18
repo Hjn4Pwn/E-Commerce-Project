@@ -11,9 +11,23 @@ use App\Models\User;
  */
 class UserService implements UserServiceInterface
 {
-    public function paginate()
+    public function paginate($search = null)
     {
-        return User::paginate(15);
+        $query = User::query();
+
+        if ($search) {
+            $userIds = User::search($search)
+                ->where('type', 'user')
+                ->get()
+                ->pluck('id');
+
+            $query->whereIn('id', $userIds);
+        }
+
+        $query->with(['province', 'district', 'ward']);
+        $users = $query->paginate(15);
+
+        return $users;
     }
 
     public function update(User $user, $validatedData)

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreCategoryRequest;
 use App\Http\Requests\UpdateCategoryRequest;
 use App\Models\Category;
 use App\Services\Interfaces\CategoryServiceInterface;
+use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
@@ -20,12 +22,14 @@ class CategoryController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $categories = $this->categoryService->getAll();
+        $search = $request->input('search');
+        $categories = $this->categoryService->getAll($search);
         return view('admin.pages.category.categories', [
             'categories' => $categories,
             'page' => 'Categories',
+            'search' => $search
         ]);
     }
 
@@ -38,7 +42,6 @@ class CategoryController extends Controller
             'parentPage' => ['Categories', 'admin.categories.index'],
             'childPage' => 'Create',
         ]);
-        
     }
 
     /**
@@ -51,7 +54,6 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')->with('success', 'Create Category successfully');
         }
         return back()->withErrors('Failed to create category.');
-        
     }
 
     /**
@@ -72,7 +74,6 @@ class CategoryController extends Controller
             'parentPage' => ['Categories', 'admin.categories.index'],
             'childPage' => 'Edit',
         ]);
-        
     }
 
     /**
@@ -85,7 +86,6 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')->with('success', 'Update Category successfully');
         }
         return back()->withErrors('Failed to update category.');
-        
     }
 
     /**
@@ -97,6 +97,5 @@ class CategoryController extends Controller
             return redirect()->route('admin.categories.index')->with('success', 'Delete category and its products successfully');
         }
         return back()->withErrors('Failed to delete category and its products.');
-        
     }
 }

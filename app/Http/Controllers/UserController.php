@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Models\User;
@@ -10,7 +11,7 @@ use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\LocationServiceInterface;
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
-use Flasher\Laravel\Http\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
@@ -35,12 +36,15 @@ class UserController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $users = $this->userService->paginate();
+        $search = $request->input('search');
+        $users = $this->userService->paginate($search);
+        // dd($users);
         return view('admin.pages.user.users', [
             'users' => $users,
             'page' => 'Users',
+            'search' => $search,
         ]);
     }
 

@@ -24,8 +24,11 @@ class CategoryService implements CategoryServiceInterface
         $this->flavorService = $flavorService;
     }
 
-    public function getAll()
+    public function getAll($search = null)
     {
+        if ($search) {
+            return Category::search($search)->where('type', 'category')->get();
+        }
         return Category::with('products')->get();
     }
 

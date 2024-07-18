@@ -3,27 +3,15 @@
 @section('content')
     @include('admin.components.navbar', ['activeFlavors' => 'active'])
     <div class="pcoded-content">
-        <!-- Page-header start -->
         @include('admin.components.pageHeader', ['page' => $page])
-        <!-- Page-header end -->
         <div class="pcoded-inner-content">
-            <!-- Main-body start -->
             <div class="main-body">
                 <div class="page-wrapper">
-                    <!-- Page-body start -->
                     <div class="page-body">
                         <div class="card">
                             <div class="card-header">
                                 <h5>List of Flavors</h5>
-                                {{-- <span>use class <code>table-hover</code> inside table element</span> --}}
                                 <div class="card-header-right">
-                                    {{-- <ul class="list-unstyled card-option">
-                                                        <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                                        <li><i class="fa fa-window-maximize full-card"></i></li>
-                                                        <li><i class="fa fa-minus minimize-card"></i></li>
-                                                        <li><i class="fa fa-refresh reload-card"></i></li>
-                                                        <li><i class="fa fa-trash close-card"></i></li>
-                                                    </ul> --}}
                                 </div>
                             </div>
                             <div class="card-block table-border-style">
@@ -48,14 +36,29 @@
                                             </div>
                                         @endif
 
-                                        <form class="form-material">
+                                        {{-- <form action="{{ route('admin.flavors.index') }}" method="GET"
+                                            class="form-material mt-2">
                                             <div class="form-group form-primary">
-                                                <input type="text" name="footer-email" class="form-control">
+                                                <input type="text" name="search" class="form-control"
+                                                    value="{{ request('search') }}" placeholder=" ">
                                                 <span class="form-bar"></span>
-                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Search
-                                                    by Name</label>
+                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
+                                                    Name</label>
+                                            </div>
+                                        </form> --}}
+
+                                        <form action="{{ route('admin.flavors.index') }}" method="GET"
+                                            class="form-material mt-2">
+                                            <div class="form-group form-primary form-search">
+                                                <input type="text" name="search" class="form-control"
+                                                    value="{{ request('search') }}" placeholder=" ">
+                                                <span class="form-bar"></span>
+                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
+                                                    Name</label>
                                             </div>
                                         </form>
+
+
                                     </div>
                                     <table class="table table-hover">
                                         <thead>
@@ -110,7 +113,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- Page-body end -->
                 </div>
                 <div id="styleSelector"> </div>
             </div>

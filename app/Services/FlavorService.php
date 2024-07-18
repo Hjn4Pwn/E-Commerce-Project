@@ -14,8 +14,12 @@ use Illuminate\Support\Facades\DB;
  */
 class FlavorService implements FlavorServiceInterface
 {
-    public function getAll()
+    public function getAll($search = null)
     {
+        if ($search) {
+            return Flavor::search($search)->where('type', 'flavor')->get();
+        }
+
         return Flavor::all();
     }
 

@@ -5,6 +5,7 @@
     @include('shop.components.pageHeader', [
         'activeHome' => 'active',
         'categories' => $categories,
+        'search' => $search,
     ])
 
     <div class="pcoded-inner-content">
@@ -13,6 +14,15 @@
             <div class="page-wrapper">
                 <!-- Page-body start -->
                 <div class="page-body">
+                    @if ($errors->any())
+                        <div class="alert alert-danger text-center">
+                            <ul>
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
                     {{-- slider --}}
                     @include('shop.components.slider')
                     {{-- ---- --}}
@@ -162,7 +172,25 @@
                     @endif --}}
 
                     @if ($action == 'getAll')
-                        @if ($productsData->count())
+                        @if ($search)
+                            {{-- @php
+                                dd($productsData);
+                                @endphp --}}
+                            <div class="row">
+                                @if ($productsData && count($productsData) > 0)
+                                    @foreach ($productsData as $product)
+                                        @include('shop.components.product-card', [
+                                            'product' => $product,
+                                            'isOutOfStock' => $outOfStockProducts->contains($product->id),
+                                        ])
+                                    @endforeach
+                                @else
+                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
+                                        available
+                                    </h4>
+                                @endif
+                            </div>
+                        @elseif ($productsData)
                             @foreach ($productsData as $category)
                                 <div class="prod-by-category">
                                     <div>
@@ -203,7 +231,8 @@
                                         ])
                                     @endforeach
                                 @else
-                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products available
+                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
+                                        available
                                     </h4>
                                 @endif
                             </div>

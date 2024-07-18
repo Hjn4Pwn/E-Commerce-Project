@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreFlavorRequest;
 use App\Http\Requests\UpdateFlavorRequest;
 use App\Models\Flavor;
 use App\Services\Interfaces\FlavorServiceInterface;
+use Illuminate\Http\Request;
 
 class FlavorController extends Controller
 {
@@ -19,12 +21,15 @@ class FlavorController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+
+    public function index(SearchRequest $request)
     {
-        $flavors = $this->flavorService->getAll();
+        $search = $request->input('search');
+        $flavors = $this->flavorService->getAll($search);
         return view('admin.pages.flavor.flavors', [
             'flavors' => $flavors,
             'page' => 'Flavors',
+            'search' => $search
         ]);
     }
 

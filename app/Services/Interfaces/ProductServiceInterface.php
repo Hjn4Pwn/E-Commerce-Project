@@ -18,7 +18,7 @@ interface ProductServiceInterface
     public function update(Product $product, $validatedData);
     public function delete(Product $product);
     public function getProductsAndImagesByCategory(Category $category);
-    public function getProductsAndImages();
+    public function getProductsAndImages($search = null);
     public function getProductAndAllImagesByProduct(Product $product);
     public function areAllFlavorsOutOfStock(Product $product);
     public function quantity(Product $product);

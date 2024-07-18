@@ -148,7 +148,7 @@
                                                             <td class="">{{ $item->product->name }}
                                                             </td>
                                                             <td class="text-center p-t-5"><img
-                                                                    src={{ asset($item->product->mainImage->path) }}
+                                                                    src={{ asset($item->product->main_image->path) }}
                                                                     class="rounded-3" style="width: 100px; "
                                                                     alt="Product Image" /></td>
                                                             <td class=" text-center">{{ $item->quantity }}</td>

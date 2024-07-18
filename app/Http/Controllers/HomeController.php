@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -26,22 +27,34 @@ class HomeController extends Controller
         $this->flavorService = $flavorService;
     }
 
-    public function getProductsData($action, $category = null)
+    public function getProductsData($action, $category = null, $search = null)
     {
         $categories = $this->categoryService->getAll();
         $outOfStockProducts = collect();
 
         if ($action == 'getAll') {
-            $productsData = $this->categoryService->getAllCategoriesProductsAndImages();
 
-            // Kiểm tra và lấy ra các sản phẩm hết hàng
-            foreach ($productsData as $category) {
-                foreach ($category->products as $product) {
+            if ($search) {
+                // Thực hiện tìm kiếm sản phẩm bằng Elasticsearch
+                $productsData = $this->productService->getProductsAndImages($search);
+                // dd($productsData);
+                foreach ($productsData as $product) {
                     if ($this->productService->areAllFlavorsOutOfStock($product)) {
                         $outOfStockProducts->push($product->id);
                     }
                 }
+            } else {
+                $productsData = $this->categoryService->getAllCategoriesProductsAndImages();
+                // Kiểm tra và lấy ra các sản phẩm hết hàng
+                foreach ($productsData as $category) {
+                    foreach ($category->products as $product) {
+                        if ($this->productService->areAllFlavorsOutOfStock($product)) {
+                            $outOfStockProducts->push($product->id);
+                        }
+                    }
+                }
             }
+
 
             $productsByCategory = null;
         } else {
@@ -55,7 +68,6 @@ class HomeController extends Controller
                 }
             }
         }
-
         // dd($outOfStockProducts);
         return [
             'action' => $action,
@@ -64,15 +76,17 @@ class HomeController extends Controller
             'productsByCategory' => $productsByCategory,
             'outOfStockProducts' => $outOfStockProducts,
             'selectedCategory' => $category,
+            'search' => $search,
         ];
     }
 
-
-    public function index()
+    public function index(SearchRequest $request)
     {
-        $data = $this->getProductsData('getAll');
+        $search = $request->input('search');
+        $data = $this->getProductsData('getAll', null, $search);
         return view('index', $data);
     }
+
 
     public function indexByCategory(Category $category)
     {

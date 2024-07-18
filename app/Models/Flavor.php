@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+// use Laravel\Scout\Searchable;
+use Elastic\ScoutDriverPlus\Searchable;
 
 class Flavor extends Model
 {
-    use HasFactory;
+    use HasFactory, Searchable;
 
     protected $fillable = [
         'name',
@@ -27,5 +29,19 @@ class Flavor extends Model
     {
         return $this->belongsToMany(Product::class, 'product_flavors')
             ->withPivot('quantity');
+    }
+
+    public function searchableAs()
+    {
+        return 'app_index';
+    }
+
+    public function toSearchableArray()
+    {
+        return [
+            'id' => $this->id,
+            'name' => $this->name,
+            'type' => 'flavor',
+        ];
     }
 }

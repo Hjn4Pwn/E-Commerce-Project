@@ -28,14 +28,27 @@
                                 </div>
                             </div>
                             <div class="card-block table-border-style">
+                                <div>
+                                    @if ($errors->any())
+                                        <div class="alert alert-danger">
+                                            <ul>
+                                                @foreach ($errors->all() as $error)
+                                                    <li>{{ $error }}</li>
+                                                @endforeach
+                                            </ul>
+                                        </div>
+                                    @endif
+                                </div>
                                 <div class="table-responsive">
                                     <div class="p-15 p-b-0">
-                                        <form class="form-material">
-                                            <div class="form-group form-primary">
-                                                <input type="text" name="footer-email" class="form-control">
+                                        <form action="{{ route('admin.users.index') }}" method="GET"
+                                            class="form-material mt-2">
+                                            <div class="form-group form-primary form-search">
+                                                <input type="text" name="search" class="form-control"
+                                                    value="{{ request('search') }}" placeholder=" ">
                                                 <span class="form-bar"></span>
-                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Search
-                                                    by Name</label>
+                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
+                                                    Name</label>
                                             </div>
                                         </form>
                                     </div>
@@ -43,10 +56,10 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th>Name</th>
-                                                <th>Email</th>
-                                                <th>Phone</th>
-                                                <th>Address</th>
+                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Email</th>
+                                                <th class="text-center">Phone</th>
+                                                <th class="text-center">Address</th>
                                                 <th class="text-center">Action</th>
                                             </tr>
                                         </thead>
@@ -57,14 +70,14 @@
                                                 @endphp
                                                 @foreach ($users as $user)
                                                     <tr>
-                                                        <th class="lh40" scope="row">{{ ++$i }}</th>
-                                                        <td class="lh40">{{ $user->name }}</td>
-                                                        <td class="lh40">{{ $user->email }}</td>
-                                                        <td class="lh40">{{ $user->phone }}</td>
-                                                        <td class="lh40">
-                                                            {{ $user->address_detail }} {{ $user->ward }}
-                                                            {{ $user->district }}
-                                                            {{ $user->province }}
+                                                        <th class="lh40 text-center" scope="row">{{ ++$i }}</th>
+                                                        <td class="lh40 text-center">{{ $user->name }}</td>
+                                                        <td class="lh40 text-center">{{ $user->email }}</td>
+                                                        <td class="lh40 text-center">{{ $user->phone }}</td>
+                                                        <td class="lh40 text-center">
+                                                            @if ($user->ward)
+                                                                {{ $user->address_detail . ', ' . $user->ward->name . ', ' . $user->district->name . ', ' . $user->province->name }}
+                                                            @endif
                                                         </td>
                                                         <td class="text-center">
                                                             <div class="row justify-content-center">

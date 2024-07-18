@@ -11,7 +11,7 @@ use App\Models\Product;
  */
 interface FlavorServiceInterface
 {
-    public function getAll();
+    public function getAll($search = null);
     public function store($validatedData);
     public function update(Flavor $flavor, $validatedData);
     public function delete(Flavor $flavor);

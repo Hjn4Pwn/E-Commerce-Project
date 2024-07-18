@@ -48,10 +48,10 @@
                             </ul>
                         </div>
                         <div class="ml-auto">
-                            <form class="form-inline my-2 my-lg-0">
+                            <form class="form-inline my-2 my-lg-0" action="{{ route('shop.index') }}" method="GET">
                                 <div>
-                                    <input id="searchInput" class="form-control mr-sm-2" type="search" placeholder=""
-                                        aria-label="Search">
+                                    <input id="searchInput" class="form-control mr-sm-2" type="search" name="search"
+                                        aria-label="Search" value="{{ request('search') }}">
                                 </div>
                                 <div>
                                     <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>

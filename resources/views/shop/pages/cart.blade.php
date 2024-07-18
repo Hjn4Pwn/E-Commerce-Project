@@ -30,7 +30,7 @@
                                             <div class="col-3 col-md-2"
                                                 onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item['product']->id]) }}';"
                                                 style="cursor: pointer;">
-                                                <img src="{{ asset($item['product']->mainImage->path) }}"
+                                                <img src="{{ asset($item['product']->main_image->path) }}"
                                                     class="rounded-3 cart-product-image" alt="Product Image" />
                                             </div>
                                             <div class="col-9 col-md-10">

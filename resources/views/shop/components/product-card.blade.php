@@ -3,7 +3,7 @@
         <div onclick="location.href='{{ route('shop.products.productDetails', ['product' => $product->id]) }}';"
             style="cursor: pointer;">
             <div class="text-center">
-                <img src="{{ asset($product->mainImage->path) }}" class="card-img-top" alt="...">
+                <img src="{{ asset($product->main_image->path) }}" class="card-img-top" alt="...">
                 @if ($isOutOfStock)
                     <div class="out-of-stock-overlay">
                         <span class="out-of-stock-text">Hết hàng</span>

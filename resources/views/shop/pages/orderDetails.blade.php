@@ -58,7 +58,7 @@
                                     @foreach ($order['items'] as $item)
                                         <div class="row align-items-center product-bottom-line" style="height: 150px;">
                                             <div class="col-3 col-md-2">
-                                                <img src="{{ asset($item['product']->mainImage->path) }}"
+                                                <img src="{{ asset($item['product']->main_image->path) }}"
                                                     class="rounded-3 cart-product-image" alt="Product Image" />
                                             </div>
                                             <div class="col-9 col-md-10">

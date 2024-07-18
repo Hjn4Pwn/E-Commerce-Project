@@ -61,31 +61,37 @@ class ProductService implements ProductServiceInterface
         return $product->delete();
     }
 
-
-    // public function getProductsAndImagesByCategory(Category $category)
-    // {
-    //     $products = $category->products()->with('category')->get();
-
-    //     foreach ($products as $product) {
-    //         $product->main_image = $this->imageService->getMainImageForProduct($product);
-    //     }
-
-    //     return $products;
-    // }
-
     public function getProductsAndImagesByCategory(Category $category)
     {
-        $products = $category->products()->with(['category', 'mainImage'])->get();
+        $products = $category->products()->with(['category', 'main_image'])->get();
 
         return $products;
     }
 
-    public function getProductsAndImages()
+    public function getProductsAndImages($search = null)
     {
-        $products = Product::with(['mainImage', 'flavors'])->get(); // Thêm 'flavors' vào để preload dữ liệu
+        // dd($search);
+        if ($search) {
+            // $products = Product::search($search)
+            //     ->where('type', 'product')
+            //     ->with(['main_image', 'flavors'])
+            //     ->get();
+            $productIds = Product::search($search)
+                ->where('type', 'product')
+                ->get()
+                ->pluck('id');
+
+            $products = Product::whereIn('id', $productIds)
+                ->with(['main_image', 'flavors'])
+                ->get();
+        } else {
+            $products = Product::with(['main_image', 'flavors'])->get(); // Thêm 'flavors' vào để preload dữ liệu
+        }
         foreach ($products as $product) {
             $product->quantity = $product->total_quantity; // Sử dụng accessor
         }
+        // dd($products);
+
         return $products;
     }
 

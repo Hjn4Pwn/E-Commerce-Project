@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\CategoryServiceInterface;
@@ -38,38 +39,51 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(SearchRequest $request)
     {
+        $search = $request->input('search');
         $outOfStockProducts = collect();
-        // $products = $this->productService->getAll();
+
         $categories = $this->categoryService->getAll();
-        $products = $this->productService->getProductsAndImages();
+        $products = $this->productService->getProductsAndImages($search);
+
         foreach ($products as $product) {
             if ($this->productService->areAllFlavorsOutOfStock($product)) {
                 $outOfStockProducts->push($product->id);
             }
         }
-        // dd($outOfStockProducts);
+
         session(['selectedCategory' => 'all']);
+
         return view('admin.pages.product.products', [
             'selectedCategory' => 'all',
             'products' => $products,
             'categories' => $categories,
             'outOfStockProducts' => $outOfStockProducts,
             'page' => 'Products',
+            'search' => $search
         ]);
     }
 
     public function indexByCategory(Category $category)
     {
+
         $categories = $this->categoryService->getAll();
         $products = $this->productService->getProductsAndImagesByCategory($category);
-        // dd($products);
+        $outOfStockProducts = collect();
+
+        foreach ($products as $product) {
+            if ($this->productService->areAllFlavorsOutOfStock($product)) {
+                $outOfStockProducts->push($product->id);
+            }
+        }
+
         session(['selectedCategory' => $category->id]);
         return view('admin.pages.product.products', [
             // 'selectedCategory' => $category->id,
             'categories' => $categories,
             'products' => $products,
+            'outOfStockProducts' => $outOfStockProducts,
             'page' => 'Products',
         ]);
     }

@@ -98,3 +98,16 @@
 }
 
 /* ---------------------------------------- */
+/* .form-group.form-primary .form-control:focus ~ .float-label,
+.form-group.form-primary .form-control:not(:placeholder-shown) ~ .float-label {
+    top: -20px;
+    font-size: 12px;
+    color: #52658c;
+} */
+
+.form-group.form-search .form-control:focus ~ .float-label,
+.form-group.form-search .form-control:not(:placeholder-shown) ~ .float-label {
+    top: -20px;
+    font-size: 12px;
+    color: #52658c;
+}

@@ -80,6 +80,8 @@ Route::prefix('admin')->group(function () {
 
         Route::delete('flavors/{flavor}', [FlavorController::class, 'destroy'])
             ->name('admin.flavors.destroy');
+
+        // Route::get('admin/flavors', [FlavorController::class, 'index'])->name('admin.flavors.index');
         // --------------------------------------------------------------
 
         // product

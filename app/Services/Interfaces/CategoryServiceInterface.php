@@ -10,7 +10,7 @@ use App\Models\Category;
  */
 interface CategoryServiceInterface
 {
-    public function getAll();
+    public function getAll($search = null);
     public function getAllCategoriesProductsAndImages();
     public function store($validatedData);
     public function update(Category $category, $validatedData);
