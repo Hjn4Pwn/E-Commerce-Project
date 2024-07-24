@@ -16,14 +16,14 @@
                 <div class="mb-3 mt-3">
                     <div class="d-flex align-items-center">
                         <div class="star-ratings" style="font-size: 16px;">
-                            <div class="fill-ratings d-flex" style="width: 86%;">
+                            <div class="fill-ratings d-flex" style="width: {{ $product->average_rating * 20 }}%;">
                                 <span>★★★★★</span>
                             </div>
                             <div class="empty-ratings">
                                 <span>★★★★★</span>
                             </div>
                         </div>
-                        <span class="text-normal ml-2 f-14 mt-1">Đã bán {{ $product->quantity_sold }}</span>
+                        <span class="text-normal ml-2 f-14 mt-1">Đã bán {{ format_to_k($product->quantity_sold) }}</span>
                     </div>
                 </div>
 

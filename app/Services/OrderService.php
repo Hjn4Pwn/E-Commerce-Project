@@ -108,7 +108,7 @@ class OrderService implements OrderServiceInterface
 
             $detailedItem = [
                 'product_name' => $product->name,
-                'main_image' => $product->mainImage->path,
+                'main_image' => $product->main_image->path,
                 'flavor_name' => $flavor->name,
                 'quantity' => $item['quantity'],
                 'price' => $product->price,
@@ -122,7 +122,7 @@ class OrderService implements OrderServiceInterface
     public function getOrders($userId)
     {
         $orders = Order::where('user_id', $userId)
-            ->with(['items.product.mainImage', 'items.flavor'])
+            ->with(['items.product.main_image', 'items.flavor'])
             ->orderBy('created_at', 'desc')
             ->get();
 
@@ -253,7 +253,7 @@ class OrderService implements OrderServiceInterface
         $orderId = Crypt::decrypt($encryptedId);
 
         $order = Order::where('id', $orderId)
-            ->with(['items.product.mainImage', 'items.flavor', 'user'])
+            ->with(['items.product.main_image', 'items.flavor', 'user'])
             ->first();
 
         return $order;
@@ -263,5 +263,21 @@ class OrderService implements OrderServiceInterface
     {
         $order->status = $status;
         $order->save();
+    }
+
+    public function updateQuantitySold(Order $order)
+    {
+        if ($order) {
+            foreach ($order->items as $item) {
+                $product = Product::find($item->product_id);
+
+                if ($product) {
+                    $product->quantity_sold += (int) $item->quantity;
+                    $product->save();
+                }
+            }
+        } else {
+            throw new \Exception('Order not found');
+        }
     }
 }

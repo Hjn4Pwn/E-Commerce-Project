@@ -67,9 +67,19 @@
         </ul>
         <ul class="pcoded-item pcoded-left-item">
             <li class="{{ $activeOrders ?? '' }}">
-                <a href="{{ route('admin.orders') }}" class="waves-effect waves-dark">
+                <a href="{{ route('admin.orders.index') }}" class="waves-effect waves-dark">
                     <span class="pcoded-micon"><i class="fa-solid fa-cart-flatbed"></i><b>D</b></span>
                     <span class="pcoded-mtext">Orders</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+            </li>
+        </ul>
+
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="{{ $activeReviews ?? '' }}">
+                <a href="{{ route('admin.reviews.index') }}" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="fa-solid fa-flag"></i><b>D</b></span>
+                    <span class="pcoded-mtext">Reviews</span>
                     <span class="pcoded-mcaret"></span>
                 </a>
             </li>

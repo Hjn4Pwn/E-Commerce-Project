@@ -56,7 +56,7 @@
                                     <div class="mb-3">
                                         <div class="d-flex align-items-center" style="line-height: 45px">
                                             <div class="star-ratings">
-                                                <div class="fill-ratings" style="width: 86%;">
+                                                <div class="fill-ratings" style="width: {{ $average_rating * 20 }}%;">
                                                     <span>★★★★★</span>
                                                 </div>
                                                 <div class="empty-ratings">
@@ -64,10 +64,11 @@
                                                 </div>
                                             </div>
                                             <a href="#product-rating" style="text-decoration: none;">
-                                                <span class="text-info ml-3 f-16">(Xem 4 đánh giá)</span>
+                                                <span class="text-info ml-3 f-16">(Xem {{ format_to_k($total_reviews) }}
+                                                    đánh giá)</span>
                                             </a>
                                             <span class="text-normal ml-4 f-14 mt-1">Đã bán
-                                                {{ $product->quantity_sold }}</span>
+                                                {{ format_to_k($product->quantity_sold) }}</span>
                                         </div>
                                     </div>
                                     @php
@@ -159,18 +160,20 @@
                     </div>
 
                     <div class="row mt-3"></div>
-
+                    <div class="row justify-content-center">
+                        {{--  --}}
+                    </div>
                     <div class="row justify-content-center" id="product-rating">
                         <div class="col-md-10 bg-white pt-5 pr-5 pl-5 pb-2">
                             <h5>ĐÁNH GIÁ SẢN PHẨM</h5>
                             <div class="header-rating row pt-3 pb-3">
                                 <div class="col-sm-12 col-md-12 col-lg-2 col-xl-2">
                                     <div class="text-center">
-                                        <span class="text-danger mb-3  f-30">4.9/5</span>
+                                        <span class="text-danger mb-3  f-30">{{ $average_rating }}/5</span>
                                     </div>
                                     <div class="star-center">
                                         <div class="star-ratings">
-                                            <div class="fill-ratings" style="width: 86%;">
+                                            <div class="fill-ratings" style="width: {{ $average_rating * 20 }}%;">
                                                 <span>★★★★★</span>
                                             </div>
                                             <div class="empty-ratings">
@@ -179,118 +182,164 @@
                                         </div>
                                     </div>
                                     <div class="text-center">
-                                        <span class="mb-3 f-18">(2 đánh giá)</span>
+                                        <span class="mb-3 f-18">({{ format_to_k($total_reviews) }} đánh giá)</span>
                                     </div>
 
+
+                                    {{-- ---- --}}
+                                    <!-- Button trigger modal -->
                                     <div class="mt-4 mb-4 text-center">
-                                        <button type="button" class="btn btn-primary">Đánh giá</button>
+                                        <button type="button" class="btn btn-primary" data-toggle="modal"
+                                            data-target="#exampleModalCenter">
+                                            Đánh giá
+                                        </button>
                                     </div>
+                                    <!-- Modal -->
+                                    <form id="review-form" method="POST"
+                                        action="{{ route('review.store', ['product' => $product->id]) }}">
+                                        @csrf
+                                        <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog"
+                                            aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h5 class="modal-title text-info font-weight-bold"
+                                                            id="exampleModalLongTitle">Đánh giá</h5>
+                                                        <button type="button" class="close" data-dismiss="modal"
+                                                            aria-label="Close">
+                                                            <span aria-hidden="true">&times;</span>
+                                                        </button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <div id="review-errors" class="alert alert-danger"
+                                                            style="display: none;">
+                                                            <ul id="error-list"></ul>
+                                                        </div>
+                                                        <div class="">
+                                                            <span>Đánh giá của bạn về sản phẩm:</span>
+                                                            <div class="rating">
+                                                                <input type="radio" name="rating" value="5"
+                                                                    id="5"><label for="5">☆</label>
+                                                                <input type="radio" name="rating" value="4"
+                                                                    id="4"><label for="4">☆</label>
+                                                                <input type="radio" name="rating" value="3"
+                                                                    id="3"><label for="3">☆</label>
+                                                                <input type="radio" name="rating" value="2"
+                                                                    id="2"><label for="2">☆</label>
+                                                                <input type="radio" name="rating" value="1"
+                                                                    id="1"><label for="1">☆</label>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mt-3">
+                                                            <textarea class="form-control" name="comment" rows="3" placeholder="Nhập nội dung đánh giá tại đây..."></textarea>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-dismiss="modal">Close</button>
+                                                        <button type="submit" class="btn btn-primary"
+                                                            style="z-index: 1;">Gửi đánh
+                                                            giá</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+
+                                    {{-- ---- --}}
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-10 col-xl-10">
-                                    <button type="button" class="btn bg-white mr-3 mb-2">Tất cả</button>
-                                    <button type="button" class="btn bg-white mr-3 mb-2">5 sao (2.4k)</button>
-                                    <button type="button" class="btn bg-white mr-3 mb-2">4 sao (80)</button>
-                                    <button type="button" class="btn bg-white mr-3 mb-2">3 sao (22)</button>
-                                    <button type="button" class="btn bg-white mr-3 mb-2">1 sao (10)</button>
+                                    <button type="button" class="btn-rating btn bg-white mr-3 mb-2"
+                                        data-rating="all">Tất
+                                        cả</button>
+                                    <button type="button" class="btn-rating btn bg-white mr-3 mb-2" data-rating="5">5
+                                        sao ({{ format_to_k($ratings_summary['5_star']) }})</button>
+                                    <button type="button" class="btn-rating btn bg-white mr-3 mb-2" data-rating="4">4
+                                        sao ({{ format_to_k($ratings_summary['4_star']) }})</button>
+                                    <button type="button" class="btn-rating btn bg-white mr-3 mb-2" data-rating="3">3
+                                        sao ({{ format_to_k($ratings_summary['3_star']) }})</button>
+                                    <button type="button" class="btn-rating btn bg-white mr-3 mb-2" data-rating="2">2
+                                        sao ({{ format_to_k($ratings_summary['2_star']) }})</button>
+                                    <button type="button" class="btn-rating btn bg-white mr-3 mb-2" data-rating="1">1
+                                        sao ({{ format_to_k($ratings_summary['1_star']) }})</button>
                                 </div>
                             </div>
-                            <div class="mt-5">
-                                <div class="per-rating mb-5">
-                                    <div class="d-flex align-items-center">
-                                        <span class="font-weight-bold mr-2">Huy Na</span>
-                                        <div class="star-ratings">
-                                            <div class="fill-ratings f-18" style="width: 86%;">
-                                                <span>★★★★★</span>
+
+
+                            <div class="mt-5" id="reviews-container">
+                                @if ($reviews->isNotEmpty())
+                                    @foreach ($reviews as $review)
+                                        <div class="per-rating mb-5">
+                                            <div class="d-flex align-items-center">
+                                                <span class="font-weight-bold mr-2">{{ $review->user->name }}</span>
+                                                <div class="star-ratings-comment">
+                                                    <div class="fill-ratings"
+                                                        style="width: {{ $review->rating * 20 }}%;">
+                                                        <span>★★★★★</span>
+                                                    </div>
+                                                    <div class="empty-ratings">
+                                                        <span>★★★★★</span>
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="empty-ratings f-18">
-                                                <span>★★★★★</span>
+                                            <div class="mt-2 mb-2">
+                                                <div class="comment-content">{{ $review->comment }}</div>
+                                                @if (strlen($review->comment) > 370)
+                                                    <span class="read-more" onclick="toggleReadMore(this)">Xem thêm</span>
+                                                @endif
+                                            </div>
+                                            <div>
+                                                <ul class="list-unstyled d-flex align-items-center mb-0 comment-actions">
+                                                    <li class="comment-actions__item mr-3">
+                                                        <form class="like-form" data-review-id="{{ $review->id }}">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-link comment-actions__link"
+                                                                style="text-decoration: none;">
+                                                                <i class="fa-solid fa-thumbs-up comment-actions__icon comment-actions__icon-like"
+                                                                    style="color: {{ auth()->check() && in_array($review->id, $liked_reviews) ? '#007bff' : 'gray' }}"></i>
+                                                                <span
+                                                                    class="comment-actions__text f-16 like-number">{{ $review->likes_count }}</span>
+                                                                <span class="comment-actions__text f-16">Thích</span>
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                    <li class="comment-actions__item mr-3">
+                                                        <form class="report-form" data-review-id="{{ $review->id }}">
+                                                            @csrf
+                                                            <button type="submit"
+                                                                class="btn btn-link comment-actions__link"
+                                                                {{ auth()->check() && in_array($review->id, $reported_reviews) ? 'disabled' : '' }}
+                                                                style="cursor: {{ auth()->check() && in_array($review->id, $reported_reviews) ? 'not-allowed' : 'pointer' }}; text-decoration: none;">
+                                                                <i class="fa-solid fa-triangle-exclamation comment-actions__icon comment-actions__icon-report"
+                                                                    style="color: {{ auth()->check() && in_array($review->id, $reported_reviews) ? 'red' : '#007bff' }}"></i>
+                                                                <span
+                                                                    class="comment-actions__text comment-actions__text-report f-16"
+                                                                    style="color: {{ auth()->check() && in_array($review->id, $reported_reviews) ? 'red' : '#007bff' }}">
+                                                                    Báo cáo
+                                                                </span>
+                                                            </button>
+                                                        </form>
+                                                    </li>
+                                                    <li class="comment-actions__item mr-3">
+                                                        <span
+                                                            class="comment-actions__time f-16">{{ format_date_to_ho_chi_minh_timezone($review->created_at) }}</span>
+                                                    </li>
+                                                </ul>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="mt-2 mb-2">
-                                        Xin hỏi dùng có bị mất ngủ ko ạ?
-                                    </div>
-                                    <div>
-                                        <ul class="list-unstyled d-flex align-items-center mb-0 comment-actions">
-                                            <li class="comment-actions__item mr-3 ">
-                                                <a href="#" class="comment-actions__link"
-                                                    onclick="toggleLike(this);">
-                                                    <i
-                                                        class="fa-solid fa-thumbs-up comment-actions__icon comment-actions__icon-like"></i>
-                                                    <span class="comment-actions__text f-16">0</span>
-                                                    <span class="comment-actions__text f-16">Hữu ích</span>
-                                                </a>
+                                    @endforeach
 
-                                            </li>
-                                            <li class="comment-actions__item mr-3">
-                                                <a href="#" class="comment-actions__link">
-                                                    <i
-                                                        class="fa-solid fa-triangle-exclamation comment-actions__icon comment-actions__icon-report "></i>
-                                                    <span
-                                                        class="comment-actions__text comment-actions__text-report f-16">Báo
-                                                        cáo</span>
-                                                </a>
-                                            </li>
-                                            <li class="comment-actions__item mr-3">
-                                                <span class="comment-actions__time f-16">17:16 14/06/2023</span>
-                                            </li>
-                                        </ul>
+                                    <div class="row justify-content-center">
+                                        {{ $reviews->links() }}
                                     </div>
-
-                                </div>
-
-                                <div class="per-rating mb-5">
-                                    <div class="d-flex align-items-center">
-                                        <span class="font-weight-bold mr-2">Huy Na</span>
-                                        <div class="star-ratings">
-                                            <div class="fill-ratings f-18" style="width: 86%;">
-                                                <span>★★★★★</span>
-                                            </div>
-                                            <div class="empty-ratings f-18">
-                                                <span>★★★★★</span>
-                                            </div>
-                                        </div>
+                                @else
+                                    <div class="text-center text-info">
+                                        <span class="f-20">Chưa có đánh giá nào.</span>
                                     </div>
-                                    <div class="mt-2 mb-2">
-                                        Ostrovit Creatine là sản phẩm cung cấp Creatine Monohydrate tinh khiết nhất của nhà
-                                        Ostrovit cho tới thời điểm hiện tại. Với sự cải tiến vượt bậc khi áp dụng công thức,
-                                        mẫu
-                                        mã mới đi kèm với đó là những cái chất rất riêng mà chỉ Ostrovit Creatine có được
-                                        như:
-                                        Đa dạng về hương vị và giá thành dễ tiếp cận, chắc chắn Ostrovit Creatine là một
-                                        trong
-                                        dòng Creatine tốt, được nhiều tin tưởng sử dụng nhất hiện nay.
-                                    </div>
-                                    <div>
-                                        <ul class="list-unstyled d-flex align-items-center mb-0 comment-actions">
-                                            <li class="comment-actions__item mr-3 ">
-                                                <a href="#" class="comment-actions__link"
-                                                    onclick="toggleLike(this);">
-                                                    <i
-                                                        class="fa-solid fa-thumbs-up comment-actions__icon comment-actions__icon-like"></i>
-                                                    <span class="comment-actions__text f-16">5</span>
-                                                    <span class="comment-actions__text f-16">Hữu ích</span>
-                                                </a>
-
-                                            </li>
-                                            <li class="comment-actions__item mr-3">
-                                                <a href="#" class="comment-actions__link">
-                                                    <i
-                                                        class="fa-solid fa-triangle-exclamation comment-actions__icon comment-actions__icon-report "></i>
-                                                    <span
-                                                        class="comment-actions__text comment-actions__text-report f-16">Báo
-                                                        cáo</span>
-                                                </a>
-                                            </li>
-                                            <li class="comment-actions__item mr-3">
-                                                <span class="comment-actions__time f-16">17:16 14/06/2023</span>
-                                            </li>
-                                        </ul>
-
-                                    </div>
-
-                                </div>
+                                @endif
                             </div>
+
                         </div>
                     </div>
 
@@ -366,34 +415,6 @@
         });
     </script>
 
-    {{-- btn active --}}
-    <script>
-        $(document).ready(function() {
-            $('.btn').on('click', function() {
-                $('.btn').removeClass('btn-active');
-                $('.btn').removeClass('text-primary');
-                $(this).addClass('btn-active');
-                $(this).addClass('text-primary');
-            });
-        });
-    </script>
-
-    {{-- action like --}}
-    <script>
-        document.querySelectorAll('.comment-actions__item:nth-child(1) .comment-actions__link').forEach(function(link) {
-            link.addEventListener('click', function(event) {
-                event.preventDefault(); // Chặn sự kiện mặc định
-                var icon = this.querySelector('.comment-actions__icon');
-                icon.style.color = (icon.style.color === 'rgb(0, 123, 255)' ? 'gray' :
-                    '#007bff'); // Toggle màu sắc
-            });
-        });
-
-        function toggleLike(element) {
-            element.classList.toggle('liked');
-        }
-    </script>
-
     {{-- add to cart --}}
     <script>
         function submitAddToCartForm() {
@@ -427,4 +448,182 @@
             }
         });
     </script>
+
+    {{-- btn-active --}}
+    <script>
+        $(document).ready(function() {
+            $('.btn-rating').on('click', function() {
+                $('.btn-rating').removeClass('btn-active');
+                $('.btn-rating').removeClass('text-primary');
+                $(this).addClass('btn-active');
+                $(this).addClass('text-primary');
+            });
+        });
+    </script>
+
+    {{-- review --}}
+    <script>
+        $(document).ready(function() {
+            $('#review-form').on('submit', function(event) {
+                event.preventDefault();
+
+                var form = $(this);
+                var url = form.attr('action');
+                var formData = form.serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: url,
+                    data: formData,
+                    success: function(response) {
+                        location.reload();
+                    },
+                    error: function(response) {
+                        if (response.status === 401) {
+                            // If the user is not authorized, redirect to the login page
+                            window.location.href = '/login';
+                        } else {
+                            var errors = response.responseJSON.errors;
+                            var errorList = '';
+
+                            for (var key in errors) {
+                                if (errors.hasOwnProperty(key)) {
+                                    errorList += '<li>' + errors[key][0] + '</li>';
+                                }
+                            }
+
+                            $('#review-errors').show();
+                            $('#error-list').html(errorList);
+                        }
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- render rating star number --}}
+    <script>
+        $(document).ready(function() {
+            $('.btn-rating').on('click', function() {
+                var rating = $(this).data('rating');
+                var productId = {{ $product->id }}; // Ensure product ID is correctly embedded
+                // console.log(productId);
+                $.ajax({
+                    type: 'GET',
+                    url: `/product/${productId}/reviews`,
+                    data: {
+                        rating: rating
+                    },
+                    success: function(response) {
+                        $('#reviews-container').html(response);
+                    },
+                    error: function(response) {
+                        console.error('Error fetching reviews:', response);
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- show more comment --}}
+    <script>
+        function toggleReadMore(element) {
+            var content = element.previousElementSibling;
+            if (content.classList.contains('expanded')) {
+                content.classList.remove('expanded');
+                element.textContent = '... Xem thêm';
+            } else {
+                content.classList.add('expanded');
+                element.textContent = 'Thu gọn';
+            }
+        }
+    </script>
+
+    {{-- like & unlike --}}
+    <script>
+        $(document).ready(function() {
+            // Xử lý sự kiện submit trên form like
+            $('.like-form').on('submit', function(event) {
+                event.preventDefault(); // Chặn sự kiện submit mặc định
+
+                var form = $(this);
+                var reviewId = form.data('review-id'); // Lấy review id từ data attribute
+                var formData = form.serialize(); // Lấy dữ liệu form bao gồm CSRF token
+                var element = form.find(
+                    '.comment-actions__link'); // Lưu lại phần tử để cập nhật giao diện sau khi xử lý
+
+                // Gửi yêu cầu AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: `/reviews/${reviewId}/like`,
+                    data: formData,
+                    success: function(response) {
+                        var icon = element.find('.comment-actions__icon-like');
+                        var likeCountSpan = element.find('.like-number').first();
+
+                        if (response.status === 'liked') {
+                            icon.css('color', '#007bff'); // Đổi màu icon khi liked
+                            likeCountSpan.text(parseInt(likeCountSpan.text()) + 1);
+                        } else if (response.status === 'unliked') {
+                            icon.css('color', 'gray'); // Đổi màu icon khi unliked
+                            likeCountSpan.text(parseInt(likeCountSpan.text()) - 1);
+                        }
+                    },
+                    error: function(response) {
+                        if (response.status === 401) {
+                            // If the user is not authorized, redirect to the login page
+                            window.location.href = '/login';
+                        }
+                        console.error('Error liking review:', response);
+                    }
+                });
+            });
+        });
+    </script>
+
+    {{-- report --}}
+    <script>
+        $(document).ready(function() {
+            // Xử lý sự kiện submit trên form like
+            $('.report-form').on('submit', function(event) {
+                event.preventDefault(); // Chặn sự kiện submit mặc định
+
+                var form = $(this);
+                var reviewId = form.data('review-id'); // Lấy review id từ data attribute
+                var formData = form.serialize(); // Lấy dữ liệu form bao gồm CSRF token
+                var element = form.find('.comment-actions__link');
+                var button = form.find('button');
+
+                // Gửi yêu cầu AJAX
+                $.ajax({
+                    type: 'POST',
+                    url: `/reviews/${reviewId}/report`,
+                    data: formData,
+                    success: function(response) {
+                        var icon = element.find('.comment-actions__icon-report');
+                        var text = element.find('.comment-actions__text-report');
+
+                        if (response.status === 'reported') {
+                            icon.css('color', 'red');
+                            text.css('color', 'red');
+                            button.prop('disabled', true); // Disable the button
+                            button.css('cursor', 'not-allowed'); // Change cursor to not-allowed
+                        } else {
+                            alert('Failed to report the review.');
+                        }
+                    },
+                    error: function(response) {
+                        if (response.status === 401) {
+                            window.location.href = '/login';
+                        } else {
+                            alert('Error reporting the review. Please try again.');
+                        }
+                        console.error('Error reporting review:', response);
+                    }
+                });
+            });
+        });
+    </script>
+
+
 @endsection

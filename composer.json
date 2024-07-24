@@ -36,7 +36,9 @@
             "Database\\Seeders\\": "database/seeders/"
         },
         "files": [
-            "app/Helpers/currency_helper.php"
+            "app/Helpers/currency_helper.php",
+            "app/Helpers/number_format.php",
+            "app/Helpers/date_format.php"
         ]
     },
     "autoload-dev": {

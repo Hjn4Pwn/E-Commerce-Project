@@ -13,6 +13,7 @@ use App\Http\Controllers\FlavorController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VNPayController;
 use App\Models\Product;
 
@@ -110,13 +111,21 @@ Route::prefix('admin')->group(function () {
 
         // --------------------------------------------------------------
         // order
-        Route::get('orders', [OrderController::class, 'admin_index'])->name('admin.orders');
+        Route::get('orders', [OrderController::class, 'admin_index'])->name('admin.orders.index');
         Route::get('orders/{id}', [OrderController::class, 'admin_viewOrder'])->name('admin.viewOrder');
         Route::post('orders/{order}/ship', [OrderController::class, 'ship'])->name('orders.ship');
         Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.admin_cancel');
         Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirmReceipt');
         // --------------------------------------------------------------
 
+        // review
+        Route::get('reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
+
+        Route::get('reviews/{review}/edit', [ReviewController::class, 'admin_show'])->name('admin.reviews.show');
+
+        Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
+
+        // --------------------------------------------------------------
         // info
         Route::get('profile', [AdminController::class, 'edit'])->name('admin.edit');
         Route::put('profile', [AdminController::class, 'update'])->name('admin.update');
@@ -163,6 +172,8 @@ Route::get('/register', [HomeController::class, 'register'])->name('shop.registe
 Route::get('/user/editProfile', [UserController::class, 'editProfile'])->name('user.editProfile');
 Route::put('/user/updateProfile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
 
+// review
+Route::get('/product/{product}/reviews', [ReviewController::class, 'show'])->name('reviews.show');
 
 // login - register - logout
 Route::middleware(['guest'])->group(function () {
@@ -173,6 +184,9 @@ Route::middleware(['guest'])->group(function () {
 });
 
 Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
+
+
+
 
 // authen pages
 Route::middleware(['auth'])->group(function () {
@@ -193,4 +207,9 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('vnpay-payment', [VNPayController::class, 'createPayment'])->name('vnpay.payment');
     Route::get('vnpay-payment/{order}', [VNPayController::class, 'createPayment'])->name('vnpay.payment');
     Route::get('vnpay-return', [VNPayController::class, 'returnPayment'])->name('vnpay.return');
+
+    // Rating
+    Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('review.store');
+    Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
+    Route::post('/reviews/{review}/report', [ReviewController::class, 'report'])->name('reviews.report');
 });

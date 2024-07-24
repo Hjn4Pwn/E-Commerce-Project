@@ -60,7 +60,7 @@ class CartService implements CartServiceInterface
     public function getCartItems($userId)
     {
         $cart = Cart::where('user_id', $userId)
-            ->with(['items.product.mainImage', 'items.flavor'])
+            ->with(['items.product.main_image', 'items.flavor'])
             ->first();
 
         if (!$cart) {

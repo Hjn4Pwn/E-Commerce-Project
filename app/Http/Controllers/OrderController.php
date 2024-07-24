@@ -183,7 +183,7 @@ class OrderController extends Controller
         $order = $this->orderService->getOrderById($id);
         // dd($order);
         return view('admin.pages.order.viewOrder', [
-            'parentPage' => ['Orders', 'admin.orders'],
+            'parentPage' => ['Orders', 'admin.orders.index'],
             'childPage' => 'Details',
             'order' => $order,
         ]);
@@ -200,6 +200,7 @@ class OrderController extends Controller
     {
         $order = Order::findOrFail(Crypt::decrypt($encryptedOrder));
         $this->orderService->updateOrderStatus($order, 'delivered');
+        $this->orderService->updateQuantitySold($order);
         return redirect()->back()->with('success', 'Đơn hàng đã được cập nhật trạng thái: Nhận hàng thành công');
     }
 }

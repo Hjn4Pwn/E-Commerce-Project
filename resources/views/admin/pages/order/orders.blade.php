@@ -60,7 +60,9 @@
                                                         <th class="lh40" scope="row">{{ ++$i }}</th>
                                                         <td class="lh40 text-center">{{ $order->user->name }}</td>
                                                         <td class="lh40 text-center">{{ $order->address }}</td>
-                                                        <td class="lh40 text-center">{{ $order->created_at }}</td>
+                                                        <td class="lh40 text-center">
+                                                            {{ format_date_to_ho_chi_minh_timezone($order->created_at) }}
+                                                        </td>
                                                         <td class="lh40 text-center">
                                                             {{ format_currency($order->total_price + $order->shipping_fee) }}
                                                         </td>
@@ -87,10 +89,10 @@
                                                                 class="btn btn-info waves-effect waves-light">
                                                                 <i class="fa-solid fa-eye"></i>
                                                             </a>
-                                                            <a href=""
+                                                            {{-- <a href=""
                                                                 class="btn btn-danger waves-effect waves-light">
                                                                 <i class="fa fa-trash"></i>
-                                                            </a>
+                                                            </a> --}}
                                                         </td>
                                                     </tr>
                                                 @endforeach

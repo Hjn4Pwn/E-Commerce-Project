@@ -6998,7 +6998,7 @@ body.menu-bottom #collapse-menu {
 
 /**====== Basic-Buttons css Start ======**/
 
-.btn-primary,
+/* .btn-primary,
 .sweet-alert button.confirm,
 .wizard>.actions a {
 	background-color: #448aff;
@@ -7040,9 +7040,9 @@ body.menu-bottom #collapse-menu {
 .wizard>.actions a.disabled {
 	background-color: rgba(68, 138, 255, 0.5);
 	border-color: rgba(68, 138, 255, 0.5);
-}
+} */
 
-.btn-warning {
+/* .btn-warning {
 	background-color: #ffe100;
 	border-color: #ffe100;
 	color: #fff;
@@ -7220,7 +7220,7 @@ body.menu-bottom #collapse-menu {
 	cursor: pointer;
 	-webkit-transition: all ease-in 0.3s;
 	transition: all ease-in 0.3s;
-}
+} */
 
 
 /**====== Basic-Buttons css end ======**/

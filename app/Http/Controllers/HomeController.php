@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\FlavorServiceInterface;
+use App\Services\Interfaces\ReviewServiceInterface;
 
 
 class HomeController extends Controller
@@ -16,15 +17,18 @@ class HomeController extends Controller
     protected $categoryService;
     protected $productService;
     protected $flavorService;
+    protected $reviewService;
 
     public function __construct(
         CategoryServiceInterface $categoryService,
         ProductServiceInterface $productService,
         FlavorServiceInterface $flavorService,
+        ReviewServiceInterface $reviewService,
     ) {
         $this->categoryService = $categoryService;
         $this->productService = $productService;
         $this->flavorService = $flavorService;
+        $this->reviewService = $reviewService;
     }
 
     public function getProductsData($action, $category = null, $search = null)
@@ -101,12 +105,19 @@ class HomeController extends Controller
         $productData = $this->productService->getProductAndAllImagesByProduct($product);
         $flavors = $this->flavorService->getFlavorsByProduct($product);
         $isOutOfStock = $this->productService->areAllFlavorsOutOfStock($product);
-        // dd($productData);
+        $reviewData = $this->reviewService->show($product);
+        // dd($reviewData);
         return view('shop.pages.productDetails', [
             'categories' => $categories,
             'product' => $productData,
             'flavors' => $flavors,
             'isOutOfStock' => $isOutOfStock,
+            'reviews' => $reviewData['reviews'],
+            'total_reviews' => $reviewData['total_reviews'],
+            'ratings_summary' => $reviewData['ratings_summary'],
+            'average_rating' => $reviewData['average_rating'],
+            'liked_reviews' => $reviewData['liked_reviews'],
+            'reported_reviews' => $reviewData['reported_reviews'],
         ]);
     }
 

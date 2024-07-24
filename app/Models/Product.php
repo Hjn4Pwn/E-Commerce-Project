@@ -52,6 +52,11 @@ class Product extends Model
         return $this->hasOne(ProductImage::class)->where('sort_order', 1);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     // Accessor để tính tổng quantity
     public function getTotalQuantityAttribute()
     {
@@ -59,6 +64,12 @@ class Product extends Model
             return $productFlavor->pivot->quantity;
         });
     }
+
+    public function getAverageRatingAttribute()
+    {
+        return round($this->reviews()->avg('rating'), 1);
+    }
+
 
     public function searchableAs()
     {

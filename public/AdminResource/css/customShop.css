@@ -81,6 +81,32 @@
 .nav-item .nav-link{
     font-size: 18px !important;
 }
+/* review comment- show more */
+.comment-content {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    -webkit-line-clamp: 2; /* Giới hạn hiển thị 2 hàng */
+    text-overflow: ellipsis;
+    max-height: 3em; /* Chiều cao tối đa cho 2 hàng (1.5em mỗi hàng) */
+}
+
+.comment-content.expanded {
+    -webkit-line-clamp: unset; /* Mở rộng khi bấm vào "Xem thêm" */
+    max-height: none; /* Bỏ giới hạn chiều cao */
+}
+
+.read-more {
+    color: blue;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.comment-actions__text-report {
+    text-transform: none;
+}
+
+
 
 /* product card */
 .product-card {
@@ -357,7 +383,7 @@
 .rating > label {
 position: relative;
     width: 1em;
-    font-size: 6vw;
+    font-size: 38px;
     color: #FFD600;
     cursor: pointer;
 }
@@ -400,6 +426,14 @@ opacity:1;
     unicode-bidi: bidi-override;
     color: #ccc;
     font-size: 30px;
+    position: relative;
+    display: inline-block;
+}
+
+.star-ratings-comment {
+    unicode-bidi: bidi-override;
+    color: #ccc;
+    font-size: 18px;
     position: relative;
     display: inline-block;
 }
