@@ -17,7 +17,7 @@
                     </div>
                 </div>
             </div>
-            <a class="image-link" href="{{ route('admin.index') }}">
+            <a class="image-link" href="{{ route('shop.index') }}">
                 <img class="img-fluid Logo-mobile" src={{ asset('AdminResource/images/test/logo.png') }}
                     alt="Theme-Logo" />
             </a>
@@ -198,17 +198,17 @@
                                 </li> --}}
                             <li class="waves-effect waves-light p-b-0 p-t-0 ">
                                 <a href="{{ route('user.editProfile') }}" class="link_none">
-                                    <i class="fa-solid fa-user"></i> Profile
+                                    <i class="fa-solid fa-user"></i> Tài khoản của tôi
                                 </a>
                             </li>
-                            <li class="waves-effect waves-light p-b-0 p-t-0">
+                            {{-- <li class="waves-effect waves-light p-b-0 p-t-0">
                                 <a href="email-inbox.html" class="link_none">
                                     <i class="fa-solid fa-message"></i> My Messages
                                 </a>
-                            </li>
+                            </li> --}}
                             <li class="waves-effect waves-light p-b-0 p-t-0">
-                                <a href="{{ route('admin.changePassword') }}" class="link_none">
-                                    <i class="fa-solid fa-lock"></i> Change Password
+                                <a href="#!" class="link_none">
+                                    <i class="fa-solid fa-lock"></i> Đổi mật khẩu
                                 </a>
                             </li>
                             {{-- <li class="waves-effect waves-light">
@@ -223,7 +223,7 @@
                                 </form>
                                 <a href="#" class="link_none"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                                    <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                    <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                                 </a>
                             </li>
 

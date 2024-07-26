@@ -32,7 +32,7 @@ class CartController extends Controller
     {
         $user = auth()->user();
         $cartItems = $this->cartService->getCartItems($user->id);
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
 
         return view('shop.pages.cart', [
             'categories' => $categories,

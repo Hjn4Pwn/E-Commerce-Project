@@ -14,7 +14,7 @@
                                 <li class="nav-item dropdown">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                        Categories
+                                        Danh mục sản phẩm
                                     </a>
 
                                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -25,24 +25,24 @@
                                             @endforeach
                                         @endif
                                         <div class="dropdown-divider"></div>
-                                        <a class="dropdown-item" href="{{ route('shop.index') }}">Get All</a>
+                                        <a class="dropdown-item" href="{{ route('shop.index') }}">Tất cả</a>
                                     </div>
                                 </li>
 
                                 <li class="nav-item p-r-10 {{ $activeHome ?? '' }}">
-                                    <a class="nav-link" href="{{ route('shop.index') }}">Home</a>
+                                    <a class="nav-link" href="{{ route('shop.index') }}">Trang chủ</a>
                                 </li>
-                                <li class="nav-item p-r-10">
+                                {{-- <li class="nav-item p-r-10">
                                     <a class="nav-link" href="#">Contact</a>
                                 </li>
                                 <li class="nav-item p-r-10 ">
                                     <a class="nav-link" href="#">Info</a>
-                                </li>
+                                </li> --}}
                                 <li class="nav-item p-r-10 {{ $activeCart ?? '' }}">
-                                    <a class="nav-link" href="{{ route('cart.index') }}">Cart</a>
+                                    <a class="nav-link" href="{{ route('cart.index') }}">Giỏ hàng</a>
                                 </li>
                                 <li class="nav-item p-r-10 {{ $activeOrder ?? '' }}">
-                                    <a class="nav-link" href="{{ route('order.show') }}">Order Details</a>
+                                    <a class="nav-link" href="{{ route('order.show') }}">Đơn mua</a>
                                 </li>
 
                             </ul>
@@ -54,7 +54,8 @@
                                         aria-label="Search" value="{{ request('search') }}">
                                 </div>
                                 <div>
-                                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+                                    <button class="btn btn-outline-info my-2 my-sm-0" type="submit"
+                                        style="text-transform: none">Tìm kiếm</button>
                                 </div>
                             </form>
                         </div>

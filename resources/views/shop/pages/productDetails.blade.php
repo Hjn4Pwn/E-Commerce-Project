@@ -131,8 +131,9 @@
                                             <input type="hidden" name="quantity" id="form-quantity" value="1">
                                             <input type="hidden" name="flavor_id" id="form-flavor-id" value="">
 
-                                            <button type="submit" class="btn btn-outline-primary font-weight-bold">Add to
-                                                Cart</button>
+                                            <button type="submit" class="btn btn-outline-primary font-weight-bold"
+                                                style="text-transform: none">Thêm vào
+                                                giỏ hàng</button>
                                         </form>
                                         {{-- <a href="#" class="btn btn-outline-success font-weight-bold"
                                             role="button">Buy Now</a> --}}
@@ -236,7 +237,7 @@
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary"
-                                                            data-dismiss="modal">Close</button>
+                                                            data-dismiss="modal">Đóng</button>
                                                         <button type="submit" class="btn btn-primary"
                                                             style="z-index: 1;">Gửi đánh
                                                             giá</button>

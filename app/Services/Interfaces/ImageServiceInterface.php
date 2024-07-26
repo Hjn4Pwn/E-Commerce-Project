@@ -18,5 +18,5 @@ interface ImageServiceInterface
     public function deleteImagesByProduct(Product $product);
     public function deleteImagesByPath($path);
     public function getMainImageForProduct(Product $product);
-    public function storeAvatar(Request $request);
+    public function storeImageWithRole(Request $request);
 }

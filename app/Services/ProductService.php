@@ -9,12 +9,6 @@ use App\Models\ProductImage;
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
-use App\Services\Interfaces\FlavorServiceInterface;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
-
-// use Intervention\Image\Laravel\Facades\Image;
-// use Intervention\Image\Facades\Image;
 
 /**
  * Class ProductService
@@ -24,39 +18,36 @@ class ProductService implements ProductServiceInterface
 {
     protected $categoryService;
     protected $imageService;
-    protected $flavorService;
 
     public function __construct(
         CategoryServiceInterface $categoryService,
         ImageServiceInterface $imageService,
-        FlavorServiceInterface $flavorService,
     ) {
         $this->categoryService = $categoryService;
         $this->imageService = $imageService;
-        $this->flavorService = $flavorService;
     }
 
     public function getAllCategories()
     {
-        return $this->categoryService->getAll();
+        return $this->categoryService->getAllCategories();
     }
 
-    public function getAll()
+    public function getAllProducts()
     {
         return Product::all();
     }
 
-    public function store($validatedData)
+    public function storeProduct($validatedData)
     {
         return Product::create($validatedData);
     }
 
-    public function update(Product $product, $validatedData)
+    public function updateProduct(Product $product, $validatedData)
     {
         return $product->update($validatedData);
     }
 
-    public function delete(Product $product)
+    public function deleteProduct(Product $product)
     {
         return $product->delete();
     }

@@ -25,8 +25,8 @@ class FlavorController extends Controller
     public function index(SearchRequest $request)
     {
         $search = $request->input('search');
-        $flavors = $this->flavorService->getAll($search);
-        return view('admin.pages.flavor.flavors', [
+        $flavors = $this->flavorService->getAllFlavors($search);
+        return view('admin.pages.flavor.index', [
             'flavors' => $flavors,
             'page' => 'Flavors',
             'search' => $search
@@ -38,7 +38,7 @@ class FlavorController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.flavor.createFlavor', [
+        return view('admin.pages.flavor.create', [
             'parentPage' => ['Flavors', 'admin.flavors.index'],
             'childPage' => 'Create',
         ]);
@@ -50,26 +50,19 @@ class FlavorController extends Controller
     public function store(StoreFlavorRequest $request)
     {
         $validatedData = $request->validated();
-        if ($this->flavorService->store($validatedData)) {
+        if ($this->flavorService->storeFlavor($validatedData)) {
             return redirect()->route('admin.flavors.index')->with('success', 'Create Flavor successfully');
         }
         return back()->withErrors('Failed to create flavor.');
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Flavor $flavor)
-    {
-        //
-    }
 
     /**
      * Show the form for editing the specified resource.
      */
     public function edit(Flavor $flavor)
     {
-        return view('admin.pages.flavor.editFlavor', [
+        return view('admin.pages.flavor.edit', [
             'flavor' => $flavor,
             'parentPage' => ['Flavors', 'admin.flavors.index'],
             'childPage' => 'Edit',
@@ -82,7 +75,7 @@ class FlavorController extends Controller
     public function update(UpdateFlavorRequest $request, Flavor $flavor)
     {
         $validatedData = $request->validated();
-        if ($this->flavorService->update($flavor, $validatedData)) {
+        if ($this->flavorService->updateFlavor($flavor, $validatedData)) {
             return redirect()->route('admin.flavors.index')->with('success', 'Update Flavor successfully');
         }
         return back()->withErrors('Failed to update flavor.');
@@ -93,7 +86,7 @@ class FlavorController extends Controller
      */
     public function destroy(Flavor $flavor)
     {
-        if ($this->flavorService->delete($flavor)) {
+        if ($this->flavorService->deleteFlavor($flavor)) {
             return redirect()->route('admin.flavors.index')->with('success', 'Delete flavor successfully');
         }
         return back()->withErrors('Failed to delete flavor.');

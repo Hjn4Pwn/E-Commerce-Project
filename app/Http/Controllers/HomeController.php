@@ -10,6 +10,8 @@ use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\FlavorServiceInterface;
 use App\Services\Interfaces\ReviewServiceInterface;
+use App\Services\Interfaces\SliderServiceInterface;
+
 
 
 class HomeController extends Controller
@@ -18,22 +20,26 @@ class HomeController extends Controller
     protected $productService;
     protected $flavorService;
     protected $reviewService;
+    protected $sliderService;
 
     public function __construct(
         CategoryServiceInterface $categoryService,
         ProductServiceInterface $productService,
         FlavorServiceInterface $flavorService,
         ReviewServiceInterface $reviewService,
+        SliderServiceInterface $sliderService,
     ) {
         $this->categoryService = $categoryService;
         $this->productService = $productService;
         $this->flavorService = $flavorService;
         $this->reviewService = $reviewService;
+        $this->sliderService = $sliderService;
     }
 
     public function getProductsData($action, $category = null, $search = null)
     {
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
+        $sliders = $this->sliderService->getAllSliders();
         $outOfStockProducts = collect();
 
         if ($action == 'getAll') {
@@ -81,6 +87,7 @@ class HomeController extends Controller
             'outOfStockProducts' => $outOfStockProducts,
             'selectedCategory' => $category,
             'search' => $search,
+            'sliders' => $sliders
         ];
     }
 
@@ -101,7 +108,7 @@ class HomeController extends Controller
 
     public function productDetails(Product $product)
     {
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
         $productData = $this->productService->getProductAndAllImagesByProduct($product);
         $flavors = $this->flavorService->getFlavorsByProduct($product);
         $isOutOfStock = $this->productService->areAllFlavorsOutOfStock($product);

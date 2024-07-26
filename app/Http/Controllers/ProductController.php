@@ -44,7 +44,7 @@ class ProductController extends Controller
         $search = $request->input('search');
         $outOfStockProducts = collect();
 
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->getProductsAndImages($search);
 
         foreach ($products as $product) {
@@ -55,7 +55,7 @@ class ProductController extends Controller
 
         session(['selectedCategory' => 'all']);
 
-        return view('admin.pages.product.products', [
+        return view('admin.pages.product.index', [
             'selectedCategory' => 'all',
             'products' => $products,
             'categories' => $categories,
@@ -68,7 +68,7 @@ class ProductController extends Controller
     public function indexByCategory(Category $category)
     {
 
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
         $products = $this->productService->getProductsAndImagesByCategory($category);
         $outOfStockProducts = collect();
 
@@ -79,7 +79,7 @@ class ProductController extends Controller
         }
 
         session(['selectedCategory' => $category->id]);
-        return view('admin.pages.product.products', [
+        return view('admin.pages.product.index', [
             // 'selectedCategory' => $category->id,
             'categories' => $categories,
             'products' => $products,
@@ -94,9 +94,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        $categories = $this->categoryService->getAll();
-        $flavors = $this->flavorService->getAll();
-        return view('admin.pages.product.createProduct', [
+        $categories = $this->categoryService->getAllCategories();
+        $flavors = $this->flavorService->getAllFlavors();
+        return view('admin.pages.product.create', [
             // 'products' => $products,
             'categories' => $categories,
             'flavors' => $flavors,
@@ -117,7 +117,7 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             // product
-            $product = $this->productService->store($validatedData);
+            $product = $this->productService->storeProduct($validatedData);
 
             $pathsToDeleteIfFailed = [];
 
@@ -138,29 +138,14 @@ class ProductController extends Controller
                 }
             }
 
-
-
             DB::commit();
             return redirect()->route('admin.products.index')->with('success', 'Create product successfully.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Failed to create product: ' . $e->getMessage());
 
-            // foreach ($pathsToDeleteIfFailed as $path) {
-            //     $this->imageService->deleteImage($path);
-            // }
-
             return back()->withErrors('Failed to create product.');
         }
-    }
-
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Product $product)
-    {
-        // sau này sẽ cho view product details thay vì hiện tại view bằng edit
     }
 
     /**
@@ -168,11 +153,11 @@ class ProductController extends Controller
      */
     public function edit(Product $product)
     {
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
         $flavors = $this->flavorService->getFlavorsWithCheckedStatus($product);
         $images = $this->imageService->getImagesByProduct($product);
         session(['selectedCategory' => $product->category_id]);
-        return view('admin.pages.product.editProduct', [
+        return view('admin.pages.product.edit', [
             'categories' => $categories,
             'product' => $product,
             'flavors' => $flavors,
@@ -196,7 +181,7 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             // product
-            $this->productService->update($product, $validatedData);
+            $this->productService->updateProduct($product, $validatedData);
 
             $pathsToDelete = [];
 
@@ -256,7 +241,7 @@ class ProductController extends Controller
 
             $this->flavorService->deleteFlavorByProduct($product);
             $this->imageService->deleteImagesByProduct($product);
-            $this->productService->delete($product);
+            $this->productService->deleteProduct($product);
 
             DB::commit();
             return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');

@@ -10,7 +10,7 @@ use App\Models\User;
  */
 interface UserServiceInterface
 {
-    public function paginate();
-    public function update(User $user, $validatedData);
-    public function delete(User $user);
+    public function paginateUsers();
+    public function updateUser(User $user, $validatedData);
+    public function deleteUser(User $user);
 }

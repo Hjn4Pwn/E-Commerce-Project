@@ -46,7 +46,7 @@ class AdminController extends Controller
         $validatedData = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $path = $this->imageService->storeAvatar($request, "avatar", "admins");
+            $path = $this->imageService->storeImageWithRole($request, "avatar", "admins");
             $validatedData['avatar'] = $path;
         }
         // dd($validatedData);

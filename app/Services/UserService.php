@@ -11,7 +11,7 @@ use App\Models\User;
  */
 class UserService implements UserServiceInterface
 {
-    public function paginate($search = null)
+    public function paginateUsers($search = null)
     {
         $query = User::query();
 
@@ -30,12 +30,12 @@ class UserService implements UserServiceInterface
         return $users;
     }
 
-    public function update(User $user, $validatedData)
+    public function updateUser(User $user, $validatedData)
     {
         return $user->update($validatedData);
     }
 
-    public function delete(User $user)
+    public function deleteUser(User $user)
     {
         return $user->delete();
     }

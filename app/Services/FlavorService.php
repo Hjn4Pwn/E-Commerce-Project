@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\DB;
  */
 class FlavorService implements FlavorServiceInterface
 {
-    public function getAll($search = null)
+    public function getAllFlavors($search = null)
     {
         if ($search) {
             return Flavor::search($search)->where('type', 'flavor')->get();
@@ -23,17 +23,17 @@ class FlavorService implements FlavorServiceInterface
         return Flavor::all();
     }
 
-    public function store($validatedData)
+    public function storeFlavor($validatedData)
     {
         return Flavor::create($validatedData);
     }
 
-    public function update(Flavor $flavor, $validatedData)
+    public function updateFlavor(Flavor $flavor, $validatedData)
     {
         return $flavor->update($validatedData);
     }
 
-    public function delete(Flavor $flavor)
+    public function deleteFlavor(Flavor $flavor)
     {
         return $flavor->delete();
     }

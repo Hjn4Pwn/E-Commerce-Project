@@ -24,7 +24,7 @@
                         </div>
                     @endif
                     {{-- slider --}}
-                    @include('shop.components.slider')
+                    @include('shop.components.slider', ['sliders' => $sliders])
                     {{-- ---- --}}
 
                     {{-- @if ($action == 'getAll')

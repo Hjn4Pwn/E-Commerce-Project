@@ -15,9 +15,6 @@ class LocationService implements LocationServiceInterface
 {
     public function getAllProvinces()
     {
-        // có thể dùng repository để tương tác thẳng tới dữ liệu
-        // return Province::all();
-
         // Trả về tất cả các tỉnh
         return Province::with('districts')->get(); // Tải sẵn các quận/huyện liên kết
     }

@@ -10,7 +10,6 @@ use App\Services\Interfaces\LocationServiceInterface;
 use App\Services\Interfaces\OrderServiceInterface;
 
 use Exception;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Http;
@@ -30,7 +29,7 @@ class OrderService implements OrderServiceInterface
         $this->locationService = $locationService;
     }
 
-    public function getAll()
+    public function getAllOrders()
     {
         return Order::with('user')
             ->orderBy('created_at', 'desc')

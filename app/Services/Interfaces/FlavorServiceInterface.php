@@ -11,10 +11,10 @@ use App\Models\Product;
  */
 interface FlavorServiceInterface
 {
-    public function getAll($search = null);
-    public function store($validatedData);
-    public function update(Flavor $flavor, $validatedData);
-    public function delete(Flavor $flavor);
+    public function getAllFlavors($search = null);
+    public function storeFlavor($validatedData);
+    public function updateFlavor(Flavor $flavor, $validatedData);
+    public function deleteFlavor(Flavor $flavor);
     public function storeProductFlavor(Product $product, $flavorId, $quantity);
     public function getFlavorsByProduct(Product $product);
     public function getFlavorsWithCheckedStatus(Product $product);

@@ -25,8 +25,8 @@ class CategoryController extends Controller
     public function index(SearchRequest $request)
     {
         $search = $request->input('search');
-        $categories = $this->categoryService->getAll($search);
-        return view('admin.pages.category.categories', [
+        $categories = $this->categoryService->getAllCategories($search);
+        return view('admin.pages.category.index', [
             'categories' => $categories,
             'page' => 'Categories',
             'search' => $search
@@ -38,7 +38,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('admin.pages.category.createCategory', [
+        return view('admin.pages.category.create', [
             'parentPage' => ['Categories', 'admin.categories.index'],
             'childPage' => 'Create',
         ]);
@@ -50,18 +50,10 @@ class CategoryController extends Controller
     public function store(StoreCategoryRequest $request)
     {
         $validatedData = $request->validated();
-        if ($this->categoryService->store($validatedData)) {
+        if ($this->categoryService->storeCategory($validatedData)) {
             return redirect()->route('admin.categories.index')->with('success', 'Create Category successfully');
         }
         return back()->withErrors('Failed to create category.');
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Category $category)
-    {
-        //
     }
 
     /**
@@ -69,7 +61,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('admin.pages.category.editCategory', [
+        return view('admin.pages.category.edit', [
             'category' => $category,
             'parentPage' => ['Categories', 'admin.categories.index'],
             'childPage' => 'Edit',
@@ -82,7 +74,7 @@ class CategoryController extends Controller
     public function update(UpdateCategoryRequest $request, Category $category)
     {
         $validatedData = $request->validated();
-        if ($this->categoryService->update($category, $validatedData)) {
+        if ($this->categoryService->updateCategory($category, $validatedData)) {
             return redirect()->route('admin.categories.index')->with('success', 'Update Category successfully');
         }
         return back()->withErrors('Failed to update category.');
@@ -93,7 +85,7 @@ class CategoryController extends Controller
      */
     public function destroy(Category $category)
     {
-        if ($this->categoryService->delete($category)) {
+        if ($this->categoryService->deleteCategory($category)) {
             return redirect()->route('admin.categories.index')->with('success', 'Delete category and its products successfully');
         }
         return back()->withErrors('Failed to delete category and its products.');

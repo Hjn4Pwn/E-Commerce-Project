@@ -27,7 +27,7 @@ class ReviewController extends Controller
     {
         $reviews = $this->reviewService->getAll();
         // dd($reviews);
-        return view('admin.pages.review.reviews', [
+        return view('admin.pages.review.index', [
             'page' => 'Reviews',
             'reviews' => $reviews,
         ]);
@@ -37,7 +37,7 @@ class ReviewController extends Controller
     {
         $reviewData = $this->reviewService->getDetails($review);
         // dd($reviewData);
-        return view('admin.pages.review.showReview', [
+        return view('admin.pages.review.show', [
             'parentPage' => ['Reviews', 'admin.reviews.index'],
             'childPage' => 'Review Details',
             'reviewData' => $reviewData,
@@ -78,7 +78,7 @@ class ReviewController extends Controller
 
         $this->reviewService->enhanceReviews($reviews);
 
-        return view('shop.pages.partial_reviews', [
+        return view('shop.components.partial_reviews', [
             'reviews' => $reviews,
             'liked_reviews' => $liked_reviews,
             'reported_reviews' => $reported_reviews,

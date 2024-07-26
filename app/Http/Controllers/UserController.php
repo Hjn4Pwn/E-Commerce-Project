@@ -39,9 +39,9 @@ class UserController extends Controller
     public function index(SearchRequest $request)
     {
         $search = $request->input('search');
-        $users = $this->userService->paginate($search);
+        $users = $this->userService->paginateUsers($search);
         // dd($users);
-        return view('admin.pages.user.users', [
+        return view('admin.pages.user.index', [
             'users' => $users,
             'page' => 'Users',
             'search' => $search,
@@ -79,7 +79,7 @@ class UserController extends Controller
     {
         $provinces = $this->locationService->getAllProvinces();
         // dd($provinces);
-        return view('admin.pages.user.editUser', [
+        return view('admin.pages.user.edit', [
             'provinces' => $provinces,
             'user' => $user,
             'parentPage' => ['Users', 'admin.users.index'],
@@ -93,7 +93,7 @@ class UserController extends Controller
     public function update(UpdateUserRequest $request, User $user)
     {
         $validatedData = $request->validated();
-        if ($this->userService->update($user, $validatedData)) {
+        if ($this->userService->updateUser($user, $validatedData)) {
             return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
         }
         return back()->withErrors('Failed to update user.');
@@ -104,7 +104,7 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
-        if ($this->userService->delete($user)) {
+        if ($this->userService->deleteUser($user)) {
             return redirect()->route('admin.users.index')->with('success', 'Delete User successfully');
         }
         return back()->withErrors('Failed to delete user.');
@@ -114,7 +114,7 @@ class UserController extends Controller
     public function editProfile()
     {
         $provinces = $this->locationService->getAllProvinces();
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
 
         // $user = User::find(Auth::user()->id)->load(['province', 'district', 'ward']);
         $user = Auth::user()->load(['province', 'district', 'ward']);
@@ -136,13 +136,13 @@ class UserController extends Controller
         $validatedData = $request->validated();
 
         if ($request->hasFile('avatar')) {
-            $path = $this->imageService->storeAvatar($request);
+            $path = $this->imageService->storeImageWithRole($request);
             $validatedData['avatar'] = $path;
         }
 
         // dd($validatedData);
 
-        if ($this->userService->update($user, $validatedData)) {
+        if ($this->userService->updateUser($user, $validatedData)) {
             return redirect()->route('user.editProfile')->with('success', 'Profile updated successfully');
         }
 

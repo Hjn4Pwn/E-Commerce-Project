@@ -99,7 +99,7 @@ class ImageService implements ImageServiceInterface
         ProductImage::where('path', $path)->delete();
     }
 
-    public function storeAvatar(Request $request, $accessFile = "avatar", $role = "users")
+    public function storeImageWithRole(Request $request, $accessFile = "avatar", $role = "users")
     {
         if ($request->hasFile($accessFile)) {
             $file = $request->file($accessFile);

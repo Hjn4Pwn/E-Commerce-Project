@@ -80,7 +80,7 @@ class OrderController extends Controller
         $user = Auth::user()->load(['province', 'district', 'ward']);
 
         $cartData = $this->orderService->getTemporaryData();
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
 
         $OrderReview = $this->orderService->getDetailsCartForOrderReview($cartData);
         return view('shop.pages.reviewOrder', [
@@ -128,7 +128,7 @@ class OrderController extends Controller
         $user = auth()->user();
         $orders = $this->orderService->getOrders($user->id);
 
-        $categories = $this->categoryService->getAll();
+        $categories = $this->categoryService->getAllCategories();
         return view('shop.pages.orderDetails', [
             'categories' => $categories,
             'orders' => $orders,
@@ -171,8 +171,8 @@ class OrderController extends Controller
 
     public function admin_index()
     {
-        $orders = $this->orderService->getAll();
-        return view('admin.pages.order.orders', [
+        $orders = $this->orderService->getAllOrders();
+        return view('admin.pages.order.index', [
             'orders' => $orders,
             'page' => 'Orders',
         ]);
@@ -182,7 +182,7 @@ class OrderController extends Controller
     {
         $order = $this->orderService->getOrderById($id);
         // dd($order);
-        return view('admin.pages.order.viewOrder', [
+        return view('admin.pages.order.show', [
             'parentPage' => ['Orders', 'admin.orders.index'],
             'childPage' => 'Details',
             'order' => $order,

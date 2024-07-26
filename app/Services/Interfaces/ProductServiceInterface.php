@@ -13,10 +13,10 @@ use Illuminate\Http\Request;
 interface ProductServiceInterface
 {
     public function getAllCategories();
-    public function getAll();
-    public function store($validatedData);
-    public function update(Product $product, $validatedData);
-    public function delete(Product $product);
+    public function getAllProducts();
+    public function storeProduct($validatedData);
+    public function updateProduct(Product $product, $validatedData);
+    public function deleteProduct(Product $product);
     public function getProductsAndImagesByCategory(Category $category);
     public function getProductsAndImages($search = null);
     public function getProductAndAllImagesByProduct(Product $product);

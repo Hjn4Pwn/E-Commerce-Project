@@ -85,5 +85,15 @@
             </li>
         </ul>
 
+        <ul class="pcoded-item pcoded-left-item">
+            <li class="{{ $activeSliders ?? '' }}">
+                <a href="{{ route('admin.sliders.index') }}" class="waves-effect waves-dark">
+                    <span class="pcoded-micon"><i class="fa-solid fa-sliders"></i><b>D</b></span>
+                    <span class="pcoded-mtext">Sliders</span>
+                    <span class="pcoded-mcaret"></span>
+                </a>
+            </li>
+        </ul>
+
     </div>
 </nav>

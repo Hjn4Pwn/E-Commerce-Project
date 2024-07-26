@@ -15,6 +15,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ReviewController;
 use App\Http\Controllers\VNPayController;
+use App\Http\Controllers\SliderController;
 use App\Models\Product;
 
 
@@ -120,9 +121,7 @@ Route::prefix('admin')->group(function () {
 
         // review
         Route::get('reviews', [ReviewController::class, 'index'])->name('admin.reviews.index');
-
         Route::get('reviews/{review}/edit', [ReviewController::class, 'admin_show'])->name('admin.reviews.show');
-
         Route::delete('reviews/{review}', [ReviewController::class, 'destroy'])->name('admin.reviews.destroy');
 
         // --------------------------------------------------------------
@@ -135,6 +134,12 @@ Route::prefix('admin')->group(function () {
                 'page' => 'Admin Change Password',
             ]);
         })->name('admin.changePassword');
+
+        // slider
+        Route::get('sliders', [SliderController::class, 'index'])->name('admin.sliders.index');
+        Route::get('sliders/create', [SliderController::class, 'create'])->name('admin.sliders.create');
+        Route::post('sliders', [SliderController::class, 'store'])->name('admin.sliders.store');
+        Route::delete('sliders/{slider}', [SliderController::class, 'destroy'])->name('admin.sliders.destroy');
     });
 
     // admin - login - logout

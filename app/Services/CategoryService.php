@@ -24,7 +24,7 @@ class CategoryService implements CategoryServiceInterface
         $this->flavorService = $flavorService;
     }
 
-    public function getAll($search = null)
+    public function getAllCategories($search = null)
     {
         if ($search) {
             return Category::search($search)->where('type', 'category')->get();
@@ -44,17 +44,17 @@ class CategoryService implements CategoryServiceInterface
         return $categories;
     }
 
-    public function store($validatedData)
+    public function storeCategory($validatedData)
     {
         return Category::create($validatedData);
     }
 
-    public function update(Category $category, $validatedData)
+    public function updateCategory(Category $category, $validatedData)
     {
         return $category->update($validatedData);
     }
 
-    public function delete(Category $category)
+    public function deleteCategory(Category $category)
     {
         $category->products->each(function ($product) {
             $this->imageService->deleteImagesByProduct($product);
