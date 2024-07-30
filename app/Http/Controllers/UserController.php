@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePasswordRequest;
+use App\Http\Requests\ResetPasswordRequest;
 use App\Http\Requests\SearchRequest;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
@@ -11,8 +13,9 @@ use App\Services\Interfaces\UserServiceInterface;
 use App\Services\Interfaces\LocationServiceInterface;
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
-use Illuminate\Http\Request;
+use App\Services\Interfaces\VerificationServiceInterface;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -20,17 +23,20 @@ class UserController extends Controller
     protected $categoryService;
     protected $locationService;
     protected $imageService;
+    protected $verificationService;
 
     public function __construct(
         UserServiceInterface $userService,
         CategoryServiceInterface $categoryService,
         LocationServiceInterface $locationService,
         ImageServiceInterface $imageService,
+        VerificationServiceInterface $verificationService,
     ) {
         $this->userService = $userService;
         $this->categoryService = $categoryService;
         $this->locationService = $locationService;
         $this->imageService = $imageService;
+        $this->verificationService = $verificationService;
     }
 
     /**
@@ -46,30 +52,6 @@ class UserController extends Controller
             'page' => 'Users',
             'search' => $search,
         ]);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(StoreUserRequest $request)
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(User $user)
-    {
-        //
     }
 
     /**
@@ -147,5 +129,66 @@ class UserController extends Controller
         }
 
         return back()->withErrors('Failed to update profile.');
+    }
+
+
+
+    public function showChangePasswordForm()
+    {
+        $categories = $this->categoryService->getAllCategories();
+        // dd($categories);
+        return view('shop.pages.change-password', [
+            'categories' => $categories,
+
+        ]);
+    }
+
+    public function showResetPasswordForm()
+    {
+        return view('shop.pages.reset-password');
+    }
+
+    public function changePassword(ChangePasswordRequest $request)
+    {
+
+        $validatedData = $request->validated();
+
+        $user = Auth::user();
+
+        $isValid = $this->verificationService->validateVerificationCode($user->email, $validatedData['code'], $validatedData['role']);
+
+        if ($isValid) {
+            $result = $this->userService->changePassword($request->user(), $request->current_password, $request->new_password);
+            if ($result['status'] == 'error') {
+                return back()->withErrors([$result['field'] => $result['message']]);
+            }
+        } else {
+            return back()->withErrors('Mã xác thực không đúng hoặc đã hết hạn.');
+        }
+
+        return redirect()->back()->with('success', 'Đã đổi mật khẩu thành công.');
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        if (!$this->verificationService->emailExists($request->email, 'user')) {
+            return back()->withErrors('Email không tồn tại trong hệ thống.');
+        }
+
+        $validatedData = $request->validated();
+
+        $isValid = $this->verificationService->validateVerificationCode($validatedData['email'], $validatedData['code'], $validatedData['role']);
+
+        if ($isValid) {
+            $user = $this->userService->getUserByEmail($request->email);
+            $result = $this->userService->resetPassword($user, $request->password);
+            if ($result['status'] == 'error') {
+                return back()->withErrors([$result['field'] => $result['message']]);
+            }
+        } else {
+            return back()->withErrors('Mã xác thực không đúng hoặc đã hết hạn.');
+        }
+
+        return redirect()->route('login')->with('success', 'Đã đổi mật khẩu thành công. Hãy đăng nhập');
     }
 }

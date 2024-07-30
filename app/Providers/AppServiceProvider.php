@@ -23,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
         'App\Services\Interfaces\AdminServiceInterface' => 'App\Services\AdminService',
         'App\Services\Interfaces\ReviewServiceInterface' => 'App\Services\ReviewService',
         'App\Services\Interfaces\SliderServiceInterface' => 'App\Services\SliderService',
+        'App\Services\Interfaces\VerificationServiceInterface' => 'App\Services\VerificationService',
 
     ];
 

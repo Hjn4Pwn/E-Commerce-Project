@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Models\Admin;
 use App\Services\Interfaces\AdminServiceInterface;
 use App\Services\Interfaces\LocationServiceInterface;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class AdminService
@@ -34,5 +35,34 @@ class AdminService implements AdminServiceInterface
         $district_name = $this->locationService->getNameByDistrictId($shop_address["district_id"]);
         $province_name = $this->locationService->getNameByProvinceId($shop_address["province_id"]);
         return $address_detail . ', ' . $ward_name . ', ' . $district_name . ', ' . $province_name;
+    }
+
+    public function getAdminByEmail(string $email): ?Admin
+    {
+        return Admin::where('email', $email)->first();
+    }
+
+    public function resetPassword($admin, $newPassword)
+    {
+        $admin->password = Hash::make($newPassword);
+        $admin->save();
+
+        return ['status' => 'success'];
+    }
+
+    public function changePassword($admin, $currentPassword, $newPassword)
+    {
+        if (!Hash::check($currentPassword, $admin->password)) {
+            return [
+                'status' => 'error',
+                'field' => 'current_password',
+                'message' => 'Mật khẩu cũ không đúng.',
+            ];
+        }
+
+        $admin->password = Hash::make($newPassword);
+        $admin->save();
+
+        return ['status' => 'success'];
     }
 }

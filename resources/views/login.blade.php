@@ -41,12 +41,15 @@
                                     </div>
                                 @endif
                                 <div class="form-group form-primary">
-                                    <input type="text" name="email" class="form-control" required>
+                                    <input type="text" name="email" class="form-control" required
+                                        value="{{ old('email') }}" placeholder=" ">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Email</label>
                                 </div>
+
                                 <div class="form-group form-primary">
-                                    <input type="password" name="password" class="form-control" required>
+                                    <input type="password" name="password" class="form-control" required
+                                        placeholder=" ">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Mật khẩu</label>
                                 </div>
@@ -57,7 +60,8 @@
                                                 đây</a>
                                         </div>
                                         <div class="forgot-phone text-right f-right">
-                                            <a href="auth-reset-password.html" class="text-right f-w-600">Quên mật
+                                            <a href="{{ route('user.showResetPasswordForm') }}" class="text-right f-w-600">Quên
+                                                mật
                                                 khẩu?</a>
                                         </div>
                                     </div>

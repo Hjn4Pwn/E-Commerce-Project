@@ -3,7 +3,6 @@
 @section('content')
     {{-- @include('shop.components.navbar') --}}
     @include('shop.components.pageHeader', [
-        'activeCart' => 'active',
         'categories' => $categories,
     ])
 
@@ -84,7 +83,7 @@
                                                         <select id="provinceSelect" name="province_id"
                                                             class="form-control select2-format " style="width:100%;">
                                                             @if (!$user->province)
-                                                                <option>Hãy chọn một</option>
+                                                                <option>Chọn Tỉnh/Thành phố</option>
                                                             @else
                                                                 <option value="{{ $user->province->code }}">
                                                                     {{ $user->province->name }}</option>
@@ -104,7 +103,7 @@
                                                     <select id="districtSelect" name="district_id"
                                                         class="form-control select2-format" style="width:100%;">
                                                         @if (!$user->district)
-                                                            <option>Hãy chọn một</option>
+                                                            <option>Chọn Quận/Huyện</option>
                                                         @else
                                                             <option value="{{ $user->district->code }}">
                                                                 {{ $user->district->name }}</option>
@@ -119,7 +118,7 @@
                                                     <select id="wardSelect" name="ward_id"
                                                         class="form-control select2-format" style="width:100%;">
                                                         @if (!$user->ward)
-                                                            <option>Hãy chọn một</option>
+                                                            <option>Chọn Phường/Xã</option>
                                                         @else
                                                             <option value="{{ $user->ward->code }}">
                                                                 {{ $user->ward->name }}</option>

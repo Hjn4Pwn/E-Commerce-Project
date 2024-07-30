@@ -1,0 +1,22 @@
+.form-primary input:focus+.form-bar+.float-label {
+    top: -14px;
+    left: 0;
+    font-size: 11px;
+    color: #03A9F4;
+}
+.form-primary input:not(:focus)+.form-bar+.float-label {
+    color: rgb(71, 71, 71);
+}
+.form-primary input:focus+.form-bar:after {
+    width: 100%;
+}
+.form-primary input:focus+.form-bar+.float-label {
+    color: #03A9F4;
+}
+.form-primary input:not(:placeholder-shown)+.form-bar+.float-label {
+    top: -14px;
+    font-size: 11px;
+}
+.form-primary input:not(:focus):not(:placeholder-shown)+.form-bar+.float-label {
+    color: rgb(71, 71, 71);
+}

@@ -207,7 +207,7 @@
                                 </a>
                             </li> --}}
                             <li class="waves-effect waves-light p-b-0 p-t-0">
-                                <a href="#!" class="link_none">
+                                <a href="{{ route('user.showChangePasswordForm') }}" class="link_none">
                                     <i class="fa-solid fa-lock"></i> Đổi mật khẩu
                                 </a>
                             </li>

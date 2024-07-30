@@ -18,6 +18,3 @@
 <script type="text/javascript" src={{ asset('AdminResource/js/script.js ') }}></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-{{-- 
-<script src="https://cdn.tiny.cloud/1/{{ env('TinyMCE_API_KEY') }}/tinymce/7/tinymce.min.js" referrerpolicy="origin">
-</script> --}}

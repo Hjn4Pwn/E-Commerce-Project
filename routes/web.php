@@ -31,84 +31,41 @@ Route::prefix('admin')->group(function () {
         })->name('admin.index');
 
         // user
-        Route::get('users', [UserController::class, 'index'])
-            ->name('admin.users.index');
-
-        Route::get('users/{user}/edit', [UserController::class, 'edit'])
-            ->name('admin.users.edit');
-
-        Route::put('users/{user}', [UserController::class, 'update'])
-            ->name('admin.users.update');
-
-        Route::delete('users/{user}', [UserController::class, 'destroy'])
-            ->name('admin.users.destroy');
+        Route::get('users', [UserController::class, 'index'])->name('admin.users.index');
+        Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('admin.users.edit');
+        Route::put('users/{user}', [UserController::class, 'update'])->name('admin.users.update');
+        Route::delete('users/{user}', [UserController::class, 'destroy'])->name('admin.users.destroy');
         // --------------------------------------------------------------
 
         // category
-        Route::get('categories', [CategoryController::class, 'index'])
-            ->name('admin.categories.index');
-
-        Route::get('categories/create', [CategoryController::class, 'create'])
-            ->name('admin.categories.create');
-
-        Route::post('categories', [CategoryController::class, 'store'])
-            ->name('admin.categories.store');
-
-        Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])
-            ->name('admin.categories.edit');
-
-        Route::put('categories/{category}', [CategoryController::class, 'update'])
-            ->name('admin.categories.update');
-
-        Route::delete('categories/{category}', [CategoryController::class, 'destroy'])
-            ->name('admin.categories.destroy');
+        Route::get('categories', [CategoryController::class, 'index'])->name('admin.categories.index');
+        Route::get('categories/create', [CategoryController::class, 'create'])->name('admin.categories.create');
+        Route::post('categories', [CategoryController::class, 'store'])->name('admin.categories.store');
+        Route::get('categories/{category}/edit', [CategoryController::class, 'edit'])->name('admin.categories.edit');
+        Route::put('categories/{category}', [CategoryController::class, 'update'])->name('admin.categories.update');
+        Route::delete('categories/{category}', [CategoryController::class, 'destroy'])->name('admin.categories.destroy');
         // --------------------------------------------------------------
 
         // flavor
-        Route::get('flavors', [FlavorController::class, 'index'])
-            ->name('admin.flavors.index');
-
-        Route::get('flavors/create', [FlavorController::class, 'create'])
-            ->name('admin.flavors.create');
-
-        Route::post('flavors', [FlavorController::class, 'store'])
-            ->name('admin.flavors.store');
-
-        Route::get('flavors/{flavor}/edit', [FlavorController::class, 'edit'])
-            ->name('admin.flavors.edit');
-
-        Route::put('flavors/{flavor}', [FlavorController::class, 'update'])
-            ->name('admin.flavors.update');
-
-        Route::delete('flavors/{flavor}', [FlavorController::class, 'destroy'])
-            ->name('admin.flavors.destroy');
+        Route::get('flavors', [FlavorController::class, 'index'])->name('admin.flavors.index');
+        Route::get('flavors/create', [FlavorController::class, 'create'])->name('admin.flavors.create');
+        Route::post('flavors', [FlavorController::class, 'store'])->name('admin.flavors.store');
+        Route::get('flavors/{flavor}/edit', [FlavorController::class, 'edit'])->name('admin.flavors.edit');
+        Route::put('flavors/{flavor}', [FlavorController::class, 'update'])->name('admin.flavors.update');
+        Route::delete('flavors/{flavor}', [FlavorController::class, 'destroy'])->name('admin.flavors.destroy');
 
         // Route::get('admin/flavors', [FlavorController::class, 'index'])->name('admin.flavors.index');
         // --------------------------------------------------------------
 
         // product
-        Route::get('products', [ProductController::class, 'index'])
-            ->name('admin.products.index');
-
-        Route::get('products/category/{category}', [ProductController::class, 'indexByCategory'])
-            ->name('admin.products.byCategory');
-
-        Route::get('products/create', [ProductController::class, 'create'])
-            ->name('admin.products.create');
-
-        Route::post('products', [ProductController::class, 'store'])
-            ->name('admin.products.store');
-
+        Route::get('products', [ProductController::class, 'index'])->name('admin.products.index');
+        Route::get('products/category/{category}', [ProductController::class, 'indexByCategory'])->name('admin.products.byCategory');
+        Route::get('products/create', [ProductController::class, 'create'])->name('admin.products.create');
+        Route::post('products', [ProductController::class, 'store'])->name('admin.products.store');
         Route::get('/config/upload', [ProductController::class, 'showUploadConfig']);
-
-        Route::get('products/{product}/edit', [ProductController::class, 'edit'])
-            ->name('admin.products.edit');
-
-        Route::put('products/{product}', [ProductController::class, 'update'])
-            ->name('admin.products.update');
-
-        Route::delete('products/{product}', [ProductController::class, 'destroy'])
-            ->name('admin.products.destroy');
+        Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
+        Route::put('products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
+        Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
 
         // --------------------------------------------------------------
         // order
@@ -128,12 +85,9 @@ Route::prefix('admin')->group(function () {
         // info
         Route::get('profile', [AdminController::class, 'edit'])->name('admin.edit');
         Route::put('profile', [AdminController::class, 'update'])->name('admin.update');
+        Route::get('change-password', [AdminController::class, 'showChangePasswordForm'])->name('admin.showChangePasswordForm');
+        Route::put('change-password', [AdminController::class, 'changePassword'])->name('admin.changePassword');
 
-        Route::get('changePassword', function () {
-            return view('admin.pages.AdminInfo.changePassword', [
-                'page' => 'Admin Change Password',
-            ]);
-        })->name('admin.changePassword');
 
         // slider
         Route::get('sliders', [SliderController::class, 'index'])->name('admin.sliders.index');
@@ -146,8 +100,12 @@ Route::prefix('admin')->group(function () {
     Route::group(['middleware' => 'guest.admin'], function () {
         Route::get('/login', [AuthAdminController::class, 'showLoginForm'])->name('admin.login');
         Route::post('/login', [AuthAdminController::class, 'login'])->name('admin.login.post');
+        Route::get('/reset-password', [AdminController::class, 'showResetPasswordForm'])->name('admin.showResetPasswordForm');
+        Route::post('/reset-password', [AdminController::class, 'resetPassword'])->name('admin.resetPassword');
     });
     Route::get('/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
+
+    Route::post('/send-verification-code', [AuthAdminController::class, 'sendVerificationCode'])->name('admin.send.verification.code');
 });
 
 Route::prefix('user')->group(function () {
@@ -173,10 +131,6 @@ Route::get('product/{product}', [HomeController::class, 'productDetails'])->name
 Route::get('/login', [HomeController::class, 'login'])->name('shop.login');
 Route::get('/register', [HomeController::class, 'register'])->name('shop.register');
 
-
-Route::get('/user/editProfile', [UserController::class, 'editProfile'])->name('user.editProfile');
-Route::put('/user/updateProfile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
-
 // review
 Route::get('/product/{product}/reviews', [ReviewController::class, 'show'])->name('reviews.show');
 
@@ -186,12 +140,14 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/login', [AuthUserController::class, 'login'])->name('login.post');
     Route::get('/register', [AuthUserController::class, 'showRegistrationForm'])->name('register');
     Route::post('/register', [AuthUserController::class, 'register'])->name('register.post');
+    Route::get('/reset-password', [UserController::class, 'showResetPasswordForm'])->name('user.showResetPasswordForm');
+    Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('user.resetPassword');
 });
 
 Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
 
-
-
+Route::post('/send-verification-code', [AuthUserController::class, 'sendVerificationCode'])->name('send.verification.code');
+Route::post('/verify-code', [AuthUserController::class, 'verifyCode'])->name('verify.code');
 
 // authen pages
 Route::middleware(['auth'])->group(function () {
@@ -217,4 +173,12 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/products/{product}/review', [ReviewController::class, 'store'])->name('review.store');
     Route::post('/reviews/{review}/like', [ReviewController::class, 'like'])->name('reviews.like');
     Route::post('/reviews/{review}/report', [ReviewController::class, 'report'])->name('reviews.report');
+
+    // User Profile
+    Route::get('/user/edit-profile', [UserController::class, 'editProfile'])->name('user.editProfile');
+    Route::put('/user/update-profile', [UserController::class, 'updateProfile'])->name('user.updateProfile');
+
+
+    Route::get('/user/change-password', [UserController::class, 'showChangePasswordForm'])->name('user.showChangePasswordForm');
+    Route::put('/user/change-password', [UserController::class, 'changePassword'])->name('user.changePassword');
 });
