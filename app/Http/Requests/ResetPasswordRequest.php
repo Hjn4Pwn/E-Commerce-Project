@@ -34,8 +34,22 @@ class ResetPasswordRequest extends FormRequest
             'password' => 'required|confirmed|min:6',
             'role' => 'required|string',
             'code' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha',
         ];
 
         return $rules;
+    }
+
+    public function messages()
+    {
+        return [
+            'email.required' => 'Vui lòng nhập email.',
+            'email.email' => 'Email không hợp lệ.',
+            'code.required' => 'Vui lòng nhập mã xác thực.',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
+            'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'g-recaptcha-response.required' => 'Vui lòng xác thực Captcha.',
+            'g-recaptcha-response.captcha' => 'Xác thực Captcha không thành công.',
+        ];
     }
 }

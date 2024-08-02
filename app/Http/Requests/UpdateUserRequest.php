@@ -31,12 +31,12 @@ class UpdateUserRequest extends FormRequest
                 'max:255',
                 Rule::unique('users')->ignore($this->user()->id),
             ],
-            'phone' => 'nullable|string|max:20',
-            'province_id' => 'nullable|string|max:255',
-            'district_id' => 'nullable|string|max:255',
-            'ward_id' => 'nullable|string|max:255',
-            'address_detail' => 'nullable|string|max:255',
-            'avatar' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'phone' => 'required|string|max:20',
+            'province_id' => 'required|string|max:255',
+            'district_id' => 'required|string|max:255',
+            'ward_id' => 'required|string|max:255',
+            'address_detail' => 'required|string|max:255',
+            'avatar' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ];
     }
 

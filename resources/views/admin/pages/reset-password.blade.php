@@ -35,7 +35,7 @@
                                     </div>
                                 @endif
                                 <div class="form-group form-primary">
-                                    <input type="email" name="email" id="email" class="form-control" required
+                                    <input type="email" name="email" id="email" class="form-control"
                                         value="{{ old('email') }}" placeholder=" ">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Email</label>
@@ -47,7 +47,7 @@
                                 <div class="row">
                                     <div class="col-sm-8">
                                         <div class="form-group form-primary">
-                                            <input type="text" name="code" class="form-control" required
+                                            <input type="text" name="code" class="form-control"
                                                 value="{{ old('code') }}" placeholder=" ">
                                             <span class="form-bar"></span>
                                             <label class="float-label">Nhập mã được gửi qua email</label>
@@ -66,8 +66,7 @@
                                 <div class="row">
                                     <div class="col-sm-6">
                                         <div class="form-group form-primary">
-                                            <input type="password" name="password" class="form-control" required
-                                                placeholder=" ">
+                                            <input type="password" name="password" class="form-control" placeholder=" ">
                                             <span class="form-bar"></span>
                                             <label class="float-label">Mật khẩu mới</label>
                                         </div>
@@ -75,12 +74,18 @@
                                     <div class="col-sm-6">
                                         <div class="form-group form-primary">
                                             <input type="password" name="password_confirmation" class="form-control"
-                                                required placeholder=" ">
+                                                placeholder=" ">
                                             <span class="form-bar"></span>
                                             <label class="float-label">Xác nhận mật khẩu mới</label>
                                         </div>
                                     </div>
                                 </div>
+
+                                {!! NoCaptcha::renderJs() !!}
+                                {!! NoCaptcha::display() !!}
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                @endif
 
                                 <div class="row text-left">
                                     <div class="col-12">

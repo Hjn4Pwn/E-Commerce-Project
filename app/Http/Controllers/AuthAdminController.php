@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\AdminAuthRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Services\Interfaces\VerificationServiceInterface;
@@ -22,11 +23,21 @@ class AuthAdminController extends Controller
         return view('admin.pages.login');
     }
 
-    public function login(Request $request)
+    public function login(AdminAuthRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
         if (Auth::guard('admin')->attempt($credentials)) {
+            $user = Auth::guard('admin')->user();
+
+            if ($user->google2fa_secret) {
+                Auth::guard('admin')->logout();
+                $request->session()->put('2fa:user:id', $user->id);
+                // $request->session()->put('2fa:remember', $request->has('remember'));
+
+                return redirect()->route('2fa.validate.form');
+            }
+
             return redirect()->intended('admin/')->with('success', 'Đăng nhập thành công.');
         }
 
@@ -34,6 +45,7 @@ class AuthAdminController extends Controller
             'email' => 'Thông tin đăng nhập không chính xác.',
         ])->withInput();
     }
+
 
     public function logout()
     {

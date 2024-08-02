@@ -10,6 +10,7 @@ use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\FlavorController;
+use App\Http\Controllers\Google2FAController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProductController;
@@ -94,19 +95,31 @@ Route::prefix('admin')->group(function () {
         Route::get('sliders/create', [SliderController::class, 'create'])->name('admin.sliders.create');
         Route::post('sliders', [SliderController::class, 'store'])->name('admin.sliders.store');
         Route::delete('sliders/{slider}', [SliderController::class, 'destroy'])->name('admin.sliders.destroy');
+
+        // 2fa
+        Route::get('2fa/enable', [Google2FAController::class, 'showEnable2faForm'])->name('2fa.enable.form');
+        Route::post('2fa-enable', [Google2FAController::class, 'verifyEnable2fa'])->name('2fa.enable.verify');
+        Route::post('2fa/disable', [Google2FAController::class, 'disable2fa'])->name('2fa.disable');
     });
 
     // admin - login - logout
     Route::group(['middleware' => 'guest.admin'], function () {
         Route::get('/login', [AuthAdminController::class, 'showLoginForm'])->name('admin.login');
         Route::post('/login', [AuthAdminController::class, 'login'])->name('admin.login.post');
-        Route::get('/reset-password', [AdminController::class, 'showResetPasswordForm'])->name('admin.showResetPasswordForm');
         Route::post('/reset-password', [AdminController::class, 'resetPassword'])->name('admin.resetPassword');
+        Route::get('/reset-password', [AdminController::class, 'showResetPasswordForm'])->name('admin.showResetPasswordForm');
     });
     Route::get('/logout', [AuthAdminController::class, 'logout'])->name('admin.logout');
 
     Route::post('/send-verification-code', [AuthAdminController::class, 'sendVerificationCode'])->name('admin.send.verification.code');
+
+    // 2fa
+    Route::post('2fa/validate', [Google2FAController::class, 'validate2fa'])->name('2fa.validate');
+    Route::get('2fa/validate', [Google2FAController::class, 'showValidate2faForm'])->name('2fa.validate.form');
 });
+
+
+
 
 Route::prefix('user')->group(function () {
 });
@@ -182,3 +195,5 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/change-password', [UserController::class, 'showChangePasswordForm'])->name('user.showChangePasswordForm');
     Route::put('/user/change-password', [UserController::class, 'changePassword'])->name('user.changePassword');
 });
+
+// Route::get('test', [Google2FAController::class, 'test'])->name('test');

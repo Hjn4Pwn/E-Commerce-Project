@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class AdminAuthRequest extends FormRequest
+class LoginRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,13 @@ class AdminAuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required',
+            'email' => 'required|string|email',
+            'password' => 'required|string',
             'g-recaptcha-response' => 'required|captcha',
         ];
     }
 
-    public function messages(): array
+    public function messages()
     {
         return [
             'email.required' => 'Vui lòng nhập email.',

@@ -34,12 +34,7 @@
                                 <span class="f-16">Phí vận chuyển: </span>
                                 <span class="text-info f-24 font-weight-bold ml-2">{{ format_currency($ship) }}</span>
                             </div>
-
-                            {{-- <div class="mb-3">
-                                <span class="f-16 text-info">Địa chỉ shop: </span>
-                                <span>{{ session('shop_address') }}</span>
-                            </div> --}}
-
+              
                             <!-- Order Review Section -->
                             @if ($OrderReview)
                                 @php
@@ -144,7 +139,7 @@
                                     <select id="provinceSelect" name="province" class="form-control select2-format "
                                         style="width:100%;">
                                         @if (!$user->province)
-                                            <option>Chọn Tỉnh/Thành phố</option>
+                                            <option value="">Chọn Tỉnh/Thành phố</option>
                                         @else
                                             <option value="{{ $user->province->name }}">
                                                 {{ $user->province->name }}</option>
@@ -164,7 +159,7 @@
                                 <select id="districtSelect" name="district" class="form-control select2-format"
                                     style="width:100%;">
                                     @if (!$user->district)
-                                        <option>Chọn Quận/Huyện</option>
+                                        <option value="">Chọn Quận/Huyện</option>
                                     @else
                                         <option value="{{ $user->district->code }}">
                                             {{ $user->district->name }}</option>
@@ -179,7 +174,7 @@
                                 <select id="wardSelect" name="ward" class="form-control select2-format"
                                     style="width:100%;">
                                     @if (!$user->ward)
-                                        <option>Chọn Phường/Xã</option>
+                                        <option value="">Chọn Phường/Xã</option>
                                     @else
                                         <option value="{{ $user->ward->code }}">
                                             {{ $user->ward->name }}</option>

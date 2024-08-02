@@ -3,8 +3,9 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class AdminAuthRequest extends FormRequest
+class Validate2faRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,20 +23,14 @@ class AdminAuthRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'password' => 'required',
-            'g-recaptcha-response' => 'required|captcha',
+            'one_time_password' => 'required|string|max:255',
         ];
     }
 
     public function messages(): array
     {
         return [
-            'email.required' => 'Vui lòng nhập email.',
-            'email.email' => 'Email không hợp lệ.',
-            'password.required' => 'Vui lòng nhập mật khẩu.',
-            'g-recaptcha-response.required' => 'Vui lòng xác thực Captcha.',
-            'g-recaptcha-response.captcha' => 'Xác thực Captcha không thành công.',
+            'one_time_password.required' => 'Mã OTP là bắt buộc.',
         ];
     }
 }

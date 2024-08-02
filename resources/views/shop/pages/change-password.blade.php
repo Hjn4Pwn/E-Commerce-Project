@@ -39,23 +39,22 @@
                                         <div class="form-group row">
                                             <label class="col-sm-4 col-form-label">Mật khẩu cũ</label>
                                             <div class="col-sm-8">
-                                                <input type="password" class="form-control" name="current_password"
-                                                    required>
+                                                <input type="password" class="form-control" name="current_password">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label class="col-sm-4 col-form-label">Mật khẩu mới</label>
                                             <div class="col-sm-8">
-                                                <input type="password" class="form-control" name="new_password" required>
+                                                <input type="password" class="form-control" name="new_password">
                                             </div>
                                         </div>
 
                                         <div class="form-group row">
                                             <label class="col-sm-4 col-form-label">Xác nhận mật khẩu mới</label>
                                             <div class="col-sm-8">
-                                                <input type="password" class="form-control" name="new_password_confirmation"
-                                                    required>
+                                                <input type="password" class="form-control"
+                                                    name="new_password_confirmation">
                                             </div>
                                         </div>
 
@@ -65,7 +64,7 @@
                                             <label class="col-sm-4 col-form-label">Mã xác thực được gửi qua email</label>
                                             <div class="col-sm-6">
                                                 <div class="form-group form-primary">
-                                                    <input type="text" name="code" class="form-control" required
+                                                    <input type="text" name="code" class="form-control"
                                                         value="{{ old('code') }}">
                                                     <span class="form-bar"></span>
 
@@ -78,6 +77,18 @@
                                                         Gửi mã
                                                     </button>
                                                 </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <label class="col-sm-4 col-form-label"></label>
+                                            <div class="col-sm-8">
+                                                {!! NoCaptcha::renderJs() !!}
+                                                {!! NoCaptcha::display() !!}
+                                                @if ($errors->has('g-recaptcha-response'))
+                                                    <span
+                                                        class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                                @endif
                                             </div>
                                         </div>
 

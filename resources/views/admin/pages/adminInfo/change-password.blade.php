@@ -19,6 +19,19 @@
                                         <h5>Change Admin Password</h5>
                                     </div>
                                     <div class="card-block">
+
+                                        @if ($errors->any())
+                                            <div class="alert alert-danger">
+                                                <ul>
+                                                    @foreach ($errors->all() as $error)
+                                                        <li>{{ $error }}</li>
+                                                    @endforeach
+                                                </ul>
+                                            </div>
+                                        @endif
+
+
+
                                         <form action="{{ route('admin.changePassword') }}" method="POST"
                                             enctype="multipart/form-data">
                                             @csrf
@@ -26,16 +39,14 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-4 col-form-label">Mật khẩu cũ</label>
                                                 <div class="col-sm-8">
-                                                    <input type="password" class="form-control" name="current_password"
-                                                        required>
+                                                    <input type="password" class="form-control" name="current_password">
                                                 </div>
                                             </div>
 
                                             <div class="form-group row">
                                                 <label class="col-sm-4 col-form-label">Mật khẩu mới</label>
                                                 <div class="col-sm-8">
-                                                    <input type="password" class="form-control" name="new_password"
-                                                        required>
+                                                    <input type="password" class="form-control" name="new_password">
                                                 </div>
                                             </div>
 
@@ -43,7 +54,7 @@
                                                 <label class="col-sm-4 col-form-label">Xác nhận mật khẩu mới</label>
                                                 <div class="col-sm-8">
                                                     <input type="password" class="form-control"
-                                                        name="new_password_confirmation" required>
+                                                        name="new_password_confirmation">
                                                 </div>
                                             </div>
 
@@ -55,7 +66,7 @@
                                                     email</label>
                                                 <div class="col-sm-6">
                                                     <div class="form-group form-primary">
-                                                        <input type="text" name="code" class="form-control" required
+                                                        <input type="text" name="code" class="form-control"
                                                             value="{{ old('code') }}">
                                                         <span class="form-bar"></span>
 
@@ -70,6 +81,19 @@
                                                     </div>
                                                 </div>
                                             </div>
+
+                                            <div class="form-group row">
+                                                <label class="col-sm-4 col-form-label"></label>
+                                                <div class="col-sm-8">
+                                                    {!! NoCaptcha::renderJs() !!}
+                                                    {!! NoCaptcha::display() !!}
+                                                    @if ($errors->has('g-recaptcha-response'))
+                                                        <span
+                                                            class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                                    @endif
+                                                </div>
+                                            </div>
+
 
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-primary waves-effect waves-light">Cập

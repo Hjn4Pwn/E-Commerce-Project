@@ -27,19 +27,23 @@ class RegisterRequest extends FormRequest
             'password' => 'required|string|min:6|confirmed',
             'code' => 'required|string',
             'role' => 'required|string',
+            'g-recaptcha-response' => 'required|captcha',
         ];
     }
 
     public function messages()
     {
         return [
-            'name.required' => 'Tên là bắt buộc.',
-            'email.required' => 'Email là bắt buộc.',
+            'name.required' => 'Vui lòng nhập tên.',
+            'email.required' => 'Vui lòng nhập email.',
             'email.email' => 'Email không hợp lệ.',
             'email.unique' => 'Email đã tồn tại.',
-            'password.required' => 'Mật khẩu là bắt buộc.',
+            'code.required' => 'Vui lòng nhập mã xác thực.',
+            'password.required' => 'Vui lòng nhập mật khẩu.',
             'password.min' => 'Mật khẩu phải có ít nhất 6 ký tự.',
             'password.confirmed' => 'Mật khẩu xác nhận không khớp.',
+            'g-recaptcha-response.required' => 'Vui lòng xác thực Captcha.',
+            'g-recaptcha-response.captcha' => 'Xác thực Captcha không thành công.',
         ];
     }
 }

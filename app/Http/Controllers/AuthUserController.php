@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\LoginRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class AuthUserController extends Controller
         return view('login');
     }
 
-    public function login(Request $request)
+    public function login(LoginRequest $request)
     {
         $credentials = $request->only('email', 'password');
 
@@ -33,7 +34,7 @@ class AuthUserController extends Controller
         }
 
         return back()->withErrors([
-            'email' => 'The provided credentials do not match our records.',
+            'email' => 'Thông tin đăng nhập không chính xác.',
         ])->withInput();
     }
 

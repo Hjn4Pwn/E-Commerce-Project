@@ -111,6 +111,13 @@
                                             <i class="fa-solid fa-user"></i> Profile
                                         </a>
                                     </li>
+
+                                    <li class="waves-effect waves-light">
+                                        <a href="{{ route('2fa.enable.form') }}" class="link_none">
+                                            <i class="fa-solid fa-lock"></i> Xác thực 2 yếu tố
+                                        </a>
+                                    </li>
+
                                     <li class="waves-effect waves-light">
                                         <a href="email-inbox.html" class="link_none">
                                             <i class="fa-solid fa-message"></i> My Messages

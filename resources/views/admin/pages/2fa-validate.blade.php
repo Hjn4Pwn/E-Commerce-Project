@@ -14,7 +14,7 @@
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Authentication card start -->
-                    <form class="md-float-material form-material" method="post" action="{{ route('admin.login.post') }}">
+                    <form class="md-float-material form-material" method="post" action="{{ route('2fa.validate') }}">
                         @csrf
                         <div class="text-center">
                             <img src={{ asset('AdminResource/images/test/logo.png') }} alt="logo.png">
@@ -35,39 +35,23 @@
                                         </ul>
                                     </div>
                                 @endif
-                                <div class="form-group form-primary">
-                                    <input type="text" name="email" class="form-control"
-                                        value="{{ old('email') }}" placeholder=" ">
-                                    <span class="form-bar"></span>
-                                    <label class="float-label">Email</label>
-                                </div>
-                                <div class="form-group form-primary">
-                                    <input type="password" name="password" class="form-control" placeholder=" ">
-                                    <span class="form-bar"></span>
-                                    <label class="float-label">Mật khẩu</label>
-                                </div>
 
-                                {!! NoCaptcha::renderJs() !!}
-                                {!! NoCaptcha::display() !!}
-                                @if ($errors->has('g-recaptcha-response'))
-                                    <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
-                                @endif
 
-                                <div class="row m-t-25 text-left">
-                                    <div class="col-12">
-
-                                        <div class="forgot-phone text-right f-right">
-                                            <a href="{{ route('admin.showResetPasswordForm') }}"
-                                                class="text-right f-w-600"> Quên mật
-                                                khẩu?</a>
-                                        </div>
+                                <div class="form-group row">
+                                    <label for="one_time_password" class="col-sm-4 col-form-label">Mã OTP</label>
+                                    <div class="col-sm-8">
+                                        <input type="text" class="form-control" id="one_time_password"
+                                            name="one_time_password">
                                     </div>
                                 </div>
+
+
+
                                 <div class="row m-t-30">
                                     <div class="col-md-12">
                                         <button type="submit"
-                                            class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Đăng
-                                            nhập</button>
+                                            class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Xác
+                                            thực</button>
                                     </div>
                                 </div>
                                 <hr />

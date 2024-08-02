@@ -13,11 +13,6 @@
         <div class="container">
             <div class="row">
                 <div class="col-sm-12">
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
                     <!-- Authentication card start -->
                     <form class="md-float-material form-material" method="post" action="{{ route('login.post') }}">
                         @csrf
@@ -41,18 +36,24 @@
                                     </div>
                                 @endif
                                 <div class="form-group form-primary">
-                                    <input type="text" name="email" class="form-control" required
+                                    <input type="text" name="email" class="form-control"
                                         value="{{ old('email') }}" placeholder=" ">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Email</label>
                                 </div>
 
                                 <div class="form-group form-primary">
-                                    <input type="password" name="password" class="form-control" required
-                                        placeholder=" ">
+                                    <input type="password" name="password" class="form-control" placeholder=" ">
                                     <span class="form-bar"></span>
                                     <label class="float-label">Mật khẩu</label>
                                 </div>
+
+                                {!! NoCaptcha::renderJs() !!}
+                                {!! NoCaptcha::display() !!}
+                                @if ($errors->has('g-recaptcha-response'))
+                                    <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
+                                @endif
+
                                 <div class="row m-t-25 text-left">
                                     <div class="col-12">
                                         <div class="forgot-phone text-left f-left">
@@ -60,7 +61,8 @@
                                                 đây</a>
                                         </div>
                                         <div class="forgot-phone text-right f-right">
-                                            <a href="{{ route('user.showResetPasswordForm') }}" class="text-right f-w-600">Quên
+                                            <a href="{{ route('user.showResetPasswordForm') }}"
+                                                class="text-right f-w-600">Quên
                                                 mật
                                                 khẩu?</a>
                                         </div>
