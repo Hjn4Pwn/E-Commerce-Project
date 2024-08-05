@@ -28,7 +28,7 @@ class ReviewController extends Controller
         $reviews = $this->reviewService->getAll();
         // dd($reviews);
         return view('admin.pages.review.index', [
-            'page' => 'Reviews',
+            'page' => 'Đánh giá',
             'reviews' => $reviews,
         ]);
     }
@@ -39,7 +39,7 @@ class ReviewController extends Controller
         // dd($reviewData);
         return view('admin.pages.review.show', [
             'parentPage' => ['Reviews', 'admin.reviews.index'],
-            'childPage' => 'Review Details',
+            'childPage' => 'Chi tiết',
             'reviewData' => $reviewData,
         ]);
     }
@@ -109,8 +109,8 @@ class ReviewController extends Controller
     public function destroy(Review $review)
     {
         if ($this->reviewService->deleteReview($review)) {
-            return redirect()->route('admin.reviews.index')->with('success', 'Delete review successfully');
+            return redirect()->route('admin.reviews.index')->with('success', 'Xóa đánh giá thành công');
         }
-        return back()->withErrors('Failed to delete review.');
+        return back()->withErrors('Xóa đánh giá thất bại.');
     }
 }

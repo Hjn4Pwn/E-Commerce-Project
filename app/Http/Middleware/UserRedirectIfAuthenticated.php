@@ -17,7 +17,7 @@ class UserRedirectIfAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) {
-            return redirect('/')->with('warning', 'Are you serious???');
+            return redirect('/')->with('warning', 'Bạn nghiêm túc chứ!!!');
         }
 
         return $next($request);

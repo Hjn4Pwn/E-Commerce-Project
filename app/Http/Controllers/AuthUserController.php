@@ -9,15 +9,21 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Services\Interfaces\VerificationServiceInterface;
+use App\Services\Interfaces\UserServiceInterface;
+use Illuminate\Validation\ValidationException;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthUserController extends Controller
 {
     protected $verificationService;
+    protected $userService;
 
     public function __construct(
         VerificationServiceInterface $verificationService,
+        UserServiceInterface $userService,
     ) {
         $this->verificationService = $verificationService;
+        $this->userService = $userService;
     }
 
     public function showLoginForm()
@@ -103,5 +109,42 @@ class AuthUserController extends Controller
         $this->verificationService->sendVerificationCode($email, $request->role);
 
         return response()->json(['message' => 'Mã xác thực đã được gửi.']);
+    }
+
+
+    public function redirectToFacebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function handleFacebookCallback()
+    {
+        try {
+            $user = Socialite::driver('facebook')->user();
+            $authUser = $this->userService->findOrCreateUser($user, 'facebook');
+
+            auth()->login($authUser, true);
+            return redirect()->route('shop.index');
+        } catch (ValidationException $e) {
+            return redirect()->route('login')->withErrors($e->errors());
+        }
+    }
+
+    public function redirectToGoogle()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+
+    public function handleGoogleCallback()
+    {
+        try {
+            $user = Socialite::driver('google')->user();
+            $authUser = $this->userService->findOrCreateUser($user, 'google');
+
+            auth()->login($authUser, true);
+            return redirect()->route('shop.index');
+        } catch (ValidationException $e) {
+            return redirect()->route('login')->withErrors($e->errors());
+        }
     }
 }

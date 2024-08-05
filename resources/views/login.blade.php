@@ -21,7 +21,7 @@
                         </div>
                         <div class="auth-box card">
                             <div class="card-block">
-                                <div class="row m-b-20">
+                                <div class="row m-b-10">
                                     <div class="col-md-12">
                                         <h3 class="text-center">Đăng nhập</h3>
                                     </div>
@@ -54,7 +54,7 @@
                                     <span class="text-danger">{{ $errors->first('g-recaptcha-response') }}</span>
                                 @endif
 
-                                <div class="row m-t-25 text-left">
+                                <div class="row m-t-10 text-left">
                                     <div class="col-12">
                                         <div class="forgot-phone text-left f-left">
                                             <a href="{{ route('register') }}" class="text-right f-w-600">Đăng ký tại
@@ -68,7 +68,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row m-t-30">
+                                <div class="row m-t-10">
                                     <div class="col-md-12">
                                         <button type="submit"
                                             class="btn btn-primary btn-md btn-block waves-effect waves-light text-center m-b-20">Đăng
@@ -76,6 +76,22 @@
                                     </div>
                                 </div>
                                 <hr />
+
+                                <div class="row mb-2">
+                                    <a href="{{ route('auth.facebook') }}" class="btn btn-outline-primary col-md-12"
+                                        style="text-transform: none;">
+                                        <i class="fa-brands fa-facebook-f"></i> Đăng nhập bằng Facebook
+                                    </a>
+                                </div>
+
+                                <div class="row mb-2">
+                                    <a href="{{ route('auth.google') }}" class="btn btn-outline-warning col-md-12"
+                                        style="text-transform: none;">
+                                        <i class="fa-brands fa-google"></i> Đăng nhập bằng Google
+                                    </a>
+                                </div>
+
+
                                 <div class="row">
                                     <div class="col-md-10">
                                         <p class="text-inverse text-left m-b-0">Cảm ơn bạn.</p>

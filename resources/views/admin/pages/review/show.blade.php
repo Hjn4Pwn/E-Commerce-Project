@@ -19,11 +19,9 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Show Review</h5>
-                                        <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
+                                        <h5>Chi tiết đánh giá sản phẩm</h5>
                                     </div>
                                     <div class="card-block">
-                                        {{-- validation --}}
                                         @if ($errors->any())
                                             <div class="alert alert-danger">
                                                 <ul>
@@ -36,7 +34,7 @@
 
                                         @if ($reviewData->count())
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Name</label>
+                                                <label class="col-sm-2 col-form-label">Khách hàng</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-control-static text-dark pt-2">
                                                         {{ $reviewData->user->name }}
@@ -45,7 +43,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Product Name</label>
+                                                <label class="col-sm-2 col-form-label">Sản phẩm</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-control-static text-dark pt-2">
                                                         {{ $reviewData->product->name }}
@@ -54,7 +52,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Product Image</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh</label>
                                                 <div class="col-sm-10">
                                                     <img src="{{ asset($reviewData->product->main_image->path) }}"
                                                         class="rounded-3 userImage" style="width: 100px;" alt="" />
@@ -63,7 +61,7 @@
 
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Comment</label>
+                                                <label class="col-sm-2 col-form-label">Bình luận</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-control-static text-dark pt-2">
                                                         {{ $reviewData->comment }}
@@ -72,7 +70,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Likes</label>
+                                                <label class="col-sm-2 col-form-label">Số lượng thích</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-control-static text-primary pt-2 font-weight-bold">
                                                         {{ $reviewData->total_likes }}
@@ -81,7 +79,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Reports</label>
+                                                <label class="col-sm-2 col-form-label">Số lượng báo cáo</label>
                                                 <div class="col-sm-10">
                                                     <div class="form-control-static text-danger pt-2 font-weight-bold">
                                                         {{ $reviewData->total_reports }}
@@ -96,7 +94,7 @@
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="submit" class="btn btn-danger waves-effect waves-light">
-                                                        Delete
+                                                        Xóa
                                                     </button>
                                                 </form>
                                             </div>

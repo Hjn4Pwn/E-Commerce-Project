@@ -102,7 +102,7 @@ class CartController extends Controller
             $request->flavor_id
         );
 
-        return redirect('cart/')->with('success', 'Product added to cart successfully');
+        return redirect('cart/')->with('success', 'Thêm sản phẩm vào giỏ hàng thành công.');
     }
 
     public function removeItem(Request $request)

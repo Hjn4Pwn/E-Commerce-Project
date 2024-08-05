@@ -16,7 +16,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Change Admin Password</h5>
+                                        <h5>Thay đổi mật khẩu</h5>
                                     </div>
                                     <div class="card-block">
 

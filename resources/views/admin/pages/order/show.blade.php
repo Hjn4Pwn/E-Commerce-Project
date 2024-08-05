@@ -58,12 +58,12 @@
                                 <!-- Basic Form Inputs card start -->
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>User Information</h5>
+                                        <h5>Thông tin khách hàng</h5>
                                     </div>
                                     <div class="card-block">
                                         <form>
                                             <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">Name</label>
+                                                <label class="col-sm-3 col-form-label">Tên</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control"
                                                         value="{{ $order->user->name }}" readonly>
@@ -77,28 +77,22 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">Phone</label>
+                                                <label class="col-sm-3 col-form-label">Số điện thoại</label>
                                                 <div class="col-sm-9">
                                                     <input type="text" class="form-control"
                                                         value="{{ $order->user->phone }}" readonly>
                                                 </div>
                                             </div>
-                                            {{-- <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">Payment</label>
-                                                <div class="col-sm-9">
-                                                    <input type="text" class="form-control" placeholder="1908736495"
-                                                        readonly>
-                                                </div>
-                                            </div> --}}
+
                                             <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">Address</label>
+                                                <label class="col-sm-3 col-form-label">Địa chỉ</label>
                                                 <div class="col-sm-9">
                                                     <div class="form-control-static text-info pt-2">{{ $order->address }}
                                                     </div>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-3 col-form-label">Note</label>
+                                                <label class="col-sm-3 col-form-label">Ghi chú</label>
                                                 <div class="col-sm-9">
                                                     <div class="form-control-static text-muted pt-2">
                                                         {{ $order->note }}
@@ -114,16 +108,9 @@
                             <div class="col-md-7">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>User Orders</h5>
-                                        {{-- <span>use class <code>table-hover</code> inside table element</span> --}}
+                                        <h5>Chi tiết đơn hàng</h5>
                                         <div class="card-header-right">
-                                            {{-- <ul class="list-unstyled card-option">
-                                    <li><i class="fa fa fa-wrench open-card-option"></i></li>
-                                    <li><i class="fa fa-window-maximize full-card"></i></li>
-                                    <li><i class="fa fa-minus minimize-card"></i></li>
-                                    <li><i class="fa fa-refresh reload-card"></i></li>
-                                    <li><i class="fa fa-trash close-card"></i></li>
-                                </ul> --}}
+
                                         </div>
                                     </div>
                                     <div class="card-block table-border-style">
@@ -132,10 +119,10 @@
                                                 <thead>
                                                     <tr>
                                                         <th>#</th>
-                                                        <th width=35%>Name </th>
-                                                        <th class="text-center" width=25%>Image</th>
-                                                        <th class="text-center" width=10%>Quantity</th>
-                                                        <th class="text-center" width=30%>Price</th>
+                                                        <th width=35%>Tên </th>
+                                                        <th class="text-center" width=25%>Ảnh</th>
+                                                        <th class="text-center" width=10%>Số lượng</th>
+                                                        <th class="text-center" width=30%>Giá</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -173,13 +160,13 @@
                                 <!-- Basic Form Inputs card start -->
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Invoice</h5>
+                                        <h5>Đơn giá</h5>
                                     </div>
                                     <div class="card-block">
                                         <form>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Subtotal</label>
+                                                <label class="col-sm-4 col-form-label">Tạm tính</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control"
                                                         value="{{ format_currency($order->total_price) }}" readonly>
@@ -187,7 +174,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label">Ship</label>
+                                                <label class="col-sm-4 col-form-label">Phí vận chuyển</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control"
                                                         value="{{ format_currency($order->shipping_fee) }}" readonly>
@@ -196,7 +183,7 @@
 
 
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label form-bg-primary">Total</label>
+                                                <label class="col-sm-4 col-form-label form-bg-primary">Tổng giá trị</label>
                                                 <div class="col-sm-8">
                                                     <div class="form-control-static text-success"
                                                         style="font-size: 26px; font-weight: bold;">

@@ -10,7 +10,7 @@
                     <div class="page-body">
                         <div class="card">
                             <div class="card-header">
-                                <h5>List of Products</h5>
+                                <h5>Danh sách sản phẩm</h5>
                                 <div class="card-header-right">
                                 </div>
                             </div>
@@ -31,8 +31,8 @@
                                     <form class="form-material float-right" action="{{ route('admin.products.create') }}"
                                         method="get">
                                         <div class="col-sm-4">
-                                            <button type="submit" class="btn btn-info waves-effect waves-light">Add
-                                                Product</button>
+                                            <button type="submit" class="btn btn-info waves-effect waves-light">Thêm sản
+                                                phẩm</button>
                                         </div>
                                     </form>
                                 </div>
@@ -41,7 +41,7 @@
                                     <form class="form-material" method="get" action="" id="categoryForm">
                                         @csrf
                                         <div class="form-group row">
-                                            <label class="col-sm-2 col-form-label">Choose Category</label>
+                                            <label class="col-sm-2 col-form-label">Chọn danh mục</label>
                                             <div class="col-sm-6">
                                                 <select name="category" class="form-control select2-format"
                                                     id="categorySelect">
@@ -69,8 +69,8 @@
                                                 <input type="text" name="search" class="form-control"
                                                     value="{{ request('search') }}" placeholder=" ">
                                                 <span class="form-bar"></span>
-                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
-                                                    Name</label>
+                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Tìm kiếm bằng
+                                                    tên</label>
                                             </div>
                                         </form>
                                     </div>
@@ -78,12 +78,12 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-center" width=20%>Name </th>
-                                                <th class="text-center" width=15%>Image</th>
-                                                <th class="text-center" width=15%>Category</th>
-                                                <th class="text-center" width=15%>Price</th>
-                                                <th class="text-center" width=15%>Quantity</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center" width=20%>Tên </th>
+                                                <th class="text-center" width=15%>Ảnh</th>
+                                                <th class="text-center" width=15%>Danh mục</th>
+                                                <th class="text-center" width=15%>Giá</th>
+                                                <th class="text-center" width=15%>Số lượng</th>
+                                                <th class="text-center">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -102,7 +102,7 @@
                                                         <td class="text-center">{{ $product->category->name }}</td>
                                                         <td class="text-center">{{ format_currency($product->price) }}</td>
                                                         @if ($outOfStockProducts->contains($product->id))
-                                                            <td class="text-center">Out of Stock</td>
+                                                            <td class="text-center">Hết hàng</td>
                                                         @else
                                                             <td class="text-center">{{ $product->quantity }}</td>
                                                         @endif
@@ -132,7 +132,8 @@
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-info">No products available
+                                                    <td colspan="7" class="text-center text-info">Chưa có sản phẩm nào.
+                                                        Hãy thêm mới.
                                                     </td>
                                                 </tr>
                                             @endif

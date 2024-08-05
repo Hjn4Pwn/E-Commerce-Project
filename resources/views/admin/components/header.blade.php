@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                         </div>
-                        <a href="{{ route('admin.index') }}">
+                        <a href="{{ route('admin.dashboard') }}">
                             <img class="img-fluid" src={{ asset('AdminResource/images/test/logo.png') }}
                                 alt="Theme-Logo" />
                         </a>
@@ -42,57 +42,7 @@
                             $admin = Auth::guard('admin')->user();
                         @endphp
                         <ul class="nav-right">
-                            <li class="header-notification">
-                                <a href="#!" class="waves-effect waves-light">
-                                    <i class="ti-bell"></i>
-                                    <span class="badge bg-c-red"></span>
-                                </a>
-                                <ul class="show-notification">
-                                    <li>
-                                        <h6>Notifications</h6>
-                                        <label class="label label-danger">New</label>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src={{ asset('AdminResource/images/avatar-2.jpg') }}
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Huy Na</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src={{ asset('AdminResource/images/avatar-4.jpg') }}
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Joseph William</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="waves-effect waves-light">
-                                        <div class="media">
-                                            <img class="d-flex align-self-center img-radius"
-                                                src={{ asset('AdminResource/images/avatar-3.jpg') }}
-                                                alt="Generic placeholder image">
-                                            <div class="media-body">
-                                                <h5 class="notification-user">Sara Soudein</h5>
-                                                <p class="notification-msg">Lorem ipsum dolor sit amet, consectetuer
-                                                    elit.</p>
-                                                <span class="notification-time">30 minutes ago</span>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </li>
+
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light link_none">
                                     <img src={{ asset($admin->avatar ?? 'AdminResource/images/test/sampleAvatar.png') }}
@@ -108,7 +58,7 @@
                                     </li> --}}
                                     <li class="waves-effect waves-light ">
                                         <a href="{{ route('admin.edit') }}" class="link_none">
-                                            <i class="fa-solid fa-user"></i> Profile
+                                            <i class="fa-solid fa-user"></i> Hồ sơ
                                         </a>
                                     </li>
 
@@ -119,13 +69,8 @@
                                     </li>
 
                                     <li class="waves-effect waves-light">
-                                        <a href="email-inbox.html" class="link_none">
-                                            <i class="fa-solid fa-message"></i> My Messages
-                                        </a>
-                                    </li>
-                                    <li class="waves-effect waves-light">
                                         <a href="{{ route('admin.changePassword') }}" class="link_none">
-                                            <i class="fa-solid fa-lock"></i> Change Password
+                                            <i class="fa-solid fa-lock"></i> Thay đổi mật khẩu
                                         </a>
                                     </li>
                                     {{-- <li class="waves-effect waves-light">
@@ -135,7 +80,7 @@
                                     </li> --}}
                                     <li class="waves-effect waves-light ">
                                         <a href="{{ route('admin.logout') }}" class="link_none">
-                                            <i class="fa-solid fa-right-from-bracket"></i> Logout
+                                            <i class="fa-solid fa-right-from-bracket"></i> Đăng xuất
                                         </a>
                                     </li>
                                 </ul>

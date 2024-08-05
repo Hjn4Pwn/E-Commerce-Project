@@ -10,7 +10,7 @@
                     <div class="page-body">
                         <div class="card">
                             <div class="card-header">
-                                <h5>List of Sliders</h5>
+                                <h5>Danh sách các Sliders</h5>
                                 <div class="card-header-right">
                                 </div>
                             </div>
@@ -31,8 +31,8 @@
                                     <form class="form-material float-right" action="{{ route('admin.sliders.create') }}"
                                         method="get">
                                         <div class="col-sm-4">
-                                            <button type="submit" class="btn btn-info waves-effect waves-light">Add
-                                                Slider</button>
+                                            <button type="submit" class="btn btn-info waves-effect waves-light">Thêm
+                                                slider</button>
                                         </div>
                                     </form>
                                 </div>
@@ -43,9 +43,9 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-center" width=20%>Title</th>
-                                                <th class="text-center" width=60%>Image</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center" width=20%>Tiêu đề</th>
+                                                <th class="text-center" width=60%>Ảnh</th>
+                                                <th class="text-center">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -79,7 +79,8 @@
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-info">No sliders available
+                                                    <td colspan="7" class="text-center text-info">Chưa có slider nào. Hãy
+                                                        thêm mới.
                                                     </td>
                                                 </tr>
                                             @endif

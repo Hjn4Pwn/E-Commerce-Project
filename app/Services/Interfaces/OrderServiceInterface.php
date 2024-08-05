@@ -10,7 +10,7 @@ use App\Models\Order;
  */
 interface OrderServiceInterface
 {
-    public function getAllOrders();
+    public function getAllOrders($search = null);
     public function storeTemporary($data);
     public function getTemporaryData();
     public function confirmOrder($payment_method, $shop_address);

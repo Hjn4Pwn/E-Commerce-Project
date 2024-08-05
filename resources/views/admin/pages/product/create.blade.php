@@ -19,7 +19,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Add Product</h5>
+                                        <h5>Thêm sản phẩm</h5>
                                     </div>
                                     <div class="card-block">
                                         {{-- validation --}}
@@ -36,7 +36,7 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Name</label>
+                                                <label class="col-sm-2 col-form-label">Tên</label>
                                                 <div class="col-sm-10">
                                                     <input name="name" type="text" placeholder="Enter product name..."
                                                         class="form-control" value="{{ old('name') }}">
@@ -44,11 +44,11 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Category</label>
+                                                <label class="col-sm-2 col-form-label">Danh mục</label>
                                                 <div class="col-sm-10">
                                                     <select name="category_id" class="form-control select2-format"
                                                         style="width:100%;">
-                                                        <option value="">Please select one</option>
+                                                        <option value="">Chọn danh mục</option>
                                                         @if ($categories->count())
                                                             @foreach ($categories as $category)
                                                                 <option value="{{ $category->id }}"
@@ -63,7 +63,7 @@
 
                                             {{-- product Image --}}
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Primary Image</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh chính</label>
                                                 <div class="col-sm-2">
                                                     <img src="" class="rounded-3 userImage" id="image1-preview"
                                                         style="width: 100px;" alt="" />
@@ -75,7 +75,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Image 2 (Optional)</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh phụ (tùy chọn)</label>
                                                 <div class="col-sm-2">
                                                     <img src="" class="rounded-3 userImage" id="image2-preview"
                                                         style="width: 100px;" alt="" />
@@ -87,7 +87,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Image 3 (Optional)</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh phụ (tùy chọn)</label>
                                                 <div class="col-sm-2">
                                                     <img src="" class="rounded-3 userImage" id="image3-preview"
                                                         style="width: 100px;" alt="" />
@@ -99,7 +99,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Image 4 (Optional)</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh phụ (tùy chọn)</label>
                                                 <div class="col-sm-2">
                                                     <img src="" class="rounded-3 userImage" id="image4-preview"
                                                         style="width: 100px;" alt="" />
@@ -113,7 +113,7 @@
                                             {{-- ------------- --}}
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Weight (gam)</label>
+                                                <label class="col-sm-2 col-form-label">Khối lượng (gam)</label>
                                                 <div class="col-sm-10">
                                                     <input name="weight" type="text" class="form-control"
                                                         value="{{ old('weight', 500) }}" maxlength="9">
@@ -121,7 +121,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Price</label>
+                                                <label class="col-sm-2 col-form-label">Giá</label>
                                                 <div class="col-sm-10">
                                                     <input name="price" type="text" class="form-control"
                                                         placeholder="Ex: 900000000 (max 9 digits)" maxlength="9"
@@ -130,7 +130,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Quantity Sold</label>
+                                                <label class="col-sm-2 col-form-label">Số lượng đã bán</label>
                                                 <div class="col-sm-10">
                                                     <input name="quantity_sold" type="text" class="form-control"
                                                         value="0" disabled>
@@ -146,7 +146,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label" for="flavors">Flavors</label>
+                                                <label class="col-sm-2 col-form-label" for="flavors">Hương vị</label>
                                                 <div class="col-sm-10">
                                                     <div class="checkbox-container ">
                                                         @foreach ($flavors as $flavor)
@@ -172,7 +172,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Short Description</label>
+                                                <label class="col-sm-2 col-form-label">Miêu tả ngắn</label>
                                                 <div class="col-sm-10">
                                                     <textarea id="editorTinyMCE_list" name="short_description" rows="3" cols="5" class="form-control"
                                                         placeholder="Just enter one list, max ten">{{ old('short_description') }}</textarea>
@@ -180,7 +180,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Description</label>
+                                                <label class="col-sm-2 col-form-label">Miêu tả</label>
                                                 <div class="col-sm-10">
                                                     <textarea id="editorTinyMCE" name="description" rows="5" cols="5" class="form-control"
                                                         placeholder="Typing ...">{{ old('description') }}</textarea>
@@ -189,7 +189,7 @@
 
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                    Add Product
+                                                    Thêm
                                                 </button>
                                             </div>
                                         </form>

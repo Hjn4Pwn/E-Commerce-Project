@@ -19,7 +19,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Update User Infomation</h5>
+                                        <h5>Cập nhật thông tin khách hàng</h5>
                                     </div>
                                     <div class="card-block">
                                         {{-- validation --}}
@@ -40,7 +40,7 @@
                                                 @method('PUT')
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">
-                                                        Name</label>
+                                                        Tên</label>
                                                     <div class="col-sm-10">
                                                         <input type="text" class="form-control" name="name"
                                                             value="{{ $user->name }}">
@@ -54,7 +54,7 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Phone</label>
+                                                    <label class="col-sm-2 col-form-label">Số điện thoại</label>
                                                     <div class="col-sm-10">
                                                         <input type="text" class="form-control" name="phone"
                                                             value="{{ $user->phone }}">
@@ -63,7 +63,7 @@
 
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Upload Image</label>
+                                                    <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
                                                     <div class="col-sm-2">
                                                         <img id="userImage"
                                                             src={{ asset('AdminResource/images/test/sampleAvatar.png') }}
@@ -74,12 +74,12 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Province</label>
+                                                    <label class="col-sm-2 col-form-label">Tỉnh/Thành phố</label>
                                                     <div class="col-sm-10">
                                                         @if ($provinces->count())
                                                             <select id="provinceSelect" name="province"
                                                                 class="form-control select2-format " style="width:100%;">
-                                                                <option>Please select one
+                                                                <option>Chọn Tỉnh/Thành phố
                                                                 </option>
                                                                 @foreach ($provinces as $province)
                                                                     <option value={{ $province->code }}>
@@ -91,22 +91,22 @@
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">District</label>
+                                                    <label class="col-sm-2 col-form-label">Quận/Huyện</label>
                                                     <div class="col-sm-10">
                                                         <select id="districtSelect" name="district"
                                                             class="form-control select2-format" style="width:100%;">
-                                                            <option>Please select one
+                                                            <option>Chọn Quận/Huyện
                                                             </option>
                                                             {{--  --}}
                                                         </select>
                                                     </div>
                                                 </div>
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Ward</label>
+                                                    <label class="col-sm-2 col-form-label">Phường/Xã</label>
                                                     <div class="col-sm-10">
                                                         <select id="wardSelect" name="ward"
                                                             class="form-control select2-format" style="width:100%;">
-                                                            <option>Please select one
+                                                            <option>Chọn Phường/Xã
                                                             </option>
                                                             {{--  --}}
                                                         </select>
@@ -115,23 +115,16 @@
 
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">
-                                                        Address</label>
+                                                        Địa chỉ cụ thể</label>
                                                     <div class="col-sm-10">
                                                         <input type="text" class="form-control" name="address_detail"
                                                             value="{{ $user->address_detail }}">
                                                     </div>
                                                 </div>
 
-                                                <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Payment</label>
-                                                    <div class="col-sm-10">
-                                                        <input type="text" class="form-control" name="payment"
-                                                            value="{{ $user->payment }}" readonly>
-                                                    </div>
-                                                </div>
                                                 <div class="float-right">
                                                     <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                        Update
+                                                        Cập nhật
                                                     </button>
                                                 </div>
                                             </form>

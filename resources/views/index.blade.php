@@ -38,8 +38,7 @@
                                         ])
                                     @endforeach
                                 @else
-                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
-                                        available
+                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">Không có sản phẩm.
                                     </h4>
                                 @endif
                             </div>
@@ -58,16 +57,14 @@
                                                 ])
                                             @endforeach
                                         @else
-                                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
-                                                available
+                                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">Không có sản phẩm.
                                             </h4>
                                         @endif
                                     </div>
                                 </div>
                             @endforeach
                         @else
-                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
-                                available
+                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">Không có sản phẩm.
                             </h4>
                         @endif
                     @else
@@ -84,8 +81,7 @@
                                         ])
                                     @endforeach
                                 @else
-                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">No products
-                                        available
+                                    <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">Không có sản phẩm.
                                     </h4>
                                 @endif
                             </div>

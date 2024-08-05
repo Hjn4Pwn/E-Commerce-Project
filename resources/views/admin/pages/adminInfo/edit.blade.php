@@ -16,7 +16,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Update Admin Infomation</h5>
+                                        <h5>Cập nhật thông tin</h5>
                                     </div>
                                     <div class="card-block">
                                         <form method="POST" action="{{ route('admin.update') }}"
@@ -25,7 +25,7 @@
                                             @method('PUT')
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">
-                                                    Name</label>
+                                                    Tên</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" name="name"
                                                         value="{{ $admin->name }}">
@@ -39,22 +39,15 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Phone</label>
+                                                <label class="col-sm-2 col-form-label">Số điện thoại</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" name="phone"
                                                         value="{{ $admin->phone }}">
                                                 </div>
                                             </div>
 
-                                            {{-- <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Payment</label>
-                                                <div class="col-sm-10">
-                                                    <input type="text" class="form-control" value="0784402389">
-                                                </div>
-                                            </div> --}}
-
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Upload Avatar</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
                                                 <div class="col-sm-2">
                                                     <img src="{{ asset($admin->avatar) }}" class="rounded-3 avatar"
                                                         id="avatar-preview" style="width: 100px;" alt="" />
@@ -66,13 +59,13 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Province</label>
+                                                <label class="col-sm-2 col-form-label">Tỉnh/Thành Phố</label>
                                                 <div class="col-sm-10">
                                                     @if ($provinces->count())
                                                         <select id="provinceSelect" name="province_id"
                                                             class="form-control select2-format " style="width:100%;">
                                                             @if (!$admin->province)
-                                                                <option>Please select one</option>
+                                                                <option>Chọn Tỉnh/Thành Phố</option>
                                                             @else
                                                                 <option value="{{ $admin->province->code }}">
                                                                     {{ $admin->province->name }}</option>
@@ -88,12 +81,12 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">District</label>
+                                                <label class="col-sm-2 col-form-label">Quận/Huyện</label>
                                                 <div class="col-sm-10">
                                                     <select id="districtSelect" name="district_id"
                                                         class="form-control select2-format" style="width:100%;">
                                                         @if (!$admin->district)
-                                                            <option>Please select one</option>
+                                                            <option>Chọn Quận/Huyện</option>
                                                         @else
                                                             <option value="{{ $admin->district->code }}">
                                                                 {{ $admin->district->name }}</option>
@@ -103,12 +96,12 @@
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Ward</label>
+                                                <label class="col-sm-2 col-form-label">Phường/Xã</label>
                                                 <div class="col-sm-10">
                                                     <select id="wardSelect" name="ward_id"
                                                         class="form-control select2-format" style="width:100%;">
                                                         @if (!$admin->ward)
-                                                            <option>Please select one</option>
+                                                            <option>Chọn Phường/Xã</option>
                                                         @else
                                                             <option value="{{ $admin->ward->code }}">
                                                                 {{ $admin->ward->name }}</option>
@@ -120,7 +113,7 @@
 
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">
-                                                    Address</label>
+                                                    Địa chỉ cụ thể</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" name="address_detail"
                                                         value="{{ $admin->address_detail }}">
@@ -129,7 +122,7 @@
 
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                    Update
+                                                    Cập nhật
                                                 </button>
                                             </div>
                                         </form>

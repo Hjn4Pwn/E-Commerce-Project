@@ -38,7 +38,7 @@ class AdminController extends Controller
         return view('admin.pages.AdminInfo.edit', [
             'provinces' => $provinces,
             'admin' => $admin,
-            'page' => 'Admin Profile',
+            'page' => 'Hồ sơ',
         ]);
     }
 
@@ -96,7 +96,7 @@ class AdminController extends Controller
     public function showChangePasswordForm()
     {
         return view('admin.pages.AdminInfo.change-password', [
-            'page' => 'Admin Change Password',
+            'page' => 'Thay đổi mật khẩu',
         ]);
     }
 

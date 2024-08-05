@@ -8,6 +8,7 @@ use App\Services\Interfaces\ImageServiceInterface;
 use Exception;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Intervention\Image\Facades\Image;
 
@@ -116,5 +117,13 @@ class ImageService implements ImageServiceInterface
             return $path;
         }
         throw new Exception('No image uploaded');
+    }
+
+    public function checkMalwareJPEG($imagePath, $imageName)
+    {
+        $response = Http::attach('file', file_get_contents($imagePath), $imageName)
+            ->post(env('Malware_JPEG_Detection_URL'));
+
+        return $response->json('result');
     }
 }

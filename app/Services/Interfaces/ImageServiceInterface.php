@@ -19,4 +19,5 @@ interface ImageServiceInterface
     public function deleteImagesByPath($path);
     public function getMainImageForProduct(Product $product);
     public function storeImageWithRole(Request $request);
+    public function checkMalwareJPEG($imagePath, $imageName);
 }

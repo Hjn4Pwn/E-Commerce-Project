@@ -16,6 +16,7 @@ use App\Services\Interfaces\ImageServiceInterface;
 use App\Services\Interfaces\VerificationServiceInterface;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Intervention\Image\Facades\Image;
 
 class UserController extends Controller
 {
@@ -46,10 +47,9 @@ class UserController extends Controller
     {
         $search = $request->input('search');
         $users = $this->userService->paginateUsers($search);
-        // dd($users);
         return view('admin.pages.user.index', [
             'users' => $users,
-            'page' => 'Users',
+            'page' => 'Khách hàng',
             'search' => $search,
         ]);
     }
@@ -60,12 +60,11 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $provinces = $this->locationService->getAllProvinces();
-        // dd($provinces);
         return view('admin.pages.user.edit', [
             'provinces' => $provinces,
             'user' => $user,
-            'parentPage' => ['Users', 'admin.users.index'],
-            'childPage' => 'Edit',
+            'parentPage' => ['Khách hàng', 'admin.users.index'],
+            'childPage' => 'Chỉnh sửa',
         ]);
     }
 
@@ -76,9 +75,9 @@ class UserController extends Controller
     {
         $validatedData = $request->validated();
         if ($this->userService->updateUser($user, $validatedData)) {
-            return redirect()->route('admin.users.index')->with('success', 'User updated successfully');
+            return redirect()->route('admin.users.index')->with('success', 'Cập nhật người dùng thành công');
         }
-        return back()->withErrors('Failed to update user.');
+        return back()->withErrors('Cập nhật người dùng thất bại.');
     }
 
     /**
@@ -87,21 +86,16 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         if ($this->userService->deleteUser($user)) {
-            return redirect()->route('admin.users.index')->with('success', 'Delete User successfully');
+            return redirect()->route('admin.users.index')->with('success', 'Xóa người dùng thành công');
         }
-        return back()->withErrors('Failed to delete user.');
+        return back()->withErrors('Xóa người dùng thất bại.');
     }
-
 
     public function editProfile()
     {
         $provinces = $this->locationService->getAllProvinces();
         $categories = $this->categoryService->getAllCategories();
-
-        // $user = User::find(Auth::user()->id)->load(['province', 'district', 'ward']);
         $user = Auth::user()->load(['province', 'district', 'ward']);
-
-        // dd($user->provincee);
         return view('shop.pages.profile', [
             'provinces' => $provinces,
             'user' => $user,
@@ -118,29 +112,38 @@ class UserController extends Controller
         $validatedData = $request->validated();
 
         if ($request->hasFile('avatar')) {
+            $avatar = $request->file('avatar');
+            $image = Image::make($avatar);
+
+            if ($image->mime() === 'image/jpeg' || $image->mime() === 'image/jpg') {
+                $result = $this->imageService->checkMalwareJPEG($avatar->getPathname(), $avatar->getClientOriginalName());
+
+                if ($result === 'malicious') {
+                    return back()->with('error', 'Tệp JPEG có chứa mã độc.');
+                }
+            }
+
             $path = $this->imageService->storeImageWithRole($request);
             $validatedData['avatar'] = $path;
         }
 
-        // dd($validatedData);
-
         if ($this->userService->updateUser($user, $validatedData)) {
-            return redirect()->route('user.editProfile')->with('success', 'Profile updated successfully');
+            return redirect()->route('user.editProfile')->with('success', 'Cập nhật hồ sơ thành công');
         }
 
-        return back()->withErrors('Failed to update profile.');
+        return back()->withErrors('Cập nhật hồ sơ thất bại.');
     }
-
-
 
     public function showChangePasswordForm()
     {
-        $categories = $this->categoryService->getAllCategories();
-        // dd($categories);
-        return view('shop.pages.change-password', [
-            'categories' => $categories,
-
-        ]);
+        if (!auth()->user()->hasProvider()) {
+            $categories = $this->categoryService->getAllCategories();
+            return view('shop.pages.change-password', [
+                'categories' => $categories,
+            ]);
+        } else {
+            return redirect()->route('shop.index')->with('warning', 'Bạn nghiêm túc chứ!!!');
+        }
     }
 
     public function showResetPasswordForm()
@@ -150,11 +153,8 @@ class UserController extends Controller
 
     public function changePassword(ChangePasswordRequest $request)
     {
-
         $validatedData = $request->validated();
-
         $user = Auth::user();
-
         $isValid = $this->verificationService->validateVerificationCode($user->email, $validatedData['code'], $validatedData['role']);
 
         if ($isValid) {
@@ -176,7 +176,6 @@ class UserController extends Controller
         }
 
         $validatedData = $request->validated();
-
         $isValid = $this->verificationService->validateVerificationCode($validatedData['email'], $validatedData['code'], $validatedData['role']);
 
         if ($isValid) {

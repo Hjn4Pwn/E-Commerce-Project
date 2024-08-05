@@ -11,7 +11,7 @@
             <div class="page-wrapper">
                 <div class="page-body">
                     @include('shop.components.breadcrumb', [
-                        'subpage' => 'Cart',
+                        'subpage' => 'Giỏ hàng',
                     ])
 
                     <div class="row justify-content-center">

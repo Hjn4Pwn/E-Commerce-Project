@@ -27,6 +27,8 @@ class User extends Authenticatable
         'ward_id',
         'address_detail',
         'avatar',
+        'provider',
+        'provider_id',
     ];
 
     /**
@@ -100,5 +102,10 @@ class User extends Authenticatable
             'name' => $this->name,
             'type' => 'user',
         ];
+    }
+
+    public function hasProvider()
+    {
+        return !is_null($this->provider);
     }
 }

@@ -55,7 +55,7 @@ class SliderController extends Controller
         $imagePath = $this->imageService->storeImageWithRole($request, "slider_image", "sliders");
         $this->sliderService->createSlider($request->input('title'), $imagePath);
 
-        return redirect()->route('admin.sliders.index')->with('success', 'Slider created successfully.');
+        return redirect()->route('admin.sliders.index')->with('success', 'Tạo slider thành công.');
     }
 
     /**
@@ -64,6 +64,6 @@ class SliderController extends Controller
     public function destroy(Slider $slider)
     {
         $this->sliderService->deleteSlider($slider);
-        return redirect()->route('admin.sliders.index')->with('success', 'Slider deleted successfully.');
+        return redirect()->route('admin.sliders.index')->with('success', 'Xóa slider thành công.');
     }
 }

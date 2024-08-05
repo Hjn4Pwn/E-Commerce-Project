@@ -16,4 +16,5 @@ interface UserServiceInterface
     public function changePassword($user, $currentPassword, $newPassword);
     public function resetPassword($user, $newPassword);
     public function getUserByEmail(string $email);
+    public function findOrCreateUser($facebookUser, $provider);
 }

@@ -6,6 +6,7 @@ use App\Models\Flavor;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\ProductFlavor;
+use App\Models\User;
 use App\Services\Interfaces\LocationServiceInterface;
 use App\Services\Interfaces\OrderServiceInterface;
 
@@ -29,12 +30,25 @@ class OrderService implements OrderServiceInterface
         $this->locationService = $locationService;
     }
 
-    public function getAllOrders()
+    public function getAllOrders($search = null)
     {
-        return Order::with('user')
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // dd($search);
+        if ($search) {
+            $users = User::search($search)->where('type', 'user')->get();
+            $userIds = $users->pluck('id');
+
+            $orders = Order::whereIn('user_id', $userIds)
+                ->with(['user'])
+                ->orderBy('created_at', 'desc')
+                ->get();
+        } else {
+            $orders = Order::with('user')
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+        return $orders;
     }
+
 
     public function storeTemporary($data)
     {

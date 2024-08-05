@@ -8,6 +8,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LocationController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\FeeController;
 use App\Http\Controllers\FlavorController;
 use App\Http\Controllers\Google2FAController;
@@ -24,12 +25,9 @@ use App\Models\Product;
 Route::prefix('admin')->group(function () {
     // authen admin
     Route::middleware('admin')->group(function () {
+
         // view
-        Route::get('/', function () {
-            return view('admin.pages.index', [
-                'page' => 'Dashboard',
-            ]);
-        })->name('admin.index');
+        Route::get('/', [DashboardController::class, 'index'])->name('admin.dashboard');
 
         // user
         Route::get('users', [UserController::class, 'index'])->name('admin.users.index');
@@ -141,10 +139,8 @@ Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistr
 Route::get('/', [HomeController::class, 'index'])->name('shop.index');
 Route::get('products/category/{category}', [HomeController::class, 'indexByCategory'])->name('shop.products.byCategory');
 Route::get('product/{product}', [HomeController::class, 'productDetails'])->name('shop.products.productDetails');
-Route::get('/login', [HomeController::class, 'login'])->name('shop.login');
-Route::get('/register', [HomeController::class, 'register'])->name('shop.register');
 
-// review
+// reviews by product
 Route::get('/product/{product}/reviews', [ReviewController::class, 'show'])->name('reviews.show');
 
 // login - register - logout
@@ -155,12 +151,23 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/register', [AuthUserController::class, 'register'])->name('register.post');
     Route::get('/reset-password', [UserController::class, 'showResetPasswordForm'])->name('user.showResetPasswordForm');
     Route::post('/reset-password', [UserController::class, 'resetPassword'])->name('user.resetPassword');
+
+    // login facebook
+    Route::get('auth/facebook', [AuthUserController::class, 'redirectToFacebook'])->name('auth.facebook');
+    Route::get('auth/facebook/callback', [AuthUserController::class, 'handleFacebookCallback']);
+
+    // login google
+    Route::get('auth/google', [AuthUserController::class, 'redirectToGoogle'])->name('auth.google');
+    Route::get('auth/google/callback', [AuthUserController::class, 'handleGoogleCallback']);
 });
 
 Route::post('/logout', [AuthUserController::class, 'logout'])->name('logout');
 
+
 Route::post('/send-verification-code', [AuthUserController::class, 'sendVerificationCode'])->name('send.verification.code');
 Route::post('/verify-code', [AuthUserController::class, 'verifyCode'])->name('verify.code');
+
+
 
 // authen pages
 Route::middleware(['auth'])->group(function () {

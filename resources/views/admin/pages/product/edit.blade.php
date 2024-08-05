@@ -19,7 +19,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Update Product</h5>
+                                        <h5>Chỉnh sửa thông tin sản phẩm</h5>
                                     </div>
                                     <div class="card-block">
                                         {{-- validation --}}
@@ -39,7 +39,7 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Name</label>
+                                                    <label class="col-sm-2 col-form-label">Tên</label>
                                                     <div class="col-sm-10">
                                                         <input name="name" type="text" class="form-control"
                                                             value="{{ $product->name }}">
@@ -48,11 +48,11 @@
 
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Category</label>
+                                                    <label class="col-sm-2 col-form-label">Danh mục</label>
                                                     <div class="col-sm-10">
                                                         <select name="category_id" class="form-control select2-format"
                                                             style="width:100%;">
-                                                            <option value="">Please select one</option>
+                                                            <option value="">Chọn danh mục</option>
                                                             @if ($categories->count())
                                                                 @foreach ($categories as $category)
                                                                     <option value="{{ $category->id }}"
@@ -75,9 +75,9 @@
                                                         @endphp
                                                         <label class="col-sm-2 col-form-label">
                                                             @if ($image->sort_order == 1)
-                                                                Primary Image
+                                                                Ảnh chính
                                                             @else
-                                                                Image {{ $image->sort_order }} (Optional)
+                                                                Ảnh phụ {{ $image->sort_order }} (tùy chọn)
                                                             @endif
 
                                                         </label>
@@ -96,8 +96,8 @@
 
                                                 @for ($i = $cntImage + 1; $i <= 4; $i++)
                                                     <div class="form-group row">
-                                                        <label class="col-sm-2 col-form-label">Image {{ $i }}
-                                                            (Optional)</label>
+                                                        <label class="col-sm-2 col-form-label">Ảnh phụ {{ $i }}
+                                                            (tùy chọn)</label>
                                                         <div class="col-sm-2">
                                                             <img src="" class="rounded-3 userImage"
                                                                 id="image{{ $i }}-preview" style="width: 100px;"
@@ -112,7 +112,7 @@
                                                 @endfor
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Weight (gam)</label>
+                                                    <label class="col-sm-2 col-form-label">Khối lượng (gam)</label>
                                                     <div class="col-sm-10">
                                                         <input name="weight" type="text" class="form-control"
                                                             value="{{ $product->weight }}" maxlength="9">
@@ -120,7 +120,7 @@
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Price</label>
+                                                    <label class="col-sm-2 col-form-label">Giá</label>
                                                     <div class="col-sm-10">
                                                         <input name="price" type="text" class="form-control"
                                                             maxlength="9" value="{{ $product->price }}">
@@ -130,7 +130,7 @@
 
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Quantity Sold</label>
+                                                    <label class="col-sm-2 col-form-label">Số lượng đã bán</label>
                                                     <div class="col-sm-10">
                                                         <input name="quantity_sold" type="text" class="form-control"
                                                             value="{{ $product->quantity_sold }}">
@@ -146,7 +146,7 @@
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label" for="flavors">Flavors</label>
+                                                    <label class="col-sm-2 col-form-label" for="flavors">Hương vị</label>
                                                     <div class="col-sm-10">
                                                         <div class="checkbox-container">
                                                             @foreach ($flavors as $flavor)
@@ -175,7 +175,7 @@
 
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Short Description</label>
+                                                    <label class="col-sm-2 col-form-label">Miêu tả ngắn</label>
                                                     <div class="col-sm-10">
                                                         <textarea id="editorTinyMCE_list" name="short_description" rows="3" cols="5" class="form-control"
                                                             placeholder="You should only input a list with a maximum of 10 options.">
@@ -185,7 +185,7 @@
                                                 </div>
 
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Description</label>
+                                                    <label class="col-sm-2 col-form-label">Miêu tả</label>
                                                     <div class="col-sm-10">
                                                         <textarea id="editorTinyMCE" name="description" rows="5" cols="5" class="form-control">
                                                             {!! $product->description !!}
@@ -194,7 +194,7 @@
                                                 </div>
                                                 <div class="float-right">
                                                     <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                        Update
+                                                        Cập nhật
                                                     </button>
                                                 </div>
                                             </form>

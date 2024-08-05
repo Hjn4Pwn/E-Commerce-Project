@@ -28,7 +28,7 @@ class FlavorController extends Controller
         $flavors = $this->flavorService->getAllFlavors($search);
         return view('admin.pages.flavor.index', [
             'flavors' => $flavors,
-            'page' => 'Flavors',
+            'page' => 'Hương vị',
             'search' => $search
         ]);
     }
@@ -39,8 +39,8 @@ class FlavorController extends Controller
     public function create()
     {
         return view('admin.pages.flavor.create', [
-            'parentPage' => ['Flavors', 'admin.flavors.index'],
-            'childPage' => 'Create',
+            'parentPage' => ['Hương vị', 'admin.flavors.index'],
+            'childPage' => 'Tạo',
         ]);
     }
 
@@ -51,9 +51,9 @@ class FlavorController extends Controller
     {
         $validatedData = $request->validated();
         if ($this->flavorService->storeFlavor($validatedData)) {
-            return redirect()->route('admin.flavors.index')->with('success', 'Create Flavor successfully');
+            return redirect()->route('admin.flavors.index')->with('success', 'Tạo hương vị thành công.');
         }
-        return back()->withErrors('Failed to create flavor.');
+        return back()->withErrors('Tạo hương vị thất bại.');
     }
 
 
@@ -64,8 +64,8 @@ class FlavorController extends Controller
     {
         return view('admin.pages.flavor.edit', [
             'flavor' => $flavor,
-            'parentPage' => ['Flavors', 'admin.flavors.index'],
-            'childPage' => 'Edit',
+            'parentPage' => ['Hương vị', 'admin.flavors.index'],
+            'childPage' => 'Chỉnh sửa',
         ]);
     }
 
@@ -76,9 +76,9 @@ class FlavorController extends Controller
     {
         $validatedData = $request->validated();
         if ($this->flavorService->updateFlavor($flavor, $validatedData)) {
-            return redirect()->route('admin.flavors.index')->with('success', 'Update Flavor successfully');
+            return redirect()->route('admin.flavors.index')->with('success', 'Cập nhật hương vị thành công.');
         }
-        return back()->withErrors('Failed to update flavor.');
+        return back()->withErrors('Cập nhật hương vị thất bại.');
     }
 
     /**
@@ -87,8 +87,8 @@ class FlavorController extends Controller
     public function destroy(Flavor $flavor)
     {
         if ($this->flavorService->deleteFlavor($flavor)) {
-            return redirect()->route('admin.flavors.index')->with('success', 'Delete flavor successfully');
+            return redirect()->route('admin.flavors.index')->with('success', 'Xóa hương vị thành công.');
         }
-        return back()->withErrors('Failed to delete flavor.');
+        return back()->withErrors('Xóa hương vị thất bại.');
     }
 }

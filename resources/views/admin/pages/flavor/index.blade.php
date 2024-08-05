@@ -10,7 +10,7 @@
                     <div class="page-body">
                         <div class="card">
                             <div class="card-header">
-                                <h5>List of Flavors</h5>
+                                <h5>Danh sách hương vị</h5>
                                 <div class="card-header-right">
                                 </div>
                             </div>
@@ -19,7 +19,7 @@
                                     <div class="col-sm-12">
                                         <a href="{{ route('admin.flavors.create') }}">
                                             <button class="btn btn-info waves-effect waves-light">
-                                                Add Flavor
+                                                Thêm hương vị
                                             </button>
                                         </a>
                                     </div>
@@ -36,16 +36,6 @@
                                             </div>
                                         @endif
 
-                                        {{-- <form action="{{ route('admin.flavors.index') }}" method="GET"
-                                            class="form-material mt-2">
-                                            <div class="form-group form-primary">
-                                                <input type="text" name="search" class="form-control"
-                                                    value="{{ request('search') }}" placeholder=" ">
-                                                <span class="form-bar"></span>
-                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
-                                                    Name</label>
-                                            </div>
-                                        </form> --}}
 
                                         <form action="{{ route('admin.flavors.index') }}" method="GET"
                                             class="form-material mt-2">
@@ -53,8 +43,8 @@
                                                 <input type="text" name="search" class="form-control"
                                                     value="{{ request('search') }}" placeholder=" ">
                                                 <span class="form-bar"></span>
-                                                <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
-                                                    Name</label>
+                                                <label class="float-label"><i class="fa fa-search m-r-10"></i>Tìm kiếm bằng
+                                                    tên</label>
                                             </div>
                                         </form>
 
@@ -64,8 +54,8 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-center" width="40%">Name</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center" width="40%">Tên</th>
+                                                <th class="text-center">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -103,7 +93,8 @@
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-info">No flavors available
+                                                    <td colspan="7" class="text-center text-info">Chưa có hương vị nào.
+                                                        Hãy thêm mới.
                                                     </td>
                                                 </tr>
                                             @endif

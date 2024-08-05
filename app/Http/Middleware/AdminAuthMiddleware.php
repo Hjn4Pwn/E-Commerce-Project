@@ -18,7 +18,7 @@ class AdminAuthMiddleware
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::guard('admin')->check()) {
-            return redirect('admin/login')->with('error', 'Please login to access the admin area.');
+            return redirect('admin/login')->with('error', 'Hãy đăng nhập để có thể truy cập vào trang Admin.');
         }
 
         return $next($request);

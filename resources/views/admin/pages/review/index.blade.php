@@ -10,7 +10,7 @@
                     <div class="page-body">
                         <div class="card">
                             <div class="card-header">
-                                <h5>List of Reviews</h5>
+                                <h5>Danh sách các đánh giá</h5>
                                 <div class="card-header-right">
                                 </div>
                             </div>
@@ -33,10 +33,10 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-center" width="30%">Name</th>
-                                                <th class="text-center" width="20%">Likes</th>
-                                                <th class="text-center" width="20%">Reports</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center" width="30%">Tên</th>
+                                                <th class="text-center" width="20%">Số lượng thích</th>
+                                                <th class="text-center" width="20%">Số lượng báo cáo</th>
+                                                <th class="text-center">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -78,7 +78,7 @@
                                                 @endforeach
                                             @else
                                                 <tr>
-                                                    <td colspan="7" class="text-center text-info">No reviews available
+                                                    <td colspan="7" class="text-center text-info">Chưa có đánh giá nào.
                                                     </td>
                                                 </tr>
                                             @endif

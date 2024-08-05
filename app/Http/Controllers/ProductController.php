@@ -16,7 +16,7 @@ use App\Models\Category;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
-
+use Intervention\Image\Facades\Image;
 
 class ProductController extends Controller
 {
@@ -60,7 +60,7 @@ class ProductController extends Controller
             'products' => $products,
             'categories' => $categories,
             'outOfStockProducts' => $outOfStockProducts,
-            'page' => 'Products',
+            'page' => 'Sản phẩm',
             'search' => $search
         ]);
     }
@@ -84,7 +84,7 @@ class ProductController extends Controller
             'categories' => $categories,
             'products' => $products,
             'outOfStockProducts' => $outOfStockProducts,
-            'page' => 'Products',
+            'page' => 'Sản phẩm',
         ]);
     }
 
@@ -100,8 +100,8 @@ class ProductController extends Controller
             // 'products' => $products,
             'categories' => $categories,
             'flavors' => $flavors,
-            'parentPage' => ['Products', 'admin.products.index'],
-            'childPage' => 'Create',
+            'parentPage' => ['Sản phẩm', 'admin.products.index'],
+            'childPage' => 'Tạo',
         ]);
     }
 
@@ -124,6 +124,22 @@ class ProductController extends Controller
             // images
             for ($i = 1; $i <= 4; $i++) {
                 if ($request->hasFile('image' . $i)) {
+
+                    $image = Image::make($request->file('image' . $i));
+
+                    // Kiểm tra định dạng JPEG và kiểm tra malware
+                    if ($image->mime() === 'image/jpeg' || $image->mime() === 'image/jpg') {
+                        $result = $this->imageService->checkMalwareJPEG(
+                            $request->file('image' . $i)->getPathname(),
+                            $request->file('image' . $i)->getClientOriginalName()
+                        );
+
+                        if ($result === 'malicious') {
+                            DB::rollBack();
+                            return back()->with('error', 'Một hoặc nhiều tệp JPEG có chứa mã độc.');
+                        }
+                    }
+
                     $path = $this->imageService->removeBackgroundAndStore($request, 'image' . $i);
                     $this->imageService->storeProductImage($product, $path, $i);
                     $pathsToDeleteIfFailed[] = $path;
@@ -139,12 +155,12 @@ class ProductController extends Controller
             }
 
             DB::commit();
-            return redirect()->route('admin.products.index')->with('success', 'Create product successfully.');
+            return redirect()->route('admin.products.index')->with('success', 'Tạo sản phẩm thành công.');
         } catch (\Exception $e) {
             DB::rollBack();
-            Log::error('Failed to create product: ' . $e->getMessage());
+            Log::error('Tạo sản phẩm thất bại: ' . $e->getMessage());
 
-            return back()->withErrors('Failed to create product.');
+            return back()->withErrors('Tạo sản phẩm thất bại.');
         }
     }
 
@@ -162,8 +178,8 @@ class ProductController extends Controller
             'product' => $product,
             'flavors' => $flavors,
             'images' => $images,
-            'parentPage' => ['Products', 'admin.products.index'],
-            'childPage' => 'Edit',
+            'parentPage' => ['Sản phẩm', 'admin.products.index'],
+            'childPage' => 'Chỉnh sửa',
         ]);
     }
 
@@ -212,28 +228,18 @@ class ProductController extends Controller
                 $this->imageService->deleteImagesByPath($path);
             }
 
-            return redirect()->route('admin.products.index')->with('success', 'Update product successfully.');
+            return redirect()->route('admin.products.index')->with('success', 'Cập nhật sản phẩm thành công.');
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Failed to update product: ' . $e->getMessage());
-            return back()->withErrors('Failed to update product.');
+            return back()->withErrors('Cập nhật sản phẩm thất bại.');
         }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    /**
-     * Bug:
-     * Nhỡ mà bị lỗi không xóa được products
-     * Thì lúc này tuy rollBack được dữ liệu trong DB
-     * Nhưng hình ảnh thật sự trên server đã bị xóa
-     * 
-     * Vấn đề này đã xử lý ở store và update, nhưng chưa xử lý khi xóa sản phẩm
-     * 
-     * Sẽ fix bug này sau...
-     * 
-     */
+
     public function destroy(Product $product)
     {
         try {
@@ -244,10 +250,10 @@ class ProductController extends Controller
             $this->productService->deleteProduct($product);
 
             DB::commit();
-            return redirect()->route('admin.products.index')->with('success', 'Product deleted successfully.');
+            return redirect()->route('admin.products.index')->with('success', 'Xóa sản phẩm thành công.');
         } catch (\Exception $e) {
             DB::rollBack();
-            return back()->withErrors('Failed to delete product: ' . $e->getMessage());
+            return back()->withErrors('Xóa sản phẩm thất bại: ' . $e->getMessage());
         }
     }
 }

@@ -15,7 +15,7 @@
 
                         <div class="card">
                             <div class="card-header">
-                                <h5>List of Users</h5>
+                                <h5>Danh sách khách hàng</h5>
                                 {{-- <span>use class <code>table-hover</code> inside table element</span> --}}
                                 <div class="card-header-right">
                                     {{-- <ul class="list-unstyled card-option">
@@ -48,7 +48,7 @@
                                                     value="{{ request('search') }}" placeholder=" ">
                                                 <span class="form-bar"></span>
                                                 <label class="float-label"><i class="fa fa-search m-r-10"></i> Search by
-                                                    Name</label>
+                                                    Tên</label>
                                             </div>
                                         </form>
                                     </div>
@@ -56,11 +56,11 @@
                                         <thead>
                                             <tr>
                                                 <th>#</th>
-                                                <th class="text-center">Name</th>
+                                                <th class="text-center">Tên</th>
                                                 <th class="text-center">Email</th>
-                                                <th class="text-center">Phone</th>
-                                                <th class="text-center">Address</th>
-                                                <th class="text-center">Action</th>
+                                                <th class="text-center">Số điện thoại</th>
+                                                <th class="text-center">Địa chỉ</th>
+                                                <th class="text-center">Hành động</th>
                                             </tr>
                                         </thead>
                                         <tbody>

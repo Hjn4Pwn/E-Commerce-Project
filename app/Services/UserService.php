@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Services\Interfaces\UserServiceInterface;
 use App\Models\User;
+use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
 
 /**
@@ -68,5 +69,30 @@ class UserService implements UserServiceInterface
     public function getUserByEmail(string $email): ?User
     {
         return User::where('email', $email)->first();
+    }
+
+    public function findOrCreateUser($providerUser, $provider)
+    {
+        $authUser = User::where('email', $providerUser->getEmail())->first();
+
+        if ($authUser) {
+            if (is_null($authUser->provider)) {
+                throw ValidationException::withMessages([
+                    'email' => 'Email này đã tồn tại trong hệ thống và không thể đăng nhập bằng ' . $provider . '.',
+                ]);
+            }
+
+            $authUser->update([
+                'provider' => $provider,
+                'provider_id' => $providerUser->getId(),
+            ]);
+            return $authUser;
+        }
+        return User::create([
+            'name' => $providerUser->name,
+            'email' => $providerUser->email,
+            'provider' => $provider,
+            'provider_id' => $providerUser->id,
+        ]);
     }
 }

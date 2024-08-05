@@ -22,12 +22,6 @@
             <li class="nav-item p-r-10 {{ $activeHome ?? '' }} ">
                 <a class="nav-link" href="{{ route('shop.index') }}">Trang chủ</a>
             </li>
-            {{-- <li class="nav-item p-r-10">
-                <a class="nav-link" href="#">Liên hệ</a>
-            </li>
-            <li class="nav-item p-r-10 ">
-                <a class="nav-link" href="#">Thông tin</a>
-            </li> --}}
             <li class="nav-item p-r-10 {{ $activeCart ?? '' }}">
                 <a class="nav-link" href="{{ route('cart.index') }}">Giỏ hàng</a>
             </li>

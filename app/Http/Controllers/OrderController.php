@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SearchRequest;
 use App\Models\Order;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\OrderServiceInterface;
@@ -59,6 +60,9 @@ class OrderController extends Controller
         }
 
         $user = Auth::user();
+        if (!$user->province) {
+            return redirect()->route('user.editProfile')->with('info', 'Vui lòng cập nhật thông tin trước khi đặt hàng.');
+        }
         $province = $user->province->name;
         $district = $user->district->name;
         $ward = $user->ward->name;
@@ -169,12 +173,14 @@ class OrderController extends Controller
         }
     }
 
-    public function admin_index()
+    public function admin_index(SearchRequest $request)
     {
-        $orders = $this->orderService->getAllOrders();
+        $search = $request->input('search');
+        $orders = $this->orderService->getAllOrders($search);
+
         return view('admin.pages.order.index', [
             'orders' => $orders,
-            'page' => 'Orders',
+            'page' => 'Đơn hàng',
         ]);
     }
 
@@ -183,8 +189,8 @@ class OrderController extends Controller
         $order = $this->orderService->getOrderById($id);
         // dd($order);
         return view('admin.pages.order.show', [
-            'parentPage' => ['Orders', 'admin.orders.index'],
-            'childPage' => 'Details',
+            'parentPage' => ['Đơn hàng', 'admin.orders.index'],
+            'childPage' => 'Chi tiết',
             'order' => $order,
         ]);
     }

@@ -28,7 +28,7 @@ class CategoryController extends Controller
         $categories = $this->categoryService->getAllCategories($search);
         return view('admin.pages.category.index', [
             'categories' => $categories,
-            'page' => 'Categories',
+            'page' => 'Danh mục',
             'search' => $search
         ]);
     }
@@ -39,8 +39,8 @@ class CategoryController extends Controller
     public function create()
     {
         return view('admin.pages.category.create', [
-            'parentPage' => ['Categories', 'admin.categories.index'],
-            'childPage' => 'Create',
+            'parentPage' => ['Danh mục', 'admin.categories.index'],
+            'childPage' => 'Tạo',
         ]);
     }
 
@@ -51,9 +51,9 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
         if ($this->categoryService->storeCategory($validatedData)) {
-            return redirect()->route('admin.categories.index')->with('success', 'Create Category successfully');
+            return redirect()->route('admin.categories.index')->with('success', 'Tạo danh mục thành công.');
         }
-        return back()->withErrors('Failed to create category.');
+        return back()->withErrors('Tạo danh mục thất bại.');
     }
 
     /**
@@ -63,8 +63,8 @@ class CategoryController extends Controller
     {
         return view('admin.pages.category.edit', [
             'category' => $category,
-            'parentPage' => ['Categories', 'admin.categories.index'],
-            'childPage' => 'Edit',
+            'parentPage' => ['Danh mục', 'admin.categories.index'],
+            'childPage' => 'Chỉnh sửa',
         ]);
     }
 
@@ -75,9 +75,9 @@ class CategoryController extends Controller
     {
         $validatedData = $request->validated();
         if ($this->categoryService->updateCategory($category, $validatedData)) {
-            return redirect()->route('admin.categories.index')->with('success', 'Update Category successfully');
+            return redirect()->route('admin.categories.index')->with('success', 'Cập nhật danh mục thành công.');
         }
-        return back()->withErrors('Failed to update category.');
+        return back()->withErrors('Cập nhật danh mục thất bại.');
     }
 
     /**
@@ -86,8 +86,8 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($this->categoryService->deleteCategory($category)) {
-            return redirect()->route('admin.categories.index')->with('success', 'Delete category and its products successfully');
+            return redirect()->route('admin.categories.index')->with('success', 'Xóa danh mục và các sản phẩm thuộc danh mục đó thành công');
         }
-        return back()->withErrors('Failed to delete category and its products.');
+        return back()->withErrors('Xóa danh mục và các sản phẩm thuộc danh mục đó thất bại.');
     }
 }

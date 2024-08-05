@@ -21,7 +21,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Edit Category Name</h5>
+                                        <h5>Chỉnh sửa danh mục sản phẩm</h5>
                                         <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
                                     </div>
                                     <div class="card-block">
@@ -43,7 +43,7 @@
                                                 @csrf
                                                 @method('PUT')
                                                 <div class="form-group row">
-                                                    <label class="col-sm-2 col-form-label">Category Name</label>
+                                                    <label class="col-sm-2 col-form-label">Tên</label>
                                                     <div class="col-sm-10">
                                                         <input type="text" class="form-control" name="name"
                                                             value="{{ $category->name }}">
@@ -51,7 +51,7 @@
                                                 </div>
                                                 <div class="float-right">
                                                     <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                        Update
+                                                        Cập nhật
                                                     </button>
                                                 </div>
                                             </form>

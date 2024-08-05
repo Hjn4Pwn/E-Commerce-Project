@@ -19,7 +19,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Add Slider</h5>
+                                        <h5>Thêm Slider</h5>
                                     </div>
                                     <div class="card-block">
                                         {{-- validation --}}
@@ -36,7 +36,7 @@
                                             enctype="multipart/form-data">
                                             @csrf
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Title</label>
+                                                <label class="col-sm-2 col-form-label">Tiêu đề</label>
                                                 <div class="col-sm-10">
                                                     <input name="title" type="text" placeholder="Enter title..."
                                                         class="form-control" value="{{ old('title') }}">
@@ -44,7 +44,7 @@
                                             </div>
 
                                             <div class="form-group row">
-                                                <label class="col-sm-2 col-form-label">Image</label>
+                                                <label class="col-sm-2 col-form-label">Ảnh</label>
                                                 <div class="col-sm-2">
                                                     <img src="" class="rounded-3 userImage" id="image-preview"
                                                         style="width: 100px;" alt="" />
@@ -57,7 +57,7 @@
 
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                    Add Slider
+                                                    Thêm
                                                 </button>
                                             </div>
                                         </form>

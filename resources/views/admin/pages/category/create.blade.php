@@ -21,7 +21,7 @@
                             <div class="col-md-8">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h5>Add new Category</h5>
+                                        <h5>Thêm mới danh mục sản phảm</h5>
                                         <!--<span>Add class of <code>.form-control</code> with <code>&lt;input&gt;</code> tag</span>-->
                                     </div>
                                     <div class="card-block">
@@ -42,11 +42,11 @@
                                             <div class="form-group form-default">
                                                 <input type="text" name="name" class="form-control">
                                                 <span class="form-bar"></span>
-                                                <label class="float-label">Category Name</label>
+                                                <label class="float-label">Tên danh mục</label>
                                             </div>
                                             <div class="float-right">
                                                 <button type="submit" class="btn btn-info waves-effect waves-light">
-                                                    Add Category
+                                                    Thêm
                                                 </button>
                                             </div>
                                         </form>

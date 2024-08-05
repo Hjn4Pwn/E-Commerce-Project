@@ -127,14 +127,4 @@ class HomeController extends Controller
             'reported_reviews' => $reviewData['reported_reviews'],
         ]);
     }
-
-    public function login()
-    {
-        return view('login');
-    }
-
-    public function register()
-    {
-        return view('register');
-    }
 }
