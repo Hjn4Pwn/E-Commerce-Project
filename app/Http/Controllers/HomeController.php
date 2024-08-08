@@ -106,8 +106,10 @@ class HomeController extends Controller
     }
 
 
-    public function productDetails(Product $product)
+    public function productDetails(Product $productSlug)
     {
+        $product =  $productSlug;
+
         $categories = $this->categoryService->getAllCategories();
         $productData = $this->productService->getProductAndAllImagesByProduct($product);
         $flavors = $this->flavorService->getFlavorsByProduct($product);

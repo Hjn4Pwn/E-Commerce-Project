@@ -27,13 +27,13 @@ class UpdateAdminRequest extends FormRequest
 
         return [
             'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('admins')->ignore($admin ? $admin->id : null),
-            ],
+            // 'email' => [
+            //     'required',
+            //     'string',
+            //     'email',
+            //     'max:255',
+            //     Rule::unique('admins')->ignore($admin ? $admin->id : null),
+            // ],
             'phone' => 'nullable|string|max:20',
             'province_id' => 'nullable|string|max:255',
             'district_id' => 'nullable|string|max:255',

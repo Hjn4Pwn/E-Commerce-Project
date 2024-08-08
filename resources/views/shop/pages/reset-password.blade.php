@@ -10,7 +10,7 @@
     @include('admin.components.preLoader')
     <section class="login-block">
         <div class="container">
-            <div class="row">
+            <div class="row no-select">
                 <div class="col-sm-12">
                     <form class="md-float-material form-material" method="post"
                         action="{{ route('user.resetPassword') }}">

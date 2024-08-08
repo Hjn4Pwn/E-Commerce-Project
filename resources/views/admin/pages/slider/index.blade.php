@@ -58,8 +58,9 @@
                                                         <th class="text-center" scope="row">{{ ++$i }}</th>
                                                         <td class="text-center">{{ $slider->title }}</td>
                                                         <td class="text-center p-t-5"><img
-                                                                src="{{ asset($slider->image_path) }}" class="rounded-3"
-                                                                style="width: 300px;" alt="Product Image" /></td>
+                                                                src="{{ Storage::disk('s3')->url($slider->image_path) }}"
+                                                                class="rounded-3" style="width: 300px;"
+                                                                alt="Product Image" /></td>
 
                                                         <td class="text-center">
                                                             <div class="row justify-content-center">

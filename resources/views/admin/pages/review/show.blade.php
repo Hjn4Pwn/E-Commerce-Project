@@ -54,7 +54,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Ảnh</label>
                                                 <div class="col-sm-10">
-                                                    <img src="{{ asset($reviewData->product->main_image->path) }}"
+                                                    <img src="{{ Storage::disk('s3')->url($reviewData->product->main_image->path) }}"
                                                         class="rounded-3 userImage" style="width: 100px;" alt="" />
                                                 </div>
                                             </div>

@@ -6,7 +6,7 @@
         'categories' => $categories,
     ])
 
-    <div class="pcoded-inner-content">
+    <div class="pcoded-inner-content no-select">
         <div class="main-body">
             <div class="page-wrapper">
                 <div class="page-body">
@@ -58,7 +58,7 @@
                                     @foreach ($order['items'] as $item)
                                         <div class="row align-items-center product-bottom-line" style="height: 150px;">
                                             <div class="col-3 col-md-2">
-                                                <img src="{{ asset($item['product']->main_image->path) }}"
+                                                <img src="{{ Storage::disk('s3')->url($item['product']->main_image->path) }}"
                                                     class="rounded-3 cart-product-image" alt="Product Image" />
                                             </div>
                                             <div class="col-9 col-md-10">

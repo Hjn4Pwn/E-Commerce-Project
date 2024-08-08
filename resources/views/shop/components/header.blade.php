@@ -1,4 +1,4 @@
-<nav class="navbar header-navbar pcoded-header ">
+<nav class="navbar header-navbar pcoded-header no-select">
     <div class="navbar-wrapper">
         <div class="navbar-logo">
             <a class="mobile-menu waves-effect waves-light" id="mobile-collapse" href="#!">
@@ -52,19 +52,20 @@
                                 <img src={{ asset('AdminResource/images/test/nonAuth.png') }} class="img-radius"
                                     alt="User-Profile-Image">
                             @else
-                                <img src={{ asset($user->avatar) }} class="img-radius" alt="User-Profile-Image">
+                                <img src={{ Storage::disk('s3')->url($user->avatar) }} class="img-radius"
+                                    alt="User-Profile-Image">
                             @endif
                             <span>{{ $user->name }}</span>
                             <i class="ti-angle-down"></i>
                         </a>
                         <ul class="show-notification profile-notification">
-                           
+
                             <li class="waves-effect waves-light p-b-0 p-t-0 ">
                                 <a href="{{ route('user.editProfile') }}" class="link_none">
                                     <i class="fa-solid fa-user"></i> Tài khoản của tôi
                                 </a>
                             </li>
-                            
+
                             @if (!auth()->user()->hasProvider())
                                 <li class="waves-effect waves-light p-b-0 p-t-0">
                                     <a href="{{ route('user.showChangePasswordForm') }}" class="link_none">
@@ -72,7 +73,7 @@
                                     </a>
                                 </li>
                             @endif
-                           
+
                             <li class="waves-effect waves-light p-b-0 p-t-0">
                                 <form id="logout-form" action="{{ route('logout') }}" method="POST"
                                     style="display: none;">
@@ -102,19 +103,18 @@
 </nav>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        var menuIcon = document.getElementById('mobile-collapse'); 
-        var menuBox = document.getElementById('menu-box'); 
+        var menuIcon = document.getElementById('mobile-collapse');
+        var menuBox = document.getElementById('menu-box');
 
         menuIcon.addEventListener('click', function() {
-            menuBox.classList.toggle('show'); 
+            menuBox.classList.toggle('show');
         });
 
         document.addEventListener('click', function(event) {
             if (!menuBox.contains(event.target) && !menuIcon.contains(event.target) && menuBox.classList
                 .contains('show')) {
-                menuBox.classList.remove('show'); 
+                menuBox.classList.remove('show');
             }
         });
     });
 </script>
-

@@ -5,13 +5,13 @@
     ])
     <div class="col-sm-12">
         <div style="background-color: white;">
-            <div class="navbar-header">
+            <div class="navbar-header no-select">
                 <nav class="navbar navbar-expand-lg navbar-light">
                     <div class="collapse navbar-collapse" id="navbarSupportedContent">
                         <div>
                             <ul class="navbar-nav mr-auto">
 
-                                <li class="nav-item dropdown">
+                                <li class="nav-item dropdown ">
                                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         Danh mục sản phẩm

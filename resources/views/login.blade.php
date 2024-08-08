@@ -10,7 +10,7 @@
     @include('admin.components.preLoader')
     <section class="login-block">
         <!-- Container-fluid starts -->
-        <div class="container">
+        <div class="container no-select">
             <div class="row">
                 <div class="col-sm-12">
                     <!-- Authentication card start -->

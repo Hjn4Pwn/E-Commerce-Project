@@ -53,6 +53,7 @@
                                                             value="{{ $user->email }}">
                                                     </div>
                                                 </div>
+
                                                 <div class="form-group row">
                                                     <label class="col-sm-2 col-form-label">Số điện thoại</label>
                                                     <div class="col-sm-10">

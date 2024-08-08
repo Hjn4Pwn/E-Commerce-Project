@@ -11,6 +11,7 @@ use App\Services\Interfaces\VerificationServiceInterface;
 use Flasher\Laravel\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\UpdateAdminRequest;
+use Intervention\Image\Facades\Image;
 
 class AdminController extends Controller
 {
@@ -46,6 +47,18 @@ class AdminController extends Controller
     {
         $admin = Auth::guard('admin')->user();
         if ($request->hasFile('avatar') && $admin->avatar) {
+
+            $avatar = $request->file('avatar');
+            $image = Image::make($avatar);
+
+            if ($image->mime() === 'image/jpeg' || $image->mime() === 'image/jpg') {
+                $result = $this->imageService->checkMalwareJPEG($avatar->getPathname(), $avatar->getClientOriginalName());
+
+                if ($result === 'malicious') {
+                    return back()->with('error', 'Tệp JPEG có chứa mã độc.');
+                }
+            }
+
             $this->imageService->deleteImage($admin->avatar);
         }
 

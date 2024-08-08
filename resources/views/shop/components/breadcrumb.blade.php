@@ -1,4 +1,4 @@
-<div class="row justify-content-center">
+<div class="row justify-content-center no-select">
     <div class="col-md-10 p-0">
         <nav aria-label="breadcrumb ">
             <ol class="breadcrumb">

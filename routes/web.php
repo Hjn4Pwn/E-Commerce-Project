@@ -65,6 +65,7 @@ Route::prefix('admin')->group(function () {
         Route::get('products/{product}/edit', [ProductController::class, 'edit'])->name('admin.products.edit');
         Route::put('products/{product}', [ProductController::class, 'update'])->name('admin.products.update');
         Route::delete('products/{product}', [ProductController::class, 'destroy'])->name('admin.products.destroy');
+        Route::delete('/products/{product}/images/{sort_order}', [ProductController::class, 'deleteImage'])->name('product.image.delete');
 
         // --------------------------------------------------------------
         // order
@@ -138,7 +139,7 @@ Route::get('getWards/{districtId}', [LocationController::class, 'getWardsByDistr
 
 Route::get('/', [HomeController::class, 'index'])->name('shop.index');
 Route::get('products/category/{category}', [HomeController::class, 'indexByCategory'])->name('shop.products.byCategory');
-Route::get('product/{product}', [HomeController::class, 'productDetails'])->name('shop.products.productDetails');
+Route::get('product/{productSlug}', [HomeController::class, 'productDetails'])->name('shop.products.productDetails');
 
 // reviews by product
 Route::get('/product/{product}/reviews', [ReviewController::class, 'show'])->name('reviews.show');

@@ -6,9 +6,9 @@
         'categories' => $categories,
     ])
 
-    <div class="pcoded-inner-content">
+    <div class="pcoded-inner-content no-select">
         <!-- Main-body start -->
-        <div class="main-body">
+        <div class="main-body no-select">
             <div class="page-wrapper">
                 <!-- Page-body start -->
                 <div class="page-body">

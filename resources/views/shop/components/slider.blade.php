@@ -9,7 +9,8 @@
         <div class="carousel-inner">
             @foreach ($sliders as $index => $slider)
                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                    <img class="d-block w-100" src="{{ asset($slider->image_path) }}" alt="{{ $slider->title }}">
+                    <img class="d-block w-100" src="{{ Storage::disk('s3')->url($slider->image_path) }}"
+                        alt="{{ $slider->title }}">
                 </div>
             @endforeach
         </div>

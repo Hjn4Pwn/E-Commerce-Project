@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Elastic\ScoutDriverPlus\Searchable;
+use Illuminate\Support\Str;
 
 class Product extends Model
 {
@@ -20,6 +21,20 @@ class Product extends Model
         'description',
         'short_description',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        static::saving(function ($product) {
+            $product->slug = Str::slug($product->name);
+        });
+    }
+
+    public function getSlugAttribute()
+    {
+        return Str::slug($this->name);
+    }
 
     public function category()
     {

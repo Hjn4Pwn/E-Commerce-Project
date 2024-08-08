@@ -9,7 +9,7 @@
 <body themebg-pattern="theme1">
     @include('admin.components.preLoader')
     <section class="login-block">
-        <div class="container">
+        <div class="container no-select">
             <div class="row">
                 <div class="col-sm-12">
                     <form class="md-float-material form-material" method="post" action="{{ route('register.post') }}">

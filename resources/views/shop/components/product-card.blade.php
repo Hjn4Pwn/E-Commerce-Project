@@ -1,9 +1,9 @@
-<div class="col-sm-6 col-md-4 col-lg-2_4 col-xl-2 p-b-20">
+<div class="col-sm-6 col-md-4 col-lg-2_4 col-xl-2 p-b-20 no-select">
     <div class="card mx-auto product-card {{ $isOutOfStock ? 'out-of-stock' : '' }}" style="position: relative;">
-        <div onclick="location.href='{{ route('shop.products.productDetails', ['product' => $product->id]) }}';"
+        <div onclick="location.href='{{ route('shop.products.productDetails', ['productSlug' => $product->slug]) }}';"
             style="cursor: pointer;">
             <div class="text-center">
-                <img src="{{ asset($product->main_image->path) }}" class="card-img-top" alt="...">
+                <img src="{{ Storage::disk('s3')->url($product->main_image->path) }}" class="card-img-top" alt="...">
                 @if ($isOutOfStock)
                     <div class="out-of-stock-overlay">
                         <span class="out-of-stock-text">Hết hàng</span>
@@ -23,7 +23,8 @@
                                 <span>★★★★★</span>
                             </div>
                         </div>
-                        <span class="text-normal ml-2 f-14 mt-1">Đã bán {{ format_to_k($product->quantity_sold) }}</span>
+                        <span class="text-normal ml-2 f-14 mt-1">Đã bán
+                            {{ format_to_k($product->quantity_sold) }}</span>
                     </div>
                 </div>
 

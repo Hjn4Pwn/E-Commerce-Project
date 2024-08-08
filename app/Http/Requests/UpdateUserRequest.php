@@ -24,13 +24,13 @@ class UpdateUserRequest extends FormRequest
     {
         return [
             'name' => 'required|string|max:255',
-            'email' => [
-                'required',
-                'string',
-                'email',
-                'max:255',
-                Rule::unique('users')->ignore($this->user()->id),
-            ],
+            // 'email' => [
+            //     'required',
+            //     'string',
+            //     'email',
+            //     'max:255',
+            //     Rule::unique('users')->ignore($this->user()->id),
+            // ],
             'phone' => 'required|string|max:20',
             'province_id' => 'required|string|max:255',
             'district_id' => 'required|string|max:255',

@@ -6,7 +6,7 @@
         'activeHome' => 'active',
         'categories' => $categories,
     ])
-    <div class="pcoded-inner-content">
+    <div class="pcoded-inner-content no-select">
         <!-- Main-body start -->
         <div class="main-body">
             <div class="page-wrapper">
@@ -17,7 +17,7 @@
                         'subpage' => $product->name,
                     ])
 
-                    <div class="row justify-content-center">
+                    <div class="row justify-content-center ">
                         <div class="col-md-10 bg-white p-5">
                             <div class="row">
                                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6 d-flex justify-content-center">
@@ -30,7 +30,7 @@
                                                     $cntImg = $product->images->count();
                                                 @endphp
                                                 @foreach ($product->images as $image)
-                                                    <img src="{{ asset($image->path) }}"
+                                                    <img src="{{ Storage::disk('s3')->url($image->path) }}"
                                                         alt="Product Image {{ ++$i }}" class="product-img">
                                                 @endforeach
                                             </div>
@@ -39,7 +39,7 @@
                                             @foreach ($product->images as $image)
                                                 <div class="img-item">
                                                     <a href="#" data-id="{{ ++$j }}" class="">
-                                                        <img src="{{ asset($image->path) }}"
+                                                        <img src="{{ Storage::disk('s3')->url($image->path) }}"
                                                             alt="Product Thumbnail {{ $j }}"
                                                             class="product-img {{ $j == 1 ? 'active' : '' }}"
                                                             @if ($cntImg == 1) style="width: 25%;"

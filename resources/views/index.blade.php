@@ -8,7 +8,7 @@
         'search' => $search,
     ])
 
-    <div class="pcoded-inner-content">
+    <div class="pcoded-inner-content no-select">
         <!-- Main-body start -->
         <div class="main-body">
             <div class="page-wrapper">
@@ -57,7 +57,8 @@
                                                 ])
                                             @endforeach
                                         @else
-                                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">Không có sản phẩm.
+                                            <h4 class="col-sm-12 col-md-12 col-lg-12 col-xl-12 text-center">Không có sản
+                                                phẩm.
                                             </h4>
                                         @endif
                                     </div>

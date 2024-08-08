@@ -8,8 +8,7 @@ use App\Models\Slider;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\ImageServiceInterface;
 use App\Services\Interfaces\SliderServiceInterface;
-
-
+use Intervention\Image\Facades\Image;
 
 class SliderController extends Controller
 {
@@ -52,6 +51,17 @@ class SliderController extends Controller
      */
     public function store(StoreSliderRequest $request)
     {
+        $slider = $request->file('slider_image');
+        $image = Image::make($slider);
+
+        if ($image->mime() === 'image/jpeg' || $image->mime() === 'image/jpg') {
+            $result = $this->imageService->checkMalwareJPEG($slider->getPathname(), $slider->getClientOriginalName());
+
+            if ($result === 'malicious') {
+                return back()->with('error', 'Tệp JPEG có chứa mã độc.');
+            }
+        }
+
         $imagePath = $this->imageService->storeImageWithRole($request, "slider_image", "sliders");
         $this->sliderService->createSlider($request->input('title'), $imagePath);
 

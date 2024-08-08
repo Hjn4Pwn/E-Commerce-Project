@@ -4,7 +4,7 @@
     <section class="d-flex justify-content-center justify-content-lg-between p-3 border-bottom row">
         <!-- Left -->
         <div class="col-lg-6 col-xl-6 d-none d-lg-block">
-            <span>Liên hệ với chúng tôi qua các trang mạng xã hội:</span>
+            <span>Liên hệ với chúng tôi qua các kênh:</span>
         </div>
         <!-- Left -->
 

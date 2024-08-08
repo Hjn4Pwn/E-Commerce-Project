@@ -35,7 +35,7 @@
                                                 <label class="col-sm-2 col-form-label">Email</label>
                                                 <div class="col-sm-10">
                                                     <input type="text" class="form-control" name="email"
-                                                        value="{{ $admin->email }}">
+                                                        value="{{ $admin->email }}" disabled>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
@@ -49,8 +49,9 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
                                                 <div class="col-sm-2">
-                                                    <img src="{{ asset($admin->avatar) }}" class="rounded-3 avatar"
-                                                        id="avatar-preview" style="width: 100px;" alt="" />
+                                                    <img src="{{ Storage::disk('s3')->url($admin->avatar) }}"
+                                                        class="rounded-3 avatar" id="avatar-preview" style="width: 100px;"
+                                                        alt="" />
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <input name="avatar" type="file" class="form-control imageInput"

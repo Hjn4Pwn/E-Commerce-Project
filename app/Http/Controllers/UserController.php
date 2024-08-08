@@ -107,11 +107,7 @@ class UserController extends Controller
     {
         $user = Auth::user();
         if ($request->hasFile('avatar') && $user->avatar) {
-            $this->imageService->deleteImage($user->avatar);
-        }
-        $validatedData = $request->validated();
 
-        if ($request->hasFile('avatar')) {
             $avatar = $request->file('avatar');
             $image = Image::make($avatar);
 
@@ -123,6 +119,11 @@ class UserController extends Controller
                 }
             }
 
+            $this->imageService->deleteImage($user->avatar);
+        }
+        $validatedData = $request->validated();
+
+        if ($request->hasFile('avatar')) {
             $path = $this->imageService->storeImageWithRole($request);
             $validatedData['avatar'] = $path;
         }

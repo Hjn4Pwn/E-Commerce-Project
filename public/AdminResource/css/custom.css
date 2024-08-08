@@ -6,7 +6,13 @@
     line-height: 150px;
 }
 
-
+.no-select {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Standard */
+  }
+  
 .select2-container--default .select2-selection--single {
     background-color: #fff;
     border: 1px solid #ccc;

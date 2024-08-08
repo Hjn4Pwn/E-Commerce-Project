@@ -96,7 +96,7 @@
                                                         <th class="text-center" scope="row">{{ ++$i }}</th>
                                                         <td class="text-center">{{ $product->name }}</td>
                                                         <td class="text-center p-t-5"><img
-                                                                src="{{ asset($product->main_image->path) }}"
+                                                                src="{{ Storage::disk('s3')->url($product->main_image->path) }}"
                                                                 class="rounded-3" style="width: 100px;"
                                                                 alt="Product Image" /></td>
                                                         <td class="text-center">{{ $product->category->name }}</td>

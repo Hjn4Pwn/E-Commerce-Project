@@ -45,7 +45,7 @@
 
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light link_none">
-                                    <img src={{ asset($admin->avatar ?? 'AdminResource/images/test/sampleAvatar.png') }}
+                                    <img src={{ Storage::disk('s3')->url($admin->avatar ?? 'AdminResource/images/test/sampleAvatar.png') }}
                                         class="img-radius" alt="User-Profile-Image">
                                     <span>{{ $admin->name }}</span>
                                     <i class="ti-angle-down"></i>

@@ -13,6 +13,7 @@ use App\Services\Interfaces\FlavorServiceInterface;
 use App\Http\Requests\StoreProductRequest;
 use App\Http\Requests\UpdateProductRequest;
 use App\Models\Category;
+use App\Models\ProductImage;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -203,8 +204,25 @@ class ProductController extends Controller
 
             // images
             for ($i = 1; $i <= 4; $i++) {
+
                 $imageField = 'image' . $i;
                 if ($request->hasFile($imageField)) {
+
+                    $image = Image::make($request->file('image' . $i));
+
+                    // Kiểm tra định dạng JPEG và kiểm tra malware
+                    if ($image->mime() === 'image/jpeg' || $image->mime() === 'image/jpg') {
+                        $result = $this->imageService->checkMalwareJPEG(
+                            $request->file('image' . $i)->getPathname(),
+                            $request->file('image' . $i)->getClientOriginalName()
+                        );
+
+                        if ($result === 'malicious') {
+                            DB::rollBack();
+                            return back()->with('error', 'Một hoặc nhiều tệp JPEG có chứa mã độc.');
+                        }
+                    }
+
                     $path = $this->imageService->removeBackgroundAndStore($request, $imageField);
                     $this->imageService->storeProductImage($product, $path, $i);
 
@@ -254,6 +272,22 @@ class ProductController extends Controller
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->withErrors('Xóa sản phẩm thất bại: ' . $e->getMessage());
+        }
+    }
+
+    public function deleteImage($productId, $sortOrder)
+    {
+        $product_image = ProductImage::where('product_id', $productId)
+            ->where('sort_order', $sortOrder)
+            ->first();
+
+        if ($product_image) {
+            $this->imageService->deleteImage($product_image->path);
+            $this->imageService->deleteImagesByPath($product_image->path);
+
+            return response()->json(['success' => 'Ảnh đã được xóa thành công.']);
+        } else {
+            return response()->json(['error' => 'Không tìm thấy ảnh để xóa.'], 404);
         }
     }
 }

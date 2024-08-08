@@ -50,12 +50,12 @@ class ImageService implements ImageServiceInterface
                 ]
             ]);
 
-            $path = 'storage/images/products/' . $filename;
-            Storage::disk('public')->put('images/products/' . $filename, $response->getBody());
+            $s3Path = 'images/products/' . $filename;
+            Storage::disk('s3')->put($s3Path, $response->getBody());
 
             unlink($tempPath);
 
-            return $path;
+            return $s3Path;
         }
 
         throw new Exception('No image uploaded or failed to remove background');
@@ -64,8 +64,7 @@ class ImageService implements ImageServiceInterface
 
     public function deleteImage($ImagePath)
     {
-        $ImagePath = str_replace('storage/', '', $ImagePath);
-        Storage::disk('public')->delete($ImagePath);
+        Storage::disk('s3')->delete($ImagePath);
     }
 
     public function storeProductImage(Product $product, $path, $sort_order)
@@ -111,10 +110,11 @@ class ImageService implements ImageServiceInterface
             }
 
             $filename = time() . '_' . uniqid() . '.png';
-            $path = 'storage/images/' . $role . '/' . $filename;
-            Storage::disk('public')->put('images/' . $role . '/' . $filename, $image->stream());
 
-            return $path;
+            $s3Path = 'images/' . $role . '/' . $filename;
+            Storage::disk('s3')->put($s3Path, $image->stream());
+
+            return $s3Path;
         }
         throw new Exception('No image uploaded');
     }

@@ -6,7 +6,7 @@
         'categories' => $categories,
     ])
 
-    <div class="pcoded-inner-content">
+    <div class="pcoded-inner-content no-select">
         <div class="main-body">
             <div class="page-wrapper">
                 <div class="page-body">
@@ -34,7 +34,7 @@
                                 <span class="f-16">Phí vận chuyển: </span>
                                 <span class="text-info f-24 font-weight-bold ml-2">{{ format_currency($ship) }}</span>
                             </div>
-              
+
                             <!-- Order Review Section -->
                             @if ($OrderReview)
                                 @php
@@ -43,8 +43,8 @@
                                 @foreach ($OrderReview as $item)
                                     <div class="row align-items-center product-bottom-line" style="height: 150px;">
                                         <div class="col-3 col-md-2">
-                                            <img src="{{ asset($item['main_image']) }}" class="rounded-3 cart-product-image"
-                                                alt="Product Image" />
+                                            <img src="{{ Storage::disk('s3')->url($item['main_image']) }}"
+                                                class="rounded-3 cart-product-image" alt="Product Image" />
                                         </div>
                                         <div class="col-9 col-md-10">
                                             <div class="row">

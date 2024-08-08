@@ -113,7 +113,7 @@
                                                                             class="img-radius img-40 align-top m-r-20"
                                                                             alt="User-Profile-Image">
                                                                     @else
-                                                                        <img src={{ asset($user['avatar']) }}
+                                                                        <img src={{ Storage::disk('s3')->url($user['avatar']) }}
                                                                             class="img-radius img-40 align-top m-r-20"
                                                                             alt="User-Profile-Image">
                                                                     @endif
@@ -154,7 +154,7 @@
                                                         <tr>
                                                             <td>
                                                                 <div class="d-flex align-items-center">
-                                                                    <img src={{ asset($product['main_image']->path) }}
+                                                                    <img src={{ Storage::disk('s3')->url($product['main_image']->path) }}
                                                                         class="img-radius img-50 align-top m-r-20"
                                                                         alt="User-Profile-Image">
                                                                     <div class="d-inline-block">

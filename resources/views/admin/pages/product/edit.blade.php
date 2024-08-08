@@ -68,6 +68,7 @@
                                                 @php
                                                     $cntImage = 0;
                                                 @endphp
+
                                                 @foreach ($images as $image)
                                                     <div class="form-group row">
                                                         @php
@@ -82,7 +83,8 @@
 
                                                         </label>
                                                         <div class="col-sm-2">
-                                                            <img src="{{ asset($image->path) }}" class="rounded-3 userImage"
+                                                            <img src="{{ Storage::disk('s3')->url($image->path) }}"
+                                                                class="rounded-3 userImage"
                                                                 id="image{{ $image->sort_order }}-preview"
                                                                 style="width: 100px;" alt="" />
                                                         </div>
@@ -90,9 +92,17 @@
                                                             <input name="image{{ $image->sort_order }}" type="file"
                                                                 class="form-control imageInput"
                                                                 data-target="#image{{ $image->sort_order }}-preview">
+                                                            @if ($image->sort_order != 1)
+                                                                <div class="mt-2">
+                                                                    <button type="button"
+                                                                        class="btn btn-danger btn-sm waves-effect waves-light cancel-button"
+                                                                        onclick="deleteImage({{ $product->id }}, {{ $image->sort_order }})">Xóa</button>
+                                                                </div>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 @endforeach
+
 
                                                 @for ($i = $cntImage + 1; $i <= 4; $i++)
                                                     <div class="form-group row">
@@ -210,6 +220,34 @@
         </div>
         <div id="styleSelector"> </div>
     </div>
+
+    <script>
+        function deleteImage(productId, sortOrder) {
+            if (confirm('Bạn có chắc chắn muốn xóa ảnh này không?')) {
+                fetch(`/admin/products/${productId}/images/${sortOrder}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).then(response => {
+                    return response.json().then(data => {
+                        if (response.ok) {
+                            location.reload();
+                        } else {
+                            alert(data.error || 'Xóa ảnh thất bại.');
+                        }
+                    });
+                }).catch(error => {
+                    console.error('Error:', error);
+                    alert('Có lỗi xảy ra. Vui lòng thử lại sau.');
+                });
+            }
+        }
+    </script>
+
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>

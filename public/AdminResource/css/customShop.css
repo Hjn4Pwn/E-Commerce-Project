@@ -13,6 +13,13 @@
     border: 1px solid #ccc;
 }
 
+.no-select {
+    -webkit-user-select: none; /* Safari */
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Standard */
+  }
+  
 .header__search-btn{
     width: 100%;
 }
