@@ -64,23 +64,28 @@
                                                         <td class="lh40 text-center">
                                                             {{ format_currency($order->total_price + $order->shipping_fee) }}
                                                         </td>
-
-                                                        @if (in_array($order->status, ['pending', 'processing']))
-                                                            <td class="lh40 text-center text-dark font-weight-bold">
-                                                                Đang chuẩn bị hàng
+                                                        @if (in_array($order->id, $invalidOrderIds))
+                                                            <td class="lh40 text-center text-purple font-weight-bold">
+                                                                Không hợp lệ
                                                             </td>
-                                                        @elseif ($order->status == 'shipped')
-                                                            <td class="lh40 text-center text-primary font-weight-bold">
-                                                                Đang giao hàng
-                                                            </td>
-                                                        @elseif ($order->status == 'delivered')
-                                                            <td class="lh40 text-center text-success font-weight-bold">
-                                                                Giao hàng thành công
-                                                            </td>
-                                                        @elseif ($order->status == 'cancelled')
-                                                            <td class="lh40 text-center text-danger font-weight-bold">
-                                                                Đã hủy
-                                                            </td>
+                                                        @else
+                                                            @if (in_array($order->status, ['pending', 'processing']))
+                                                                <td class="lh40 text-center text-dark font-weight-bold">
+                                                                    Đang chuẩn bị hàng
+                                                                </td>
+                                                            @elseif ($order->status == 'shipped')
+                                                                <td class="lh40 text-center text-primary font-weight-bold">
+                                                                    Đang giao hàng
+                                                                </td>
+                                                            @elseif ($order->status == 'delivered')
+                                                                <td class="lh40 text-center text-success font-weight-bold">
+                                                                    Giao hàng thành công
+                                                                </td>
+                                                            @elseif ($order->status == 'cancelled')
+                                                                <td class="lh40 text-center text-danger font-weight-bold">
+                                                                    Đã hủy
+                                                                </td>
+                                                            @endif
                                                         @endif
                                                         <td class="text-center">
                                                             <a href="{{ route('admin.viewOrder', Crypt::encrypt($order->id)) }}"

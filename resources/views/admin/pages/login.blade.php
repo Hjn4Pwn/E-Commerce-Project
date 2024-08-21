@@ -71,14 +71,13 @@
                                     </div>
                                 </div>
                                 <hr />
-                                <div class="row">
-                                    <div class="col-md-10">
-                                        <p class="text-inverse text-left m-b-0">Cảm ơn bạn.</p>
-
+                                <div class="row align-items-center">
+                                    <div class="col-md-10 col-sm-10 col-9 text-left">
+                                        <p class="text-inverse m-b-0">Cảm ơn bạn.</p>
                                     </div>
-                                    <div class="col-md-2">
-                                        <img src={{ asset('AdminResource/images/test/small-logo.png') }}
-                                            alt="small-logo.png" style="width: 80%">
+                                    <div class="col-md-2 col-sm-2 col-3 text-right">
+                                        <img src="{{ asset('AdminResource/images/test/small-logo.png') }}"
+                                            alt="Small Logo" style="width: 50px;">
                                     </div>
                                 </div>
                             </div>

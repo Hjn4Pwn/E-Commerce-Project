@@ -18,7 +18,7 @@ class StoreReviewRequest extends FormRequest
             'rating' => 'required|integer|min:1|max:5',
             'comment' => [
                 'nullable',
-                'regex:/^[\pL\s\d]+$/u', // Chỉ chấp nhận chữ cái có dấu, chữ số và khoảng trắng
+                'regex:/^[\pL\s\d,.;]+$/u', // Chỉ chấp nhận chữ cái có dấu, chữ số, khoảng trắng, và các dấu , . ;
             ],
         ];
     }
@@ -30,7 +30,7 @@ class StoreReviewRequest extends FormRequest
             'rating.required' => 'Bạn vẫn chưa đánh giá sản phẩm.',
             'rating.min' => 'Chỉ có thể đánh giá từ 1 đến 5 sao.',
             'rating.max' => 'Chỉ có thể đánh giá từ 1 đến 5 sao.',
-            'comment.regex' => 'Nội dung đánh giá chỉ được bao gồm chữ cái, chữ số, khoảng trắng hoặc để trống.',
+            'comment.regex' => 'Nội dung đánh giá chỉ chấp nhận chữ cái có dấu, chữ số, khoảng trắng, và các dấu , . ;',
         ];
     }
 }

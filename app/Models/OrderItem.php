@@ -10,12 +10,26 @@ class OrderItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'order_id', 'product_id', 'flavor_id', 'quantity'
+        'order_id',
+        'product_id',
+        'flavor_id',
+        'quantity'
     ];
 
     public function order()
     {
         return $this->belongsTo(Order::class, 'order_id');
+    }
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::deleting(function ($order) {
+            $order->items()->each(function ($item) {
+                $item->delete();
+            });
+        });
     }
 
     public function product()

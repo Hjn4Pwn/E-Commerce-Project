@@ -53,8 +53,9 @@
                                 </div>
                                 <div class="col-sm-12 col-md-12 col-lg-6 col-xl-6">
                                     <h2 class="mb-3 mt-3">{{ $product->name }}</h2>
+
                                     <div class="mb-3">
-                                        <div class="d-flex align-items-center" style="line-height: 45px">
+                                        <div class="d-flex flex-column flex-md-row " style="line-height: 25px">
                                             <div class="star-ratings">
                                                 <div class="fill-ratings" style="width: {{ $average_rating * 20 }}%;">
                                                     <span>★★★★★</span>
@@ -63,14 +64,17 @@
                                                     <span>★★★★★</span>
                                                 </div>
                                             </div>
-                                            <a href="#product-rating" style="text-decoration: none;">
-                                                <span class="text-info ml-3 f-16">(Xem {{ format_to_k($total_reviews) }}
-                                                    đánh giá)</span>
-                                            </a>
-                                            <span class="text-normal ml-4 f-14 mt-1">Đã bán
-                                                {{ format_to_k($product->quantity_sold) }}</span>
+                                            <div class="mt-2 mt-md-0">
+                                                <a href="#product-rating" style="text-decoration: none;">
+                                                    <span class="text-info ml-0 ml-md-3 f-16">(Xem
+                                                        {{ format_to_k($total_reviews) }} đánh giá)</span>
+                                                </a>
+                                                <span class="text-normal ml-0 ml-md-4 f-14 mt-1">Đã bán
+                                                    {{ format_to_k($product->quantity_sold) }}</span>
+                                            </div>
                                         </div>
                                     </div>
+
                                     @php
                                         $originalPrice = round($product->price / (1 - $product->sale / 100), -3);
                                         $savingAmount = round($originalPrice - $product->price, -3);
@@ -285,7 +289,7 @@
                                             </div>
                                             <div class="mt-2 mb-2">
                                                 <div class="comment-content">{{ $review->comment }}</div>
-                                                @if (strlen($review->comment) > 370)
+                                                @if (strlen($review->comment) > 467)
                                                     <span class="read-more" onclick="toggleReadMore(this)">Xem thêm</span>
                                                 @endif
                                             </div>

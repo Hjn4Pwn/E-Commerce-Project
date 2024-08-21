@@ -26,26 +26,33 @@
                                         </span>
                                     </div>
                                     <div class="col-sm-8">
-                                        @if (in_array($order->status, ['pending', 'processing']))
-                                            <span class="bg-secondary text-white"
+                                        @if ($isInvalid)
+                                            <span class="bg-white text-purple font-weight-bold"
                                                 style ="font-size: 20px; padding: 10px; border-radius: 2px;">
-                                                Đang chuẩn bị hàng
+                                                Không hợp lệ
                                             </span>
-                                        @elseif ($order->status == 'shipped')
-                                            <span class="bg-primary text-white"
-                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
-                                                Đang vận chuyển
-                                            </span>
-                                        @elseif ($order->status == 'delivered')
-                                            <span class="bg-success text-white"
-                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
-                                                Giao hàng thành công
-                                            </span>
-                                        @elseif ($order->status == 'cancelled')
-                                            <span class="bg-danger text-white"
-                                                style ="font-size: 20px; padding: 10px; border-radius: 2px;">
-                                                Đã hủy
-                                            </span>
+                                        @else
+                                            @if (in_array($order->status, ['pending', 'processing']))
+                                                <span class="bg-secondary text-white"
+                                                    style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                    Đang chuẩn bị hàng
+                                                </span>
+                                            @elseif ($order->status == 'shipped')
+                                                <span class="bg-primary text-white"
+                                                    style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                    Đang vận chuyển
+                                                </span>
+                                            @elseif ($order->status == 'delivered')
+                                                <span class="bg-success text-white"
+                                                    style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                    Giao hàng thành công
+                                                </span>
+                                            @elseif ($order->status == 'cancelled')
+                                                <span class="bg-danger text-white"
+                                                    style ="font-size: 20px; padding: 10px; border-radius: 2px;">
+                                                    Đã hủy
+                                                </span>
+                                            @endif
                                         @endif
                                     </div>
                                 </div>
@@ -163,8 +170,14 @@
                                         <h5>Đơn giá</h5>
                                     </div>
                                     <div class="card-block">
+                                        @if ($order->payment_method == 'online_payment' && !$isInvalid)
+                                            <div class="form-group row">
+                                                <div class="col-sm-12 text-right">
+                                                    <span class="f-18 text-success font-weight-bold">Đã thanh toán</span>
+                                                </div>
+                                            </div>
+                                        @endif
                                         <form>
-
                                             <div class="form-group row">
                                                 <label class="col-sm-4 col-form-label">Tạm tính</label>
                                                 <div class="col-sm-8">
@@ -183,7 +196,10 @@
 
 
                                             <div class="form-group row">
-                                                <label class="col-sm-4 col-form-label form-bg-primary">Tổng giá trị</label>
+
+                                                <label class="col-sm-4 col-form-label form-bg-primary">
+                                                    Tổng giá trị
+                                                </label>
                                                 <div class="col-sm-8">
                                                     <div class="form-control-static text-success"
                                                         style="font-size: 26px; font-weight: bold;">
@@ -194,18 +210,33 @@
 
                                         </form>
                                         <div class="float-right">
-                                            <form action="{{ route('orders.ship', Crypt::encrypt($order->id)) }}"
-                                                method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" data-order-status="{{ $order->status }}"
-                                                    class="btn btn-success waves-effect waves-light mr-2 ship-button">Ship</button>
-                                            </form>
-                                            <form action="{{ route('orders.admin_cancel', Crypt::encrypt($order->id)) }}"
-                                                method="POST" style="display:inline;">
-                                                @csrf
-                                                <button type="submit" data-order-status="{{ $order->status }}"
-                                                    class="btn btn-danger waves-effect waves-light cancel-button">Hủy</button>
-                                            </form>
+
+                                            @if ($isInvalid)
+                                                <form
+                                                    action="{{ route('orders.admin_delete', Crypt::encrypt($order->id)) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" data-order-status="{{ $order->status }}"
+                                                        class="btn btn-danger waves-effect waves-light cancel-button">Xóa</button>
+                                                </form>
+                                            @else
+                                                <form action="{{ route('orders.ship', Crypt::encrypt($order->id)) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" data-order-status="{{ $order->status }}"
+                                                        class="btn btn-success waves-effect waves-light mr-2 ship-button">Ship</button>
+                                                </form>
+
+
+                                                <form
+                                                    action="{{ route('orders.admin_cancel', Crypt::encrypt($order->id)) }}"
+                                                    method="POST" style="display:inline;">
+                                                    @csrf
+                                                    <button type="submit" data-order-status="{{ $order->status }}"
+                                                        class="btn btn-danger waves-effect waves-light cancel-button">Hủy</button>
+                                                </form>
+                                            @endif
+
                                         </div>
 
                                     </div>

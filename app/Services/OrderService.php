@@ -4,11 +4,13 @@ namespace App\Services;
 
 use App\Models\Flavor;
 use App\Models\Order;
+use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductFlavor;
 use App\Models\User;
 use App\Services\Interfaces\LocationServiceInterface;
 use App\Services\Interfaces\OrderServiceInterface;
+use App\Services\Interfaces\ElasticsearchServiceInterface;
 
 use Exception;
 use Illuminate\Support\Facades\Crypt;
@@ -23,20 +25,21 @@ use Illuminate\Support\Facades\Session;
 class OrderService implements OrderServiceInterface
 {
     protected $locationService;
+    protected $elasticsearchService;
 
     public function __construct(
         LocationServiceInterface $locationService,
+        ElasticsearchServiceInterface $elasticsearchService,
     ) {
         $this->locationService = $locationService;
+        $this->elasticsearchService = $elasticsearchService;
     }
 
     public function getAllOrders($search = null)
     {
         // dd($search);
         if ($search) {
-            $users = User::search($search)->where('type', 'user')->get();
-            $userIds = $users->pluck('id');
-
+            $userIds = $this->elasticsearchService->search('app_index', 'user', $search);
             $orders = Order::whereIn('user_id', $userIds)
                 ->with(['user'])
                 ->orderBy('created_at', 'desc')
@@ -231,6 +234,8 @@ class OrderService implements OrderServiceInterface
         $to_address_parsed = parseAddress($to_address);
         $from_address_parsed = parseAddress($from_address);
 
+
+
         $data = [
             "pick_province" => $from_address_parsed['province_name'],
             "pick_district" => $from_address_parsed['district_name'],
@@ -244,6 +249,7 @@ class OrderService implements OrderServiceInterface
             "tags" => [1]
         ];
 
+
         try {
             $response = Http::withHeaders([
                 'Token' => env('GHTK_TOKEN'),
@@ -254,6 +260,7 @@ class OrderService implements OrderServiceInterface
             if (isset($responseData['success']) && $responseData['success']) {
                 return (string)$responseData['fee']['fee'];
             } else {
+                // dd($data);
                 return 'Failed to calculate shipping fee: ' . ($responseData['message'] ?? 'Unknown error');
             }
         } catch (\Exception $e) {
@@ -292,5 +299,27 @@ class OrderService implements OrderServiceInterface
         } else {
             throw new \Exception('Order not found');
         }
+    }
+
+    public function getInvalidOnlineOrders($userId = null)
+    {
+        $query = Order::where('payment_method', 'online_payment');
+
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        $ordersWithOnlinePayment = $query->get();
+
+        $invalidOrderIds = [];
+
+        foreach ($ordersWithOnlinePayment as $order) {
+            $paymentExists = Payment::where('order_id', $order->id)->exists();
+            if (!$paymentExists) {
+                $invalidOrderIds[] = $order->id;
+            }
+        }
+
+        return $invalidOrderIds;
     }
 }

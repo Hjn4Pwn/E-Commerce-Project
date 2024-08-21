@@ -6,7 +6,7 @@ use App\Models\Flavor;
 use App\Models\Product;
 use App\Models\ProductFlavor;
 use App\Services\Interfaces\FlavorServiceInterface;
-use Illuminate\Support\Facades\DB;
+use App\Services\Interfaces\ElasticsearchServiceInterface;
 
 /**
  * Class FlavorService
@@ -14,14 +14,24 @@ use Illuminate\Support\Facades\DB;
  */
 class FlavorService implements FlavorServiceInterface
 {
+    protected $elasticsearchService;
+
+    public function __construct(
+        ElasticsearchServiceInterface $elasticsearchService,
+    ) {
+        $this->elasticsearchService = $elasticsearchService;
+    }
+
     public function getAllFlavors($search = null)
     {
         if ($search) {
-            return Flavor::search($search)->where('type', 'flavor')->get();
+            $ids = $this->elasticsearchService->search('app_index', 'flavor', $search);
+            return Flavor::whereIn('id', $ids)->get();
         }
 
         return Flavor::all();
     }
+
 
     public function storeFlavor($validatedData)
     {

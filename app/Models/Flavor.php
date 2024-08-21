@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Services\ElasticsearchService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 // use Laravel\Scout\Searchable;
-use Elastic\ScoutDriverPlus\Searchable;
+// use Elastic\ScoutDriverPlus\Searchable;
 
 class Flavor extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -31,17 +32,30 @@ class Flavor extends Model
             ->withPivot('quantity');
     }
 
-    public function searchableAs()
+    public static function boot()
     {
-        return 'app_index';
+        parent::boot();
+
+        static::saved(function ($flavor) {
+            app(ElasticsearchService::class)->syncModel($flavor, 'flavor');
+        });
+
+        static::deleted(function ($flavor) {
+            app(ElasticsearchService::class)->removeModel($flavor);
+        });
     }
 
-    public function toSearchableArray()
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'type' => 'flavor',
-        ];
-    }
+    // public function searchableAs()
+    // {
+    //     return 'app_index';
+    // }
+
+    // public function toSearchableArray()
+    // {
+    //     return [
+    //         'id' => $this->id,
+    //         'name' => $this->name,
+    //         'type' => 'flavor',
+    //     ];
+    // }
 }

@@ -36,7 +36,7 @@ class AdminController extends Controller
     {
         $provinces = $this->locationService->getAllProvinces();
         $admin = Auth::guard('admin')->user();
-        return view('admin.pages.AdminInfo.edit', [
+        return view('admin.pages.adminInfo.edit', [
             'provinces' => $provinces,
             'admin' => $admin,
             'page' => 'Hồ sơ',
@@ -108,7 +108,7 @@ class AdminController extends Controller
 
     public function showChangePasswordForm()
     {
-        return view('admin.pages.AdminInfo.change-password', [
+        return view('admin.pages.adminInfo.change-password', [
             'page' => 'Thay đổi mật khẩu',
         ]);
     }

@@ -28,7 +28,7 @@
                                     @foreach ($cartItems as $item)
                                         <div class="row align-items-center product-bottom-line" style="height: 150px;">
                                             <div class="col-3 col-md-2"
-                                                onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item['product']->id]) }}';"
+                                                onclick="location.href='{{ route('shop.products.productDetails', ['productSlug' => $item['product']->slug]) }}';"
                                                 style="cursor: pointer;">
                                                 <img src="{{ Storage::disk('s3')->url($item['product']->main_image->path) }}"
                                                     class="rounded-3 cart-product-image" alt="Product Image" />
@@ -38,7 +38,7 @@
                                                     <div class="col-12 col-md-6">
                                                         <div>
                                                             <div class="cart-product-name"
-                                                                onclick="location.href='{{ route('shop.products.productDetails', ['product' => $item['product']->id]) }}';"
+                                                                onclick="location.href='{{ route('shop.products.productDetails', ['productSlug' => $item['product']->slug]) }}';"
                                                                 style="cursor: pointer;">
                                                                 {{ $item['product']->name }}
                                                             </div>

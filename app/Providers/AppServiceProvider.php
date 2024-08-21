@@ -27,6 +27,7 @@ class AppServiceProvider extends ServiceProvider
         'App\Services\Interfaces\SliderServiceInterface' => 'App\Services\SliderService',
         'App\Services\Interfaces\VerificationServiceInterface' => 'App\Services\VerificationService',
         'App\Services\Interfaces\DashboardServiceInterface' => 'App\Services\DashboardService',
+        'App\Services\Interfaces\ElasticsearchServiceInterface' => 'App\Services\ElasticsearchService',
 
     ];
 

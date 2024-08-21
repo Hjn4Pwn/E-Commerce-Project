@@ -45,8 +45,14 @@
 
                             <li class="user-profile header-notification">
                                 <a href="#!" class="waves-effect waves-light link_none">
-                                    <img src={{ Storage::disk('s3')->url($admin->avatar ?? 'AdminResource/images/test/sampleAvatar.png') }}
-                                        class="img-radius" alt="User-Profile-Image">
+                                    @if (!$admin->avatar)
+                                        <img src={{ asset('AdminResource/images/test/nonAuth.png') }} class="img-radius"
+                                            alt="User-Profile-Image">
+                                    @else
+                                        <img src={{ Storage::disk('s3')->url($admin->avatar) }} class="img-radius"
+                                            alt="User-Profile-Image">
+                                    @endif
+
                                     <span>{{ $admin->name }}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>

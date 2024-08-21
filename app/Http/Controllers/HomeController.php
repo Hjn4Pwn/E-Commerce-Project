@@ -11,8 +11,7 @@ use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\FlavorServiceInterface;
 use App\Services\Interfaces\ReviewServiceInterface;
 use App\Services\Interfaces\SliderServiceInterface;
-
-
+use Elastic\Elasticsearch\ClientBuilder;
 
 class HomeController extends Controller
 {

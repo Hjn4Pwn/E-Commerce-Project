@@ -23,21 +23,12 @@
                         @foreach ($orders as $order)
                             <div class="row justify-content-center">
                                 <div class="col-md-10 bg-white p-3 order-box">
-                                    <div class="d-flex justify-content-between">
-                                        <div>
-                                            <div class="">
-                                                <span class="f-16 text-info">Địa chỉ giao hàng: </span>
-                                                <span>{{ $order['address'] }}</span>
-                                            </div>
-
-                                            <div class="mb-3">
-                                                <span class="f-16 text-info">Số điện thoại: </span>
-                                                <span>{{ $order['phone'] }}</span>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex justify-content-end align-items-center">
+                                    <div class="d-flex justify-content-end align-items-center">
+                                        @if (in_array($order['order_id'], $invalidOrderIds))
+                                            <span class="f-18 text-purple font-weight-bold">Không hợp lệ</span>
+                                        @else
                                             @if (in_array($order['status'], ['pending', 'processing']))
-                                                <span class="f-18 text-dark font-weight-bold">Người bán đang chuẩn bị
+                                                <span class="f-18 text-dark font-weight-bold">Đang chuẩn bị
                                                     hàng</span>
                                             @elseif ($order['status'] == 'shipped')
                                                 <span class="f-18 text-primary font-weight-bold">Đang vận chuyển</span>
@@ -46,19 +37,25 @@
                                             @elseif ($order['status'] == 'cancelled')
                                                 <span class="f-18 text-danger font-weight-bold">Đã hủy</span>
                                             @endif
-                                        </div>
+                                        @endif
                                     </div>
 
-                                    <div class="mb-3 d-flex justify-content-end align-items-center">
-                                        <span class="f-16">Phí vận chuyển: </span>
-                                        <span
-                                            class="text-info f-18 ml-2">{{ format_currency($order['shipping_fee']) }}</span>
+                                    <div class="">
+                                        <div class="">
+                                            <span class="f-16 text-info">Địa chỉ: </span>
+                                            <span>{{ $order['address'] }}</span>
+                                        </div>
+
+                                        <div class="mb-3">
+                                            <span class="f-16 text-info">SĐT: </span>
+                                            <span>{{ $order['phone'] }}</span>
+                                        </div>
                                     </div>
 
                                     @foreach ($order['items'] as $item)
                                         <div class="row align-items-center product-bottom-line" style="height: 150px;">
                                             <div class="col-3 col-md-2">
-                                                <img src="{{ Storage::disk('s3')->url($item['product']->main_image->path) }}"
+                                                <img src="{{ optional($item['product']) && optional($item['product'])->main_image ? Storage::disk('s3')->url(optional($item['product'])->main_image->path) : null }}"
                                                     class="rounded-3 cart-product-image" alt="Product Image" />
                                             </div>
                                             <div class="col-9 col-md-10">
@@ -66,17 +63,17 @@
                                                     <div class="col-12 col-md-6">
                                                         <div>
                                                             <div class="cart-product-name">
-                                                                {{ $item['product']->name }}
+                                                                {{ optional($item['product'])->name ?? 'Unknown Product' }}
                                                             </div>
                                                             <div class="cart-flavor">
-                                                                {{ $item['flavor']->name ?? 'unflavored' }}
+                                                                {{ optional($item['flavor'])->name ?? 'unflavored' }}
                                                             </div>
                                                         </div>
                                                     </div>
                                                     <div
                                                         class="col-12 col-md-6 d-flex align-items-center justify-content-between">
                                                         <h5 class="text-info mr-2 product-price">
-                                                            {{ format_currency($item['product']->price) }}
+                                                            {{ format_currency(optional($item['product'])->price ?? 0) }}
                                                         </h5>
                                                         <div class="product-quantity mr-5">
                                                             {{ $item['quantity'] }}
@@ -87,28 +84,47 @@
                                         </div>
                                     @endforeach
 
-                                    <div class="d-flex justify-content-end align-items-center mt-2">
+                                    <div class="d-flex flex-column align-items-end mt-2">
 
-                                        <form action="{{ route('orders.confirmReceipt', encrypt($order['order_id'])) }}"
-                                            method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-success mr-3 confirm-receipt-button"
-                                                data-order-status="{{ $order['status'] }}"
-                                                id="confirm-receipt-button-{{ $order['order_id'] }}">Đã nhận được
-                                                hàng</button>
-                                        </form>
+                                        <div class="d-flex justify-content-end align-items-center mb-2">
+                                            <span class="f-16">Phí vận chuyển: </span>
+                                            <span
+                                                class="text-info f-18 ml-2">{{ format_currency($order['shipping_fee']) }}</span>
+                                        </div>
 
-                                        <form action="{{ route('orders.cancel', encrypt($order['order_id'])) }}"
-                                            method="POST">
-                                            @csrf
-                                            <button type="submit" class="btn btn-danger mr-3 cancel-button"
-                                                data-order-status="{{ $order['status'] }}"
-                                                id="cancel-button-{{ $order['order_id'] }}">Hủy đơn</button>
-                                        </form>
+                                        <div class="d-flex justify-content-end align-items-center mb-2">
+                                            @if ($order['payment_method'] == 'online_payment' && !in_array($order['order_id'], $invalidOrderIds))
+                                                <span class="f-18 text-success font-weight-bold">Đã thanh toán</span>
+                                            @endif
+                                            <div class="f-16 mr-2 ml-2">Thành tiền:</div>
+                                            <div class="f-20 text-info font-weight-bold" id="total-payment">
+                                                {{ format_currency($order['total_price'] + $order['shipping_fee']) }}
+                                            </div>
+                                        </div>
 
-                                        <div class="f-16 mr-2">Thành tiền:</div>
-                                        <div class="f-20 text-info font-weight-bold" id="total-payment">
-                                            {{ format_currency($order['total_price'] + $order['shipping_fee']) }}
+                                        <div class="order-buttons d-flex flex-column flex-md-row">
+
+
+                                            @if (!in_array($order['order_id'], $invalidOrderIds))
+                                                <form
+                                                    action="{{ route('orders.confirmReceipt', encrypt($order['order_id'])) }}"
+                                                    method="POST" class="mb-2 mb-md-0">
+                                                    @csrf
+                                                    <button type="submit"
+                                                        class="btn btn-success mr-md-3 confirm-receipt-button"
+                                                        data-order-status="{{ $order['status'] }}"
+                                                        id="confirm-receipt-button-{{ $order['order_id'] }}">Đã nhận được
+                                                        hàng</button>
+                                                </form>
+
+                                                <form action="{{ route('orders.cancel', encrypt($order['order_id'])) }}"
+                                                    method="POST" class="mb-2 mb-md-0">
+                                                    @csrf
+                                                    <button type="submit" class="btn btn-danger cancel-button"
+                                                        data-order-status="{{ $order['status'] }}"
+                                                        id="cancel-button-{{ $order['order_id'] }}">Hủy đơn</button>
+                                                </form>
+                                            @endif
                                         </div>
                                     </div>
 

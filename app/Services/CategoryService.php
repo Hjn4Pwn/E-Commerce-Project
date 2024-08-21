@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
 use App\Services\Interfaces\FlavorServiceInterface;
+use App\Services\Interfaces\ElasticsearchServiceInterface;
 use App\Models\Category;
 
 /**
@@ -15,20 +16,26 @@ class CategoryService implements CategoryServiceInterface
 {
     protected $imageService;
     protected $flavorService;
+    protected $elasticsearchService;
 
     public function __construct(
         ImageServiceInterface $imageService,
-        FlavorServiceInterface $flavorService
+        FlavorServiceInterface $flavorService,
+        ElasticsearchServiceInterface $elasticsearchService,
+
     ) {
         $this->imageService = $imageService;
         $this->flavorService = $flavorService;
+        $this->elasticsearchService = $elasticsearchService;
     }
 
     public function getAllCategories($search = null)
     {
         if ($search) {
-            return Category::search($search)->where('type', 'category')->get();
+            $ids = $this->elasticsearchService->search('app_index', 'category', $search);
+            return Category::whereIn('id', $ids)->get();
         }
+
         return Category::with('products')->get();
     }
 

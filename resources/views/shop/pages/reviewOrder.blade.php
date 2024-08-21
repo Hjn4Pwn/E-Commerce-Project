@@ -141,7 +141,7 @@
                                         @if (!$user->province)
                                             <option value="">Chọn Tỉnh/Thành phố</option>
                                         @else
-                                            <option value="{{ $user->province->name }}">
+                                            <option value="{{ $user->province->code }}">
                                                 {{ $user->province->name }}</option>
                                         @endif
                                         @foreach ($provinces as $province)

@@ -3,14 +3,16 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
+use App\Services\ElasticsearchService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Elastic\ScoutDriverPlus\Searchable;
+// use Elastic\ScoutDriverPlus\Searchable;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, Searchable;
+    use HasFactory, Notifiable;
 
     /**
      * The attributes that are mass assignable.
@@ -89,20 +91,43 @@ class User extends Authenticatable
         return $this->hasMany(ReviewReport::class);
     }
 
-
-    public function searchableAs()
+    public function orders()
     {
-        return 'app_index';
+        return $this->hasMany(Order::class);
     }
 
-    public function toSearchableArray()
+    public static function boot()
     {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'type' => 'user',
-        ];
+        parent::boot();
+
+        static::saved(function ($user) {
+            app(ElasticsearchService::class)->syncModel($user, 'user');
+        });
+
+        static::deleted(function ($user) {
+            app(ElasticsearchService::class)->removeModel($user);
+        });
+
+        static::deleting(function ($user) {
+            $user->orders()->each(function ($order) {
+                $order->delete();
+            });
+        });
     }
+
+    // public function searchableAs()
+    // {
+    //     return 'app_index';
+    // }
+
+    // public function toSearchableArray()
+    // {
+    //     return [
+    //         'id' => $this->id,
+    //         'name' => $this->name,
+    //         'type' => 'user',
+    //     ];
+    // }
 
     public function hasProvider()
     {

@@ -67,7 +67,7 @@
                                                     <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
                                                     <div class="col-sm-2">
                                                         <img id="userImage"
-                                                            src={{ asset('AdminResource/images/test/sampleAvatar.png') }}
+                                                            src={{ $user->avatar ? Storage::disk('s3')->url($user->avatar) : asset('AdminResource/images/test/nonAuth.png') }}
                                                             class="rounded-3" style="width: 100px; " alt="Product Image" />
                                                     </div>
                                                     <div class="col-sm-8">

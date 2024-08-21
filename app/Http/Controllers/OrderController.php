@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SearchRequest;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 use App\Services\Interfaces\OrderServiceInterface;
 use App\Services\Interfaces\CategoryServiceInterface;
@@ -99,6 +100,7 @@ class OrderController extends Controller
     public function updateSessionShippingFee()
     {
         $shipping_fee = $this->orderService->calculateShippingFee();
+        // dd($shipping_fee);
         session()->put('shipping_fee', $shipping_fee);
     }
 
@@ -127,24 +129,32 @@ class OrderController extends Controller
         }
     }
 
+
+
     public function show()
     {
         $user = auth()->user();
-        $orders = $this->orderService->getOrders($user->id);
 
+        $invalidOrderIds = $this->orderService->getInvalidOnlineOrders($user->id);
+        $orders = $this->orderService->getOrders($user->id);
         $categories = $this->categoryService->getAllCategories();
         return view('shop.pages.orderDetails', [
             'categories' => $categories,
+            'invalidOrderIds' => $invalidOrderIds,
             'orders' => $orders,
         ]);
     }
 
+
     public function updateAddress(Request $request)
     {
+
         $province_name = $this->locationService->getNameByProvinceId($request->province);
         $district_name = $this->locationService->getNameByDistrictId($request->district);
         $ward_name = $this->locationService->getNameByWardId($request->ward);
         $address_detail = $request->address_detail;
+
+        // dd($province_name);
 
         $request->session()->put('address', $address_detail . ', ' . $ward_name . ', ' . $district_name . ', ' . $province_name);
 
@@ -173,25 +183,45 @@ class OrderController extends Controller
         }
     }
 
+    public function delete($encryptedId)
+    {
+        try {
+            // $orderId = Crypt::decrypt($encryptedId);
+            Order::findOrFail(Crypt::decrypt($encryptedId))->delete();
+            return redirect()->route('admin.orders.index')->with('success', 'Xóa đơn hàng thành công.');
+        } catch (\Exception $e) {
+            Log::error('Order cancellation failed: ' . $e->getMessage());
+            return redirect()->back()->with('error', 'Xóa đơn hàng thất bại.');
+        }
+    }
+
     public function admin_index(SearchRequest $request)
     {
         $search = $request->input('search');
-        $orders = $this->orderService->getAllOrders($search);
 
+        $invalidOrderIds = $this->orderService->getInvalidOnlineOrders();
+
+        $orders = $this->orderService->getAllOrders($search);
         return view('admin.pages.order.index', [
             'orders' => $orders,
+            'invalidOrderIds' => $invalidOrderIds,
             'page' => 'Đơn hàng',
         ]);
     }
 
+
     public function admin_viewOrder($id)
     {
         $order = $this->orderService->getOrderById($id);
-        // dd($order);
+        $invalidOrderIds = $this->orderService->getInvalidOnlineOrders();
+
+        $isInvalid = in_array($order->id, $invalidOrderIds);
+
         return view('admin.pages.order.show', [
             'parentPage' => ['Đơn hàng', 'admin.orders.index'],
             'childPage' => 'Chi tiết',
             'order' => $order,
+            'isInvalid' => $isInvalid,
         ]);
     }
 

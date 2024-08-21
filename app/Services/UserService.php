@@ -6,6 +6,8 @@ use App\Services\Interfaces\UserServiceInterface;
 use App\Models\User;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Hash;
+use App\Services\Interfaces\ElasticsearchServiceInterface;
+use App\Services\Interfaces\ReviewServiceInterface;
 
 /**
  * Class UserService
@@ -13,16 +15,23 @@ use Illuminate\Support\Facades\Hash;
  */
 class UserService implements UserServiceInterface
 {
+    protected $elasticsearchService;
+    protected $reviewService;
+
+    public function __construct(
+        ElasticsearchServiceInterface $elasticsearchService,
+        ReviewServiceInterface $reviewService,
+    ) {
+        $this->elasticsearchService = $elasticsearchService;
+        $this->reviewService = $reviewService;
+    }
+
     public function paginateUsers($search = null)
     {
         $query = User::query();
 
         if ($search) {
-            $userIds = User::search($search)
-                ->where('type', 'user')
-                ->get()
-                ->pluck('id');
-
+            $userIds = $this->elasticsearchService->search('app_index', 'user', $search);
             $query->whereIn('id', $userIds);
         }
 
@@ -39,6 +48,9 @@ class UserService implements UserServiceInterface
 
     public function deleteUser(User $user)
     {
+        $user->reviews()->each(function ($review) {
+            $this->reviewService->deleteReview($review);
+        });
         return $user->delete();
     }
 

@@ -43,6 +43,8 @@ return [
         'redirect' => env('GOOGLE_REDIRECT_URL'),
     ],
 
-
+    'elasticsearch' => [
+        'host' => env('ELASTICSEARCH_HOST', 'http://localhost:9200'),
+    ],
 
 ];

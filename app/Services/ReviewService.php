@@ -18,7 +18,8 @@ class ReviewService implements ReviewServiceInterface
         $userId = Auth::id();
 
         $purchases = OrderItem::whereHas('order', function ($query) use ($userId) {
-            $query->where('user_id', $userId);
+            $query->where('user_id', $userId)
+                ->where('status', 'delivered');
         })->where('product_id', $productId)->count();
 
         $reviews = Review::where('product_id', $productId)

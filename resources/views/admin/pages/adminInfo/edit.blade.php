@@ -49,7 +49,7 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Ảnh đại diện</label>
                                                 <div class="col-sm-2">
-                                                    <img src="{{ Storage::disk('s3')->url($admin->avatar) }}"
+                                                    <img src="{{ $admin->avatar ? Storage::disk('s3')->url($admin->avatar) : asset('AdminResource/images/test/nonAuth.png') }}"
                                                         class="rounded-3 avatar" id="avatar-preview" style="width: 100px;"
                                                         alt="" />
                                                 </div>

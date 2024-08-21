@@ -130,6 +130,7 @@ class VNPayController extends Controller
                                 session()->forget('address');
                                 return redirect()->route('order.show')->with('success', 'Thanh toán thành công.');
                             } else {
+                                $order->delete();
                                 return redirect()->route('cart.index')->with('error', 'Thanh toán thất bại.');
                             }
                         } else {

@@ -2,14 +2,15 @@
 
 namespace App\Models;
 
+use App\Services\ElasticsearchService;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Elastic\ScoutDriverPlus\Searchable;
+// use Elastic\ScoutDriverPlus\Searchable;
 use Illuminate\Support\Str;
 
 class Product extends Model
 {
-    use HasFactory, Searchable;
+    use HasFactory;
 
     protected $fillable = [
         'name',
@@ -28,6 +29,14 @@ class Product extends Model
 
         static::saving(function ($product) {
             $product->slug = Str::slug($product->name);
+        });
+
+        static::saved(function ($product) {
+            app(ElasticsearchService::class)->syncModel($product, 'product');
+        });
+
+        static::deleted(function ($product) {
+            app(ElasticsearchService::class)->removeModel($product);
         });
     }
 
@@ -86,17 +95,17 @@ class Product extends Model
     }
 
 
-    public function searchableAs()
-    {
-        return 'app_index';
-    }
+    // public function searchableAs()
+    // {
+    //     return 'app_index';
+    // }
 
-    public function toSearchableArray()
-    {
-        return [
-            'id' => $this->id,
-            'name' => $this->name,
-            'type' => 'product',
-        ];
-    }
+    // public function toSearchableArray()
+    // {
+    //     return [
+    //         'id' => $this->id,
+    //         'name' => $this->name,
+    //         'type' => 'product',
+    //     ];
+    // }
 }

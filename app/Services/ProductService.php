@@ -9,6 +9,9 @@ use App\Models\ProductImage;
 use App\Services\Interfaces\CategoryServiceInterface;
 use App\Services\Interfaces\ProductServiceInterface;
 use App\Services\Interfaces\ImageServiceInterface;
+use App\Services\Interfaces\ElasticsearchServiceInterface;
+use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Log;
 
 /**
  * Class ProductService
@@ -18,13 +21,16 @@ class ProductService implements ProductServiceInterface
 {
     protected $categoryService;
     protected $imageService;
+    protected $elasticsearchService;
 
     public function __construct(
         CategoryServiceInterface $categoryService,
         ImageServiceInterface $imageService,
+        ElasticsearchServiceInterface $elasticsearchService,
     ) {
         $this->categoryService = $categoryService;
         $this->imageService = $imageService;
+        $this->elasticsearchService = $elasticsearchService;
     }
 
     public function getAllCategories()
@@ -61,16 +67,10 @@ class ProductService implements ProductServiceInterface
 
     public function getProductsAndImages($search = null)
     {
-        // dd($search);
+        $productIds = collect();
+
         if ($search) {
-            // $products = Product::search($search)
-            //     ->where('type', 'product')
-            //     ->with(['main_image', 'flavors'])
-            //     ->get();
-            $productIds = Product::search($search)
-                ->where('type', 'product')
-                ->get()
-                ->pluck('id');
+            $productIds = $this->elasticsearchService->search('app_index', 'product', $search);
 
             $products = Product::whereIn('id', $productIds)
                 ->with(['main_image', 'flavors'])
@@ -81,10 +81,10 @@ class ProductService implements ProductServiceInterface
         foreach ($products as $product) {
             $product->quantity = $product->total_quantity; // Sử dụng accessor
         }
-        // dd($products);
 
         return $products;
     }
+
 
 
     public function getProductAndAllImagesByProduct(Product $product)

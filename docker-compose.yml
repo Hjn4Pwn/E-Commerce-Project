@@ -1,0 +1,81 @@
+services:
+  gymstore-website:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gymstore-website
+    container_name: gymstore-website-test
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    volumes:
+      - ./docker/php-fpm/php-fpm.conf:/usr/local/etc/php-fpm.d/zz-docker.conf
+    depends_on:
+      - mysql
+      - elasticsearch
+    networks:
+      - laravel
+
+  nginx:
+    image: nginx:alpine
+    container_name: nginx-test
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./docker/nginx/snippets/fastcgi-php.conf:/etc/nginx/snippets/fastcgi-php.conf
+    depends_on:
+      - gymstore-website
+    networks:
+      - laravel
+
+  mysql:
+    image: mysql:8.0.32
+    container_name: mysql-test
+    restart: unless-stopped
+    tty: true
+    ports:
+      - "3306:3306"
+    env_file:
+      - ./docker/sql/.env
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - laravel
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.7.0
+    container_name: elasticsearch-test
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es_data:/usr/share/elasticsearch/data
+      - ./docker/elastic-search/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./docker/elastic-search/backups:/usr/share/elasticsearch/backups
+    ports:
+      - "9200:9200"
+    networks:
+      - laravel
+
+  ml-detect-malware-jpeg:
+    image: hjn4/ml-detect-malware-jpeg:v1
+    container_name: ml-detect-malware-jpeg-test
+    networks:
+      - laravel
+
+volumes:
+  mysql_data:
+  es_data:
+
+
+networks:
+  laravel:
+    driver: bridge

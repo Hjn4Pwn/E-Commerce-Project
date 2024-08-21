@@ -21,4 +21,5 @@ interface OrderServiceInterface
     public function getOrderById($encryptedId);
     public function updateOrderStatus(Order $order, $status);
     public function updateQuantitySold(Order $order);
+    public function getInvalidOnlineOrders($userId = null);
 }

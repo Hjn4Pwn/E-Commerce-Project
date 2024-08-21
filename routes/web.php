@@ -21,6 +21,10 @@ use App\Http\Controllers\SliderController;
 use App\Models\Product;
 
 
+Route::fallback(function () {
+    return redirect('/');
+});
+
 // get
 Route::prefix('admin')->group(function () {
     // authen admin
@@ -73,7 +77,7 @@ Route::prefix('admin')->group(function () {
         Route::get('orders/{id}', [OrderController::class, 'admin_viewOrder'])->name('admin.viewOrder');
         Route::post('orders/{order}/ship', [OrderController::class, 'ship'])->name('orders.ship');
         Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.admin_cancel');
-        Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirmReceipt');
+        Route::post('/orders/{order}/delete', [OrderController::class, 'delete'])->name('orders.admin_delete');
         // --------------------------------------------------------------
 
         // review
@@ -120,8 +124,7 @@ Route::prefix('admin')->group(function () {
 
 
 
-Route::prefix('user')->group(function () {
-});
+Route::prefix('user')->group(function () {});
 
 // frontend call backend
 Route::get('getDistricts/{provinceId}', [LocationController::class, 'getDistrictsByProvinceId'])
@@ -184,6 +187,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/update-address', [OrderController::class, 'updateAddress'])->name('updateAddress');
     Route::post('/update-phone', [OrderController::class, 'updatePhone'])->name('updatePhone');
     Route::post('/orders/{order}/cancel', [OrderController::class, 'cancel'])->name('orders.cancel');
+    Route::post('/orders/{order}/confirm-receipt', [OrderController::class, 'confirmReceipt'])->name('orders.confirmReceipt');
 
     // vnpay-payment
     // Route::get('vnpay-payment', [VNPayController::class, 'createPayment'])->name('vnpay.payment');

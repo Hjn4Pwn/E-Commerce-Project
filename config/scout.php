@@ -116,7 +116,7 @@ return [
     // add
     'elasticsearch' => [
         'hosts' => [
-            env('ELASTICSEARCH_HOST', 'localhost:9200'),
+            env('ELASTICSEARCH_HOST', 'http://elasticsearch:9200'),
         ],
     ],
 

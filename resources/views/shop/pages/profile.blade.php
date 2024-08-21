@@ -66,8 +66,9 @@
                                             <div class="form-group row">
                                                 <label class="col-sm-2 col-form-label">Tải ảnh đại diện</label>
                                                 <div class="col-sm-2">
-                                                    <img src="{{ Storage::disk('s3')->url($user->avatar) }}" class="rounded-3 avatar"
-                                                        id="avatar-preview" style="width: 100px;" alt="" />
+                                                    <img src="{{ $user->avatar ? Storage::disk('s3')->url($user->avatar) : asset('AdminResource/images/test/nonAuth.png') }}"
+                                                        class="rounded-3 avatar" id="avatar-preview" style="width: 100px;"
+                                                        alt="" />
                                                 </div>
                                                 <div class="col-sm-8">
                                                     <input name="avatar" type="file" class="form-control imageInput"
