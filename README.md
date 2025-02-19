@@ -1,4 +1,4 @@
-# Demo: [gymstore.io.vn](https://gymstore.io.vn/)
+# Demo: [Video link](https://drive.google.com/file/d/1yFMK5rJWZNd8IRyEUUgATbZLTrBNCQj0/view?usp=drive_link)
 
 - [Công nghệ sử dụng](#công-nghệ-sử-dụng)
 - [Ref](#ref)
